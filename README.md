@@ -1,4 +1,4 @@
-# Cena di casa (menuinfanzia)
+# Compagni di Merende (menuinfanzia)
 
 App web per i genitori delle scuole comunali di Roma. Mostra il menù della mensa, fa segnare
 quanto ha mangiato il bambino e propone la cena (e il weekend) per completare la settimana

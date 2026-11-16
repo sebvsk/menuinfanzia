@@ -1,5 +1,5 @@
 // Network first, cache as fallback: the app works offline with the last menu seen.
-const CACHE = "cena-di-casa-v1";
+const CACHE = "compagni-di-merende-v1";
 self.addEventListener("install", e => self.skipWaiting());
 self.addEventListener("activate", e => e.waitUntil(self.clients.claim()));
 self.addEventListener("fetch", e => {
