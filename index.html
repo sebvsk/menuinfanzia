@@ -146,6 +146,22 @@ const OTHER_LABEL = { cereali: "Cereali", patate: "Patate", dolci: "Dolce", latt
 const ART = { pesce: "il pesce", carne: "la carne", uova: "le uova", formaggi: "il formaggio", legumi: "i legumi" };
 const WEEKDAYS = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
 
+// ---------------------------------------------------------------- statistics (GoatCounter, no cookies)
+// Only screen names and the Municipio are counted, never the child's name or what was eaten.
+const GOATCOUNTER = "menuinfanzia";   // e.g. "compagnidimerende" -> https://compagnidimerende.goatcounter.com
+function track(path, title) {
+  try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path, title: title || path, event: true }); } catch {}
+}
+if (GOATCOUNTER && !/^(localhost|127\.)/.test(location.hostname)) {
+  window.goatcounter = { no_onload: true };
+  const sc = document.createElement("script");
+  sc.async = true; sc.src = "https://gc.zgo.at/count.js";
+  sc.dataset.goatcounter = `https://${GOATCOUNTER}.goatcounter.com/count`;
+  sc.onload = () => { track("apertura", "App aperta"); if (state.profile) track("municipio-" + INDEX_MUN(), "Municipio " + INDEX_MUN()); };
+  document.head.appendChild(sc);
+}
+function INDEX_MUN() { return INDEX && state.profile ? INDEX.municipi[state.profile.mun] : "?"; }
+
 // ---------------------------------------------------------------- state
 const KEY = "menuinfanzia.v2";
 const state = Object.assign({ profile: null, tab: "oggi", sel: null, checks: {}, absent: {}, dinners: {},
@@ -334,7 +350,7 @@ function viewWelcome() {
     <p class="hint" style="margin:8px 0 0">Il menù è lo stesso per tutte le scuole comunali del Municipio. Gli obiettivi della settimana sono quelli per 4–6 anni.</p>
     <button class="btn" type="submit">${state.profile ? "Salva" : "Cominciamo"}</button>
   </form>
-  ${state.profile ? viewSettingsExtra() : `<p class="hint">Le spunte restano solo su questo telefono: nessun dato del bambino esce dall'app.</p>`}`;
+  ${state.profile ? viewSettingsExtra() : `<p class="hint">Le spunte restano solo su questo telefono: nessun dato del bambino esce dall'app. Contiamo solo, in forma anonima e senza cookie, quante volte si aprono le schermate e da quale Municipio.</p>`}`;
 }
 function viewSettingsExtra() {
   const weeks = weeksAvailable(), cur = WEEK.start;
@@ -517,7 +533,7 @@ document.addEventListener("click", async e => {
   if (!b || (b.type === "submit" && b.form)) return;
   const ds = b.dataset;
   if (ds.day) state.sel = Number(ds.day);
-  else if (ds.tab) { state.tab = ds.tab; state.recipe = null; scrollTo(0, 0); }
+  else if (ds.tab) { state.tab = ds.tab; state.recipe = null; scrollTo(0, 0); track("schermata-" + ds.tab, "Schermata " + ds.tab); }
   else if (ds.slot) {
     const date = WEEK.days[state.sel].date, before = pickFor(state.sel);
     const c = state.checks[date] = state.checks[date] || {};
@@ -529,9 +545,9 @@ document.addEventListener("click", async e => {
   }
   else if (ds.absent) { const date = WEEK.days[state.sel].date; if (ds.absent === "1") state.absent[date] = true; else delete state.absent[date]; }
   else if (ds.dinner) { const date = WEEK.days[state.sel].date; if (state.dinners[date] === ds.dinner) delete state.dinners[date]; else state.dinners[date] = ds.dinner; }
-  else if (ds.recipe) { state.recipe = ds.recipe; scrollTo(0, 0); }
+  else if (ds.recipe) { state.recipe = ds.recipe; scrollTo(0, 0); track("ricetta-" + ds.recipe, "Ricetta " + ds.recipe); }
   else if ("closeRecipe" in ds) state.recipe = null;
-  else if (ds.cook) { state.dinners[WEEK.days[state.sel].date] = ds.cook; state.recipe = null; state.tab = "stasera"; toast("Segnato: stasera " + GROUPS[ds.cook].label.toLowerCase() + "."); }
+  else if (ds.cook) { track("cucinata-" + ds.cook, "Cena scelta: " + ds.cook); state.dinners[WEEK.days[state.sel].date] = ds.cook; state.recipe = null; state.tab = "stasera"; toast("Segnato: stasera " + GROUPS[ds.cook].label.toLowerCase() + "."); }
   else if (ds.unmarked) state.unmarked = ds.unmarked;
   else if (ds.weekSet) { state.weekStart = ds.weekSet; state.sel = 0; await loadWeek(); }
   else if ("weekToday" in ds) { state.weekStart = null; state.sel = null; await loadWeek(); }
@@ -554,7 +570,8 @@ document.addEventListener("submit", async e => {
   state.profile = { name: String(f.get("name") || "").trim(), mun: Number(f.get("mun")), ciclo: Number(f.get("ciclo")) };
   state.tab = "oggi"; state.sel = null;
   await loadWeek(); save(); render();
-  if (!first) toast("Impostazioni salvate.");
+  if (!first) toast("Impostazioni salvate."); else track("nuovo-utente", "Nuovo utente");
+  track("municipio-" + INDEX_MUN(), "Municipio " + INDEX_MUN());
 });
 
 // ---------------------------------------------------------------- start
