@@ -1,0 +1,63 @@
+piatto,gruppo_principale,gruppi_secondari,nota
+Pasta al pesto senza aglio,cereali,formaggi,
+Farro con lenticchie,legumi,cereali,piatto unico cereali + legumi
+Ravioli ricotta e spinaci burro e salvia,cereali,formaggi;verdura,
+Crema di ceci con pasta,legumi,cereali,piatto unico cereali + legumi
+Risotto al ragù di carne,cereali,carne_rossa,
+Pasta all'ortolana,cereali,verdura,
+Pasta rosa,cereali,latte,pomodoro e panna
+Risotto allo zafferano,cereali,,
+Pasta con lenticchie,legumi,cereali,piatto unico cereali + legumi
+Pasta con zucchine,cereali,verdura,
+Crema di verdure con pasta,cereali,verdura,
+Pasta al trito vegetale,cereali,verdura,
+Riso alla parmigiana,cereali,formaggi,
+Crema di fagioli con pasta,legumi,cereali,piatto unico cereali + legumi
+Pizza rossa,cereali,,niente pane quel giorno
+Pasta con piselli,legumi,cereali,i piselli sono legumi
+Farro all'ortolana,cereali,verdura,
+Pasta al pomodoro e basilico,cereali,,
+Insalata di pasta mediterranea,cereali,verdura,
+Fuso di pollo arrosto,carne_bianca,,
+Fesa di tacchino al tegame/Bocconcini di tacchino,carne_bianca,,alternativa con /
+Bocconcini di tacchino,carne_bianca,,
+Arrosto di maiale/Bocconcini di maiale impanato,carne_rossa,,alternativa con /; il maiale è classificato fra le carni rosse
+Straccetti di bovino,carne_rossa,,
+Scaloppina di bovino,carne_rossa,,
+Polpettone o polpette di bovino,carne_rossa,,
+Tortino di limanda,pesce,,
+Medaglioni di merluzzo al limone,pesce,,
+Bastoncini di merluzzo della cuoca,pesce,,preparati in cucina
+Uova strapazzate/Frittata,uova,,alternativa con /
+Crescenza,formaggi,,
+Robiola,formaggi,,
+Mozzarella di vaccina,formaggi,,
+Mozzarella vaccina,formaggi,,
+Asiago,formaggi,,
+Carote al tegame,verdura,,
+Carote alla julienne,verdura,,
+Fagiolini all'olio,verdura,,
+Zucchine gratinate,verdura,,
+Zucchine trifolate,verdura,,
+Bieta all'olio,verdura,,
+Spinaci al burro e parmigiano,verdura,formaggi,
+Insalata verde,verdura,,
+Insalata di pomodori,verdura,,
+Insalata mista,verdura,,
+Patate al forno,patate,,le patate non contano come verdura
+Patate all'olio,patate,,le patate non contano come verdura
+Patate al tegame,patate,,le patate non contano come verdura
+Pane,cereali,,
+Pane integrale,cereali_integrali,,
+Frutta,frutta,,
+Frutta di stagione,frutta,,
+Banana,frutta,,
+Gelato,dolci,latte,
+Schiacciatine,cereali,,
+Cracker,cereali,,
+Plumcake allo yogurt,dolci,,
+Panino all'olio con marmellata,cereali,dolci,
+Biscotti frollini al cacao e succo di frutta senza zuccheri agg.,dolci,,il succo non conta come porzione di frutta
+Crostatina con marmellata di frutta,dolci,,
+Ciambellone,dolci,,
+Focaccia bianca soffice,cereali,,
