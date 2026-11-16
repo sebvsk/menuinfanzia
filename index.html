@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#e8833a">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Cena di casa">
+<meta name="apple-mobile-web-app-title" content="Compagni di Merende">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Cena di casa</title>
+<title>Compagni di Merende</title>
 <style>
   :root {
     --ink: #2b2b2b; --muted: #6b625a; --bg: #fffaf5; --card: #fff; --line: #f0e6dc;
@@ -298,9 +298,9 @@ function weekendPlan() {
 function renderHeader() {
   const p = state.profile;
   document.getElementById("header").innerHTML = p
-    ? `<div><h1>Cena di casa</h1><p>${esc(p.name || "Il bambino")} · ${esc(INDEX.cicli[p.ciclo])} · Municipio ${esc(INDEX.municipi[p.mun])}</p></div>
+    ? `<div><h1>Compagni di Merende</h1><p>${esc(p.name || "Il bambino")} · ${esc(INDEX.cicli[p.ciclo])} · Municipio ${esc(INDEX.municipi[p.mun])}</p></div>
        <button data-tab="impostazioni" aria-label="Impostazioni">⚙︎</button>`
-    : `<div><h1>Cena di casa</h1><p>Il menù della mensa, la cena di casa</p></div>`;
+    : `<div><h1>Compagni di Merende</h1><p>Il menù della mensa, la cena di casa</p></div>`;
 }
 function renderDays() {
   const el = document.getElementById("days");

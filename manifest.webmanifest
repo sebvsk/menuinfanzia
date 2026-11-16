@@ -1,7 +1,7 @@
 {
-  "name": "Cena di casa",
-  "short_name": "Cena di casa",
-  "description": "Il menù della mensa scolastica di Roma e la cena per completare la settimana.",
+  "name": "Compagni di Merende",
+  "short_name": "Compagni di Merende",
+  "description": "Il menù della mensa scolastica di Roma e la cena di casa per completare la settimana.",
   "lang": "it",
   "start_url": "./",
   "scope": "./",
