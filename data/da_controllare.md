@@ -16,9 +16,9 @@
 | Broccoli romaneschi all'olio | contorno | verdura |  |
 | Caciotta dolce | secondo | formaggi |  |
 | Carote all'olio | contorno | verdura |  |
-| Carote stufate | secondo | verdura |  |
-| Cavolfiori all'olio | contorno | **?** |  |
-| Cavolfiori gratinati | contorno | **?** |  |
+| Carote stufate | contorno | verdura |  |
+| Cavolfiori all'olio | contorno | verdura |  |
+| Cavolfiori gratinati | contorno | verdura |  |
 | Coscio di pollo arrosto | secondo | carne |  |
 | Crema di carote con pasta | primo | cereali | verdura |
 | Crema di cavolfiore bianco con pasta | primo | cereali | verdura |
@@ -38,8 +38,8 @@
 | Fiori di zucca alla romana | contorno | verdura |  |
 | Focaccia bianca | merenda | cereali |  |
 | Focaccia rossa soffice | merenda | cereali |  |
-| Frittata con patate | secondo | uova |  |
-| Frittata con spinaci | secondo | uova | verdura |
+| Frittata con patate | contorno | patate | uova |
+| Frittata con spinaci | contorno | verdura | uova |
 | Frittata con zucchine | secondo | uova | verdura |
 | Frittata | secondo | uova |  |
 | Frullato di banana con latte | merenda | latte |  |
@@ -49,7 +49,7 @@
 | Hamburger di bovino | secondo | carne |  |
 | Insalata cappuccina | contorno | verdura |  |
 | Insalata di finocchi | contorno | verdura |  |
-| Lasagna | primo | cereali |  |
+| Lasagna | primo | carne | cereali, cereali |
 | Latte e Biscotti | merenda | dolci | latte |
 | Latte e biscotti | merenda | dolci | latte |
 | Medaglioni di limanda | secondo | pesce |  |
@@ -66,8 +66,8 @@
 | Pasta al pesto delicato | primo | cereali |  |
 | Pasta al pomodoro fresco e basilico | primo | cereali | verdura |
 | Pasta al pomodoro | primo | cereali | verdura |
-| Pasta al ragù di carne di agnello | primo | cereali | carne |
-| Pasta al ragù di carne | primo | cereali | carne |
+| Pasta al ragù di carne di agnello | primo | carne | cereali, cereali |
+| Pasta al ragù di carne | primo | carne | cereali, cereali |
 | Pasta al sugo di spigola | primo | cereali | pesce |
 | Pasta al tonno | primo | cereali | pesce |
 | Pasta all'olio e parmigiano | primo | cereali | formaggi |
@@ -83,8 +83,8 @@
 | Pasta integrale al trito vegetale | primo | cereali |  |
 | Petto o bocconcini di pollo al limone | secondo | carne |  |
 | Petto o bocconcini di pollo panato | secondo | carne |  |
-| Plum cake allo yogurt | spuntino | latte |  |
-| Polenta al ragù di carne | primo | cereali | carne |
+| Plum cake allo yogurt | spuntino | dolci | latte |
+| Polenta al ragù di carne | primo | carne | cereali, cereali |
 | Polpa di frutta e Fette Biscottate | merenda | dolci | cereali |
 | Polpa di frutta e fette biscottate | merenda | dolci | cereali |
 | Polpa di frutta | merenda | frutta |  |
@@ -92,7 +92,7 @@
 | Polpettone di agnello | secondo | carne |  |
 | Polpettone di bovino | secondo | carne |  |
 | Polpettone goloso di bovino | secondo | carne |  |
-| Provolone dolce | secondo | **?** |  |
+| Provolone dolce | secondo | formaggi |  |
 | Purea di carote | contorno | verdura |  |
 | Purea di patate | contorno | patate |  |
 | Ricotta | secondo | formaggi |  |
@@ -115,7 +115,7 @@
 | Timballo di pasta | primo | cereali |  |
 | Tonno all'olio di oliva | secondo | pesce |  |
 | Tortellini al burro e parmigiano | primo | cereali | formaggi |
-| Tortino di patate | secondo | patate |  |
+| Tortino di patate | contorno | patate |  |
 | Uova strapazzate | secondo | uova |  |
 | Yogurt e cereali | merenda | latte | cereali |
 | Yogurt | spuntino | latte |  |
