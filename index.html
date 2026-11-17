@@ -9,7 +9,18 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Compagni di Merende</title>
+<title>Compagni di Merende – menù mensa scolastica Roma e cena di casa</title>
+<meta name="description" content="Il menù della mensa scolastica di Roma per Municipio, giorno per giorno, e la cena di casa che completa la settimana con pesce, legumi, uova e verdura. Gratis, senza registrazione, nessun dato dei bambini raccolto.">
+<link rel="canonical" href="https://menuscuolaroma.it/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Compagni di Merende">
+<meta property="og:title" content="Compagni di Merende – cosa cucino stasera?">
+<meta property="og:description" content="Il menù della mensa scolastica di Roma e la cena di casa che completa la settimana. Gratis, senza registrazione.">
+<meta property="og:url" content="https://menuscuolaroma.it/">
+<meta property="og:image" content="https://menuscuolaroma.it/og.png">
+<meta property="og:locale" content="it_IT">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Compagni di Merende","url":"https://menuscuolaroma.it/","inLanguage":"it","applicationCategory":"LifestyleApplication","operatingSystem":"Web","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Il menù della mensa scolastica comunale di Roma per tutti i 15 Municipi e la proposta di cena per completare la settimana secondo le linee guida CREA 2018. Nessun dato dei bambini raccolto: tutto resta sul telefono.","areaServed":{"@type":"City","name":"Roma"}}</script>
 <style>
   :root {
     --ink: #2b2b2b; --muted: #6b625a; --bg: #fffaf5; --card: #fff; --line: #f0e6dc;
@@ -112,6 +123,17 @@
     font-size: 15px; box-shadow: 0 6px 20px rgba(0,0,0,.25); transition: opacity .3s, transform .3s; }
   .toast.hide { opacity: 0; transform: translateY(12px); pointer-events: none; }
   .toast button { background: none; border: 0; color: #ffcf9e; font: inherit; font-weight: 600; padding: 0; margin-left: 6px; }
+  .modal { position: fixed; inset: 0; z-index: 10; background: rgba(43,43,43,.55); display: flex; align-items: flex-end; justify-content: center; }
+  .modal .sheet { background: var(--bg); width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; border-radius: 18px 18px 0 0;
+    padding: 18px 18px calc(18px + env(safe-area-inset-bottom)); box-shadow: 0 -8px 30px rgba(0,0,0,.2); }
+  @media (min-width: 600px) { .modal { align-items: center; } .modal .sheet { border-radius: 18px; } }
+  .modal h2 { margin: 0 0 8px; font-size: 22px; }
+  .steps3 { list-style: none; padding: 0; margin: 10px 0; }
+  .steps3 li { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; }
+  .steps3 li b.n { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; }
+  .privacy { background: #e9f5ec; border-left: 4px solid var(--ok); border-radius: 8px; padding: 10px 12px; font-size: 14px; color: #1f4d2a; }
+  .foot-links { text-align: center; font-size: 13px; color: var(--muted); margin: 18px 0 0; }
+  .foot-links a { color: var(--muted); }
   .back { background: none; border: 0; font: inherit; color: var(--accent); padding: 4px 4px 8px; font-weight: 600; }
 </style>
 </head>
@@ -121,7 +143,10 @@
 <main id="main"><p class="hint">Carico il menù…</p></main>
 <nav id="nav" hidden></nav>
 <div class="toast hide" id="toast"></div>
+<div id="modal"></div>
+<noscript><main><h1>Compagni di Merende</h1><p>Il menù della mensa scolastica di Roma e la cena di casa che completa la settimana. Per usare il sito serve JavaScript. Puoi comunque leggere <a href="menu/">i menù di tutti i Municipi</a> e <a href="come-funziona/">come funziona</a>.</p></main></noscript>
 
+<!-- © 2026 menuscuolaroma.it – Compagni di Merende. Tutti i diritti riservati. -->
 <script src="recipes.js"></script>
 <script>
 "use strict";
@@ -171,8 +196,9 @@ if (GOATCOUNTER && !/^(localhost|127\.)/.test(location.hostname)) {
 // ---------------------------------------------------------------- state
 // kids: [{ name, mun, ciclo, checks: {date: {slot: ok|half|no}}, absent: {date: true} }]; dinners are shared by the family.
 const KEY = "menuinfanzia.v2";
-const state = Object.assign({ kids: [], kid: 0, tab: "oggi", sel: null, dinners: {}, unmarked: "ok", weekStart: null, recipe: null },
+const state = Object.assign({ kids: [], kid: 0, tab: "oggi", sel: null, dinners: {}, cooked: {}, unmarked: "ok", weekStart: null, recipe: null },
   migrate(safeLoad()), { tab: "oggi", sel: null, recipe: null, editing: null });
+state.showIntro = !state.introSeen;
 if (state.kid >= state.kids.length) state.kid = 0;
 function safeLoad() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; } }
 function migrate(s) {             // version with one child: profile + checks + absent
@@ -180,8 +206,10 @@ function migrate(s) {             // version with one child: profile + checks + 
   delete s.profile; delete s.checks; delete s.absent;
   return s;
 }
-const save = () => { try { const { editing, ...keep } = state; localStorage.setItem(KEY, JSON.stringify(keep)); } catch {} };
+const save = () => { try { const { editing, showIntro, ...keep } = state; localStorage.setItem(KEY, JSON.stringify(keep)); } catch {} };
 const K = () => state.kids[state.kid];
+const URLP = (() => { const q = new URLSearchParams(location.search), m = Number(q.get("mun")), c = Number(q.get("ciclo"));
+  return { mun: m > 0 ? m : null, ciclo: c >= 1 && c <= 6 ? c : null }; })();
 const many = () => state.kids.length > 1;
 const kidName = k => state.kids[k].name || (many() ? `Figlio ${k + 1}` : "Il bambino");
 
@@ -207,6 +235,24 @@ const fmt = n => { const w = Math.floor(n + 1e-9), h = n - w > 0.01; return (w |
 const zero = () => Object.fromEntries(Object.keys(GROUPS).map(g => [g, 0]));
 const add = (a, b) => { for (const g in a) a[g] += b[g] || 0; return a; };
 const mark = (k, date, slot) => (state.kids[k].checks[date] || {})[slot];
+// Main vegetables, to avoid the same one two meals in a row (zucchine yesterday, zucchine today).
+const VEG_WORDS = [["zucchin", "zucchine"], ["spinac", "spinaci"], ["pomodor", "pomodori"], ["carot", "carote"], ["broccol", "broccoli"],
+  ["cavolfior", "cavolfiore"], ["finocch", "finocchi"], ["fagiolini", "fagiolini"], ["biet", "bieta"], ["zucca", "zucca"], ["pisell", "piselli"],
+  ["melanzan", "melanzane"], ["peperon", "peperoni"], ["carciof", "carciofi"], ["verza", "cavolo"], ["cavolo", "cavolo"], ["cappucc", "cavolo"],
+  ["sedano", "sedano"], ["insalat", "insalata"], ["lattug", "insalata"]];
+const vegIn = text => { const t = String(text).toLowerCase(); return [...new Set(VEG_WORDS.filter(([w]) => t.includes(w)).map(([, v]) => v))]; };
+const recipeById = id => RECIPES.find(r => r.id === id);
+// Vegetables already on the table: last night's recipe (if you chose one) and today's school lunch.
+function recentVeg(i) {
+  const out = {};
+  const prevDate = addDays(WEEK.dates[i], -1), prevRecipe = recipeById(state.cooked[prevDate]);
+  if (prevRecipe) prevRecipe.veg.forEach(v => out[v] = "ieri sera");
+  state.kids.forEach((_, k) => {
+    if (!atSchool(k, i)) return;
+    for (const it of day(k, i).items) if (["primo", "secondo", "contorno"].includes(it.slot)) vegIn(it.name).forEach(v => out[v] = out[v] || "a pranzo oggi");
+  });
+  return out;
+}
 const andList = a => a.length < 2 ? (a[0] || "") : a.slice(0, -1).join(", ") + " e " + a[a.length - 1];
 
 // ---------------------------------------------------------------- data loading
@@ -348,13 +394,18 @@ function weekendPlan() {
   const left = missings.map(m => Object.assign({}, m));
   const meals = [["Sabato", "pranzo"], ["Sabato", "cena"], ["Domenica", "pranzo"], ["Domenica", "cena"]];
   let prev = dinners[4].done === undefined ? dinners[4].pick : (dinners[4].done === "altro" ? null : dinners[4].done);
-  const used = {};
+  const used = new Set();
+  const fri = recipeById(state.cooked[WEEK.dates[4]]);
+  let lastVeg = fri ? fri.veg : [];
   const out = meals.map(([d, meal]) => {
     const { pick, lead } = choose(left, new Set(prev ? [prev] : []));
     if (pick) left.forEach(m => m[pick] -= 1);
     prev = pick;
     const list = pick ? RECIPES.filter(r => r.group === pick) : [];
-    const recipe = list.length ? list[(used[pick] = (used[pick] || 0) + 1) % list.length] : null;
+    const score = r => (used.has(r.id) ? 2 : 0) + (r.veg.some(v => lastVeg.includes(v)) ? 1 : 0);
+    const recipe = list.length ? list.slice().sort((a, b) => score(a) - score(b))[0] : null;
+    if (recipe) used.add(recipe.id);
+    lastVeg = recipe ? recipe.veg : [];
     return { day: d, meal, pick, lead, recipe };
   });
   return { missings, meals: out };
@@ -406,8 +457,8 @@ function kidForm(p, isNew) {
 function viewWelcome() {
   if (!state.kids.length) return `<h2>Benvenuti!</h2>
     <p class="hint">Ogni sera ti proponiamo cosa cucinare per completare quello che i bambini hanno mangiato a scuola. Il menù arriva da solo dal sito del Comune di Roma. Se hai più figli, li aggiungi dopo dalle impostazioni.</p>
-    ${kidForm({ name: "", mun: 6, ciclo: 4 }, true)}
-    <p class="hint">Le spunte restano solo su questo telefono: nessun dato dei bambini esce dall'app. Contiamo solo, in forma anonima e senza cookie, quante volte si aprono le schermate, da quale Municipio e quanti figli.</p>`;
+    ${kidForm({ name: "", mun: URLP.mun || 6, ciclo: URLP.ciclo || 4 }, true)}
+    <p class="hint">Le spunte restano solo su questo telefono: nessun dato dei bambini esce dal sito.</p>`;
   let html = `<h2>Impostazioni</h2>`;
   if (state.editing !== null) html += kidForm(state.editing === "new" ? { name: "", mun: K().mun, ciclo: K().ciclo } : state.kids[state.editing], state.editing === "new");
   html += `<h3>I tuoi figli</h3><div class="card">` + state.kids.map((kid, k) =>
@@ -501,9 +552,9 @@ function dinnerWhy(x) {
   if (pick && prev && ART[prev]) why += `${many() ? "<br>" : " "}Ieri sera: ${ART[prev]}.`;
   for (const p of per) {
     const who = many() ? "<br>" + esc(kidName(p.k)) + ": " : "";
-    if (p.vegLeft) why += ` ${who}a pranzo la verdura (${esc(p.contorno.name.toLowerCase())}) è rimasta nel piatto, stasera ne serve il doppio.`;
-    if (p.potatoes) why += ` ${who}a pranzo il contorno era ${esc(p.contorno.name.toLowerCase())}; le patate non contano come verdura, quindi stasera verdura doppia.`;
-    if (p.noSchool) why += ` ${who}senza il pranzo a scuola, oggi la verdura va doppia.`;
+    if (p.vegLeft) why += ` ${who}${many() ? "a" : "A"} pranzo la verdura (${esc(p.contorno.name.toLowerCase())}) è rimasta nel piatto, stasera ne serve il doppio.`;
+    if (p.potatoes) why += ` ${who}${many() ? "a" : "A"} pranzo il contorno era ${esc(p.contorno.name.toLowerCase())}; le patate non contano come verdura, quindi stasera verdura doppia.`;
+    if (p.noSchool) why += ` ${who}${many() ? "s" : "S"}enza il pranzo a scuola, oggi la verdura va doppia.`;
   }
   return why;
 }
@@ -515,15 +566,19 @@ function viewStasera() {
   const plate = [];
   if (x.pick) plate.push(GROUPS[x.pick].label);
   plate.push(x.veg === 2 ? "Verdura (doppia)" : "Verdura", "Frutta", "Pane o cereali");
-  const season = SEASON[Number(date.slice(5, 7))];
+  const recent = recentVeg(i), avoid = Object.keys(recent);
+  const season = SEASON[Number(date.slice(5, 7))], seasonOk = season[0].filter(v => !avoid.includes(v));
   let html = `<h2>Stasera, ${dayLabel(date)}</h2><div class="card">
     <div class="hint" style="margin:0">Per cena${many() ? " di tutta la famiglia" : ""} proponiamo</div><div class="big">${x.pick ? GROUPS[x.pick].label : "Cena leggera"}</div>
     <div class="plate">${plate.map(p => `<span class="chip">${p}</span>`).join("")}</div>
     <div class="why"><b>Perché</b>${dinnerWhy(x)}</div>
-    <p class="hint" style="margin:8px 0 0">Verdura di stagione: ${season[0].join(", ")}.</p></div>`;
+    <p class="hint" style="margin:8px 0 0">Verdura di stagione: ${(seasonOk.length ? seasonOk : season[0]).join(", ")}.${avoid.length ? ` Meglio non ripetere: ${avoid.map(v => `${v} (${recent[v]})`).join(", ")}.` : ""}</p></div>`;
   if (x.pick) {
-    html += `<h3>Idee per stasera</h3><div class="card">` + RECIPES.filter(r => r.group === x.pick).map(r =>
-      `<button class="recipe-link" data-recipe="${r.id}">${esc(r.title)}<span>${r.minutes} min ›</span></button>`).join("") + `</div>`;
+    const list = RECIPES.filter(r => r.group === x.pick).map(r => ({ r, clash: r.veg.filter(v => avoid.includes(v)) }))
+      .sort((a, b) => a.clash.length - b.clash.length);
+    html += `<h3>Idee per stasera</h3><div class="card">` + list.map(({ r, clash }) =>
+      `<button class="recipe-link" data-recipe="${r.id}"><span style="color:var(--ink);margin:0;white-space:normal">${esc(r.title)}${clash.length ? `<small style="display:block;color:var(--muted)">${clash.map(v => `${v} anche ${recent[v]}`).join(", ")}</small>` : ""}</span><span>${r.minutes} min ›</span></button>`).join("") +
+      `<p class="hint" style="margin:6px 0 0">Se scegli una ricetta con «Stasera cuciniamo questa», domani evitiamo la stessa verdura.</p></div>`;
   }
   const opts = [...SECONDS.map(g => [g, GROUPS[g].label]), ["altro", "Altro"]];
   html += `<h3>Cosa avete mangiato a cena?</h3><div class="card" style="font-size:14px">
@@ -598,13 +653,32 @@ function viewRecipe() {
 }
 
 function render() {
-  renderHeader(); renderNav(); renderDays();
+  renderHeader(); renderNav(); renderDays(); renderModal();
   const main = document.getElementById("main");
-  if (!state.kids.length) { main.innerHTML = viewWelcome(); return; }
+  if (!state.kids.length) { main.innerHTML = viewWelcome() + footLinks(); return; }
   if (state.recipe) { main.innerHTML = viewRecipe(); document.getElementById("days").hidden = true; return; }
   main.innerHTML = ({ oggi: viewOggi, stasera: viewStasera, settimana: viewSettimana, weekend: viewWeekend,
-    impostazioni: viewWelcome }[state.tab] || viewOggi)();
+    impostazioni: viewWelcome }[state.tab] || viewOggi)() + (state.tab === "impostazioni" ? footLinks() : "");
 }
+
+// ---------------------------------------------------------------- welcome popup
+function introHtml() {
+  return `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="intro-t"><div class="sheet">
+    <h2 id="intro-t">Ciao! Che cos'è Compagni di Merende</h2>
+    <p style="margin:0">Un aiuto per chi si chiede ogni sera <b>«cosa cucino stasera?»</b>. Guardiamo cosa c'era a pranzo a scuola e ti proponiamo la cena che completa la settimana.</p>
+    <ol class="steps3">
+      <li><b class="n">1</b><div><b>Scegli Municipio e scuola.</b><br>Il menù della mensa arriva da solo dal sito del Comune di Roma.</div></li>
+      <li><b class="n">2</b><div><b>Dopo la scuola segna quanto ha mangiato.</b><br>Un tocco per piatto: ✓ tutto, ½ metà, ✕ niente. Se non segni niente, va bene lo stesso.</div></li>
+      <li><b class="n">3</b><div><b>La sera guarda la cena proposta.</b><br>Pesce, legumi, uova, formaggio o carne: quello che manca alla settimana, con il perché e qualche ricetta.</div></li>
+    </ol>
+    <div class="privacy"><b>Non raccogliamo nulla sui bambini.</b> Niente registrazione, niente account. Il nome (anche inventato) e le spunte restano solo sul tuo telefono: non arrivano a noi né a nessun altro. Contiamo solo, in forma anonima e senza cookie, quante persone usano il sito.</div>
+    <p class="hint" style="margin:10px 0 0">È gratuito e indipendente, non è un sito del Comune. Le proposte seguono le linee guida CREA ma sono ancora in prova: non sostituiscono il pediatra.</p>
+    <button class="btn" data-close-intro>Ho capito, cominciamo</button>
+    <p class="foot-links"><a href="come-funziona/">Domande frequenti e privacy</a></p>
+  </div></div>`;
+}
+function renderModal() { document.getElementById("modal").innerHTML = state.showIntro ? introHtml() : ""; }
+const footLinks = () => `<p class="foot-links"><button class="link" data-open-intro>Come funziona</button> · <a href="come-funziona/">Privacy e domande</a> · <a href="menu/">Menù di tutti i Municipi</a><br>Sito indipendente, non affiliato a Roma Capitale.<br>© 2026 menuscuolaroma.it · <a href="mailto:info@menuscuolaroma.it">info@menuscuolaroma.it</a></p>`;
 
 // ---------------------------------------------------------------- toast ("notifica di ricalcolo")
 let toastTimer;
@@ -620,7 +694,9 @@ document.addEventListener("click", async e => {
   const b = e.target.closest("button");
   if (!b || (b.type === "submit" && b.form)) return;
   const ds = b.dataset, date = WEEK && WEEK.dates[state.sel];
-  if (ds.day) state.sel = Number(ds.day);
+  if ("closeIntro" in ds) { state.showIntro = false; state.introSeen = true; track("intro-letta", "Popup letto"); }
+  else if ("openIntro" in ds) state.showIntro = true;
+  else if (ds.day) state.sel = Number(ds.day);
   else if (ds.kid) state.kid = Number(ds.kid);
   else if (ds.tab) { state.tab = ds.tab; state.recipe = null; state.editing = null; scrollTo(0, 0); track("schermata-" + ds.tab, "Schermata " + ds.tab); }
   else if (ds.slot) {
@@ -633,10 +709,11 @@ document.addEventListener("click", async e => {
     else if (before.veg !== after.veg) toast(after.veg === 2 ? `La verdura a pranzo è rimasta nel piatto: stasera <b>verdura doppia</b>.<button data-tab="stasera">Vedi</button>` : "Stasera basta una porzione di verdura.");
   }
   else if (ds.absent) { if (ds.absent === "1") K().absent[date] = true; else delete K().absent[date]; }
-  else if (ds.dinner) { if (state.dinners[date] === ds.dinner) delete state.dinners[date]; else state.dinners[date] = ds.dinner; }
+  else if (ds.dinner) { if (state.dinners[date] === ds.dinner) delete state.dinners[date]; else state.dinners[date] = ds.dinner;
+    const c = recipeById(state.cooked[date]); if (c && c.group !== state.dinners[date]) delete state.cooked[date]; }
   else if (ds.recipe) { state.recipe = ds.recipe; scrollTo(0, 0); track("ricetta-" + ds.recipe, "Ricetta " + ds.recipe); }
   else if ("closeRecipe" in ds) state.recipe = null;
-  else if (ds.cook) { track("cucinata-" + ds.cook, "Cena scelta: " + ds.cook); state.dinners[date] = ds.cook; state.recipe = null; state.tab = "stasera"; toast("Segnato: stasera " + GROUPS[ds.cook].label.toLowerCase() + "."); }
+  else if (ds.cook) { track("cucinata-" + ds.cook, "Cena scelta: " + ds.cook); state.dinners[date] = ds.cook; state.cooked[date] = state.recipe; state.recipe = null; state.tab = "stasera"; toast("Segnato: stasera " + GROUPS[ds.cook].label.toLowerCase() + "."); }
   else if (ds.editKid) { state.editing = ds.editKid === "new" ? "new" : Number(ds.editKid); scrollTo(0, 0); }
   else if ("cancelEdit" in ds) state.editing = null;
   else if (ds.removeKid) {
@@ -647,10 +724,11 @@ document.addEventListener("click", async e => {
   else if (ds.unmarked) state.unmarked = ds.unmarked;
   else if (ds.weekSet) { state.weekStart = ds.weekSet; state.sel = 0; await loadWeek(); }
   else if ("weekToday" in ds) { state.weekStart = null; state.sel = null; await loadWeek(); }
-  else if ("reset" in ds) { if (!confirm("Cancellare tutte le spunte e le cene segnate?")) return; state.kids.forEach(k => { k.checks = {}; k.absent = {}; }); state.dinners = {}; }
+  else if ("reset" in ds) { if (!confirm("Cancellare tutte le spunte e le cene segnate?")) return; state.kids.forEach(k => { k.checks = {}; k.absent = {}; }); state.dinners = {}; state.cooked = {}; }
   else return;
   save(); render();
 });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && state.showIntro) { state.showIntro = false; state.introSeen = true; save(); render(); } });
 document.addEventListener("change", async e => {
   if (e.target.matches("[data-week]")) {
     const w = e.target.value;

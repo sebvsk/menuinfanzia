@@ -48,6 +48,8 @@ e si caricano su GitHub le cartelle `data` cambiate (*Add file → Upload files*
 | `recipes.js` | ricette di prova e verdura/frutta di stagione (bozza) |
 | `data/AAAA-MM/m<municipio>-c<ciclo>.json` | menù scaricati, un file per Municipio e ciclo |
 | `data/da_controllare.md` | piatti nuovi classificati in automatico: da rivedere |
+| `scripts/build_pages.py` | genera le pagine pubbliche dei menù, `sitemap.xml`, `robots.txt`, `llms.txt` (su GitHub, a ogni pubblicazione) |
+| `og.png` | immagine di anteprima quando il link si condivide su WhatsApp e social |
 | `scripts/fetch_menus.py` | scarica i menù da MESIS (solo libreria standard di Python) |
 | `scripts/piatti_gruppi.csv` | dizionario piatto → gruppo di alimenti (copia di `03 Regole`) |
 | `workflow-menu.yml` | download programmato e pubblicazione: su GitHub va in `.github/workflows/menu.yml` |
