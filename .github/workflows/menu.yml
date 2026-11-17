@@ -41,6 +41,11 @@ jobs:
           git add data
           git diff --cached --quiet || (git commit -m "Menù aggiornati $(date +%Y-%m-%d)" && git push)
 
+      - name: Genera le pagine per Google e gli assistenti AI
+        env:
+          CONTATTO: ${{ vars.CONTATTO }}
+        run: python3 scripts/build_pages.py
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
