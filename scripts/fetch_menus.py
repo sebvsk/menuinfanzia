@@ -44,7 +44,8 @@ KW = {
     "legumi": ["lenticch", "ceci", "fagioli", "piselli", "legumi", "cannellini", "borlotti", "fave", "hummus",
                "cicerchie"],
     "carne": ["pollo", "tacchino", "bovino", "manzo", "vitello", "vitellone", "maiale", "suino", "lonza",
-              "prosciutto", "hamburger", "coniglio", "carne", "petto", "cosce", "fuso"],
+              "prosciutto", "hamburger", "coniglio", "carne", "petto", "cosce", "fuso", "ragù", "ragu'", "agnello",
+              "lasagn", "bologn"],
     "formaggi": ["mozzarella", "crescenza", "robiola", "asiago", "stracchino", "ricotta", "parmigiano", "caciotta",
                  "emmental", "fontina", "provol", "formaggio", "grana", "primo sale", "scamorza", "montasio",
                  "caprino", "fiocchi di latte", "bocconcini di latte", "quartirolo", "pecorino"],
@@ -144,13 +145,21 @@ def fetch_page(op, mun, ciclo, year, month):
 
 
 # ---------------------------------------------------------------- parsing
+DESSERT = ["frutta", "spremuta", "succo", "gelato", "budino", "macedonia", "dolce", "torta", "crostata", "yogurt",
+           "mela", "banana", "arancia", "mandarin", "clementin", "pera", "kiwi", "uva", "cachi"]
+
+
 def lunch_slots(items):
-    """MESIS order: primo, secondo, contorno, [pane], frutta/gelato. Pizza days have no bread."""
+    """MESIS order: primo, secondo, contorno, [pane], frutta/gelato.
+    Pizza days have no bread; piatto unico days (lasagna, pasta al ragù) have no secondo."""
     r, rest = {}, []
     for v in items:
         (r.__setitem__("pane", v) if v.lower().startswith("pane") else rest.append(v))
-    if len(rest) >= 4:
+    if len(rest) >= 2 and any(w in rest[-1].lower() for w in DESSERT):
         r["frutta_dolce"] = rest.pop()
+    if len(rest) == 2:                       # piatto unico + contorno
+        r["primo"], r["contorno"], r["unico"] = rest[0], rest[1], True
+        return r
     for key, v in zip(["primo", "secondo", "contorno"], rest):
         r[key] = v
     if rest[3:]:
@@ -198,9 +207,15 @@ def to_json(rows, mun, ciclo, year, month, guessed):
             if not name:
                 continue
             g, sec, guess = classify(name, slot)
+            if slot == "primo" and row.get("unico"):      # piatto unico: it is also the secondo
+                g2, sec2, _ = classify(name, "secondo")
+                if g2 and g2 not in ("cereali", "verdura", "patate"):
+                    g, sec, guess = g2, [x for x in sec2 + ["cereali"] if x != g2], True
             it = {"slot": slot, "name": name[0].upper() + name[1:], "group": g}
             if sec:
                 it["also"] = sec
+            if slot == "primo" and row.get("unico"):
+                it["unico"] = True
             if guess:
                 it["guess"] = True
                 guessed.setdefault(name, (slot, g, sec))
@@ -241,7 +256,7 @@ def write_guessed(guessed):
             if len(parts) == 4:
                 old[parts[0]] = line
     for name, (slot, g, sec) in guessed.items():
-        old.setdefault(name, f"| {name} | {slot} | {g or '**?**'} | {', '.join(sec)} |")
+        old[name] = f"| {name} | {slot} | {g or '**?**'} | {', '.join(sec)} |"
     lines = ["# Piatti classificati in automatico (da controllare)", "",
              "| Piatto | Portata | Gruppo stimato | Anche |", "|---|---|---|---|"] + sorted(old.values())
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
