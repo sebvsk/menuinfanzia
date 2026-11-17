@@ -507,7 +507,7 @@ function viewOggi() {
     for (const it of items) {
       const m = mark(k, d.date, it.slot);
       const g = it.group ? (GROUPS[it.group] ? GROUPS[it.group].label : OTHER_LABEL[it.group] || it.group) : "gruppo sconosciuto";
-      html += `<div class="row"><div class="dish">${esc(it.name)}<small>${SLOT_LABEL[it.slot]} · ${esc(g)}${it.guess ? " (stimato)" : ""}</small></div><div class="dots">` +
+      html += `<div class="row"><div class="dish">${esc(it.name)}<small>${it.unico ? "Piatto unico" : SLOT_LABEL[it.slot]} · ${esc(g)}${it.guess ? " (stimato)" : ""}</small></div><div class="dots">` +
         [["ok", "✓", "tutto"], ["half", "½", "metà"], ["no", "✕", "niente"]].map(([v, s, a]) =>
           `<button class="dot ${v}${m === v ? " on" : ""}" aria-label="${a}" aria-pressed="${m === v}" data-slot="${it.slot}" data-v="${v}">${s}</button>`).join("") + `</div></div>`;
     }
@@ -580,6 +580,16 @@ function viewStasera() {
       `<button class="recipe-link" data-recipe="${r.id}"><span style="color:var(--ink);margin:0;white-space:normal">${esc(r.title)}${clash.length ? `<small style="display:block;color:var(--muted)">${clash.map(v => `${v} anche ${recent[v]}`).join(", ")}</small>` : ""}</span><span>${r.minutes} min ›</span></button>`).join("") +
       `<p class="hint" style="margin:6px 0 0">Se scegli una ricetta con «Stasera cuciniamo questa», domani evitiamo la stessa verdura.</p></div>`;
   }
+  {
+    const best = x.pick ? RECIPES.filter(r => r.group === x.pick).map(r => ({ r, c: r.veg.filter(v => avoid.includes(v)).length })).sort((a, b) => a.c - b.c)[0] : null;
+    const veg = (seasonOk.length ? seasonOk : season[0]).slice(0, 3).join(", ");
+    SHARE = { title: "Cena di stasera", text:
+      `🍽️ Cena di stasera, ${dayLabel(date)}\n${plate.join(" · ")}\n` +
+      (best ? `\nIdea: ${best.r.title} (${best.r.minutes} min)\nServono: ${best.r.ingredients.join(", ")}\n` : "") +
+      `\nVerdura: ${veg}${avoid.length ? ` (non ${avoid.join(", ")}, già ${[...new Set(Object.values(recent))].join(" e ")})` : ""}\n` +
+      `\nA pranzo a scuola:\n${lunchToday(i)}\n\nPerché:\n${plain(dinnerWhy(x))}\n\n— Compagni di Merende ${siteLink()}` };
+    html += shareBtn("stasera", "Manda la cena a chi cucina");
+  }
   const opts = [...SECONDS.map(g => [g, GROUPS[g].label]), ["altro", "Altro"]];
   html += `<h3>Cosa avete mangiato a cena?</h3><div class="card" style="font-size:14px">
     Segnalo dopo cena: serve a fare bene i conti dei giorni dopo.
@@ -632,10 +642,15 @@ function viewWeekend() {
   const vegLeft = Math.max(4, ...missings.map(m => m.verdura)), fruitLeft = Math.max(4, ...missings.map(m => m.frutta));
   const ingr = [];
   for (const m of meals) if (m.recipe) for (const x of m.recipe.ingredients) if (!ingr.includes(x)) ingr.push(x);
+  SHARE = { title: "Weekend e spesa", text:
+    `🧺 Weekend ${short(sat)} – ${short(addDays(sat, 1))}\n` +
+    meals.map(m => `${m.day} ${m.meal}: ${m.pick ? GROUPS[m.pick].label.toLowerCase() : "libero"}${m.recipe ? " – " + m.recipe.title : ""}`).join("\n") +
+    `\n\nSpesa:\n${ingr.map(x => "- " + x).join("\n")}\n- verdura di stagione per ${fmt(Math.max(4, ...missings.map(m => m.verdura)))} porzioni${many() ? " a testa" : ""}: ${season[0].join(", ")}\n- frutta di stagione per ${fmt(Math.max(4, ...missings.map(m => m.frutta)))} porzioni${many() ? " a testa" : ""}: ${season[1].join(", ")}\n- latte e yogurt per le colazioni\n\n— Compagni di Merende ${siteLink()}` };
   html += `<h3>Lista della spesa</h3><div class="card"><ul class="list">${ingr.map(x => `<li>${esc(x)}</li>`).join("")}
     <li>Verdura di stagione per ${fmt(vegLeft)} porzioni${many() ? " a testa" : ""}: ${season[0].join(", ")}</li>
     <li>Frutta di stagione per ${fmt(fruitLeft)} porzioni${many() ? " a testa" : ""}: ${season[1].join(", ")}</li>
     <li>Latte e yogurt per le colazioni</li></ul>${many() ? `<p class="hint" style="margin:6px 0 0">Le dosi delle ricette sono per 2 adulti e 1 bambino: aumentale per ${state.kids.length} figli.</p>` : ""}</div>
+    ${shareBtn("weekend", "Manda il piano e la spesa")}
     <div class="draft"><b>Bozza.</b> I pasti del weekend coprono prima i secondi che mancano di più${many() ? " (prima a chi è più indietro)" : ""}, senza ripetere lo stesso due pasti di fila. Stagionalità indicativa per il Lazio.</div>`;
   return html;
 }
@@ -649,16 +664,45 @@ function viewRecipe() {
     <h3>Ingredienti</h3><div class="card"><ul class="list">${r.ingredients.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
     <h3>Come si fa</h3><div class="card"><ol class="steps">${r.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>
     <button class="btn" data-cook="${r.group}">Stasera cuciniamo questa (${dayLabel(date)})</button>
+    ${(SHARE = { title: r.title, text: `👩‍🍳 ${recipeText(r)}\n\n— Compagni di Merende ${siteLink()}` }, shareBtn("ricetta", "Manda la ricetta"))}
     <div class="draft"><b>Bozza.</b> Ricetta di prova, da rivedere con un dietista. Poco sale; per i bambini pesce senza spine e uova ben cotte.</div>`;
 }
 
 function render() {
+  SHARE = null;
   renderHeader(); renderNav(); renderDays(); renderModal();
   const main = document.getElementById("main");
   if (!state.kids.length) { main.innerHTML = viewWelcome() + footLinks(); return; }
   if (state.recipe) { main.innerHTML = viewRecipe(); document.getElementById("days").hidden = true; return; }
   main.innerHTML = ({ oggi: viewOggi, stasera: viewStasera, settimana: viewSettimana, weekend: viewWeekend,
     impostazioni: viewWelcome }[state.tab] || viewOggi)() + (state.tab === "impostazioni" ? footLinks() : "");
+}
+
+// ---------------------------------------------------------------- sharing (partner, babysitter, nonni)
+// The phone's own share sheet (WhatsApp, Telegram, SMS, email). Nothing passes through the site.
+const plain = h => h.replace(/<br\s*\/?>/g, "\n").replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/[ \t]+\n/g, "\n").trim();
+const siteLink = () => location.origin + location.pathname;
+let SHARE = null;
+async function shareNow(kind) {
+  if (!SHARE) return;
+  track("condivisione-" + kind, "Condivisione " + kind);
+  if (navigator.share) {
+    try { await navigator.share({ title: SHARE.title, text: SHARE.text }); return; } catch (err) { if (err && err.name === "AbortError") return; }
+  }
+  try { await navigator.clipboard.writeText(SHARE.text); toast(`Testo copiato: incollalo dove vuoi.<button data-wa>WhatsApp</button>`); }
+  catch { toast(`<button data-wa>Apri WhatsApp</button>`); }
+}
+const shareBtn = (kind, label) => `<button class="btn ghost" data-share="${kind}">📤 ${label}</button>`;
+function lunchToday(i) {
+  return state.kids.map((_, k) => {
+    const d = day(k, i), who = many() ? kidName(k) + ": " : "";
+    if (!d.items) return who + "niente scuola";
+    if (state.kids[k].absent[d.date]) return who + "a casa";
+    return who + d.items.filter(it => ["primo", "secondo", "contorno", "frutta_dolce"].includes(it.slot)).map(it => it.name.toLowerCase()).join(", ");
+  }).join("\n");
+}
+function recipeText(r) {
+  return `${r.title} (${r.minutes} min)\n\nIngredienti:\n${r.ingredients.map(x => "- " + x).join("\n")}\n\nCome si fa:\n${r.steps.map((x, n) => `${n + 1}. ${x}`).join("\n")}`;
 }
 
 // ---------------------------------------------------------------- welcome popup
@@ -694,6 +738,8 @@ document.addEventListener("click", async e => {
   const b = e.target.closest("button");
   if (!b || (b.type === "submit" && b.form)) return;
   const ds = b.dataset, date = WEEK && WEEK.dates[state.sel];
+  if (ds.share) { await shareNow(ds.share); return; }
+  if ("wa" in ds) { if (SHARE) window.open("https://wa.me/?text=" + encodeURIComponent(SHARE.text), "_blank", "noopener"); return; }
   if ("closeIntro" in ds) { state.showIntro = false; state.introSeen = true; track("intro-letta", "Popup letto"); }
   else if ("openIntro" in ds) state.showIntro = true;
   else if (ds.day) state.sel = Number(ds.day);
