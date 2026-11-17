@@ -48,6 +48,7 @@
   .days button.today::after { content: ""; position: absolute; left: 50%; bottom: 3px; width: 5px; height: 5px;
     margin-left: -2.5px; border-radius: 50%; background: var(--accent); }
   .days button.closed { color: #aaa; }
+  .days button.past:not(.on) { background: #f6f1eb; color: var(--muted); }
   main { padding: 12px 12px 100px; max-width: 560px; margin: 0 auto; }
   h2 { font-size: 20px; margin: 6px 4px 10px; }
   h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 16px 4px 6px; }
@@ -426,7 +427,7 @@ function renderDays() {
   if (!show) return;
   const t = todayIso();
   el.innerHTML = WEEK.dates.map((date, i) =>
-    `<button class="${i === state.sel ? "on" : ""}${date === t ? " today" : ""}${dayClosed(i) ? " closed" : ""}" data-day="${i}">${WEEKDAYS[parse(date).getDay()].slice(0, 3)}<b>${Number(date.slice(8))}</b></button>`).join("");
+    `<button class="${i === state.sel ? "on" : ""}${date === t ? " today" : ""}${date < t ? " past" : ""}${dayClosed(i) ? " closed" : ""}" data-day="${i}">${WEEKDAYS[parse(date).getDay()].slice(0, 3)}<b>${Number(date.slice(8))}</b></button>`).join("");
 }
 function renderNav() {
   const el = document.getElementById("nav");
@@ -493,12 +494,18 @@ function noMenuCard() {
 function viewOggi() {
   if (!anyMenu()) return noMenuCard();
   const k = state.kid, d = day(k, state.sel);
-  let html = `<h2>A scuola, ${dayLabel(d.date)}</h2>` + kidSwitch();
+  const when = rel(d.date);
+  let html = `<h2>A scuola, ${when === "today" ? "oggi " + short(d.date) : dayLabel(d.date)}</h2>` + kidSwitch();
+  if (when === "future" && d.items) {
+    html += `<div class="info">È il menù previsto: potrai segnare cosa ha mangiato dopo il pranzo di ${WEEKDAYS[parse(d.date).getDay()]}.</div><div class="card">` +
+      d.items.filter(it => it.slot !== "pane").map(it => `<div class="row"><div class="dish">${esc(it.name)}<small>${it.unico ? "Piatto unico" : SLOT_LABEL[it.slot]}</small></div></div>`).join("") + `</div>`;
+    return html + `<p class="hint">Menù: ${esc(d.source)}.</p>`;
+  }
   if (!d.items) return html + `<div class="info">Nessun menù per ${many() ? esc(kidName(k)) : "questo giorno"}: festa o scuola chiusa. Stasera contiamo un pranzo a casa.</div>`;
   const absent = !!K().absent[d.date];
   html += `<div class="switch" style="margin:0 0 10px"><button class="${absent ? "" : "on"}" data-absent="0">A scuola</button><button class="${absent ? "on" : ""}" data-absent="1">Assente, a casa</button></div>`;
-  if (absent) return html + `<div class="info">Oggi a scuola non conta niente${many() ? " per " + esc(kidName(k)) : ""}: stasera la proposta tiene conto di un pranzo a casa.</div>`;
-  html += `<p class="hint">Chiedi alla maestra e tocca un pallino: ✓ tutto · ½ metà · ✕ niente.</p>`;
+  if (absent) return html + `<div class="info">${when === "today" ? "Oggi" : "Quel giorno"} a scuola non conta niente${many() ? " per " + esc(kidName(k)) : ""}: la cena tiene conto di un pranzo a casa.</div>`;
+  html += `<p class="hint">${when === "past" ? "Puoi ancora correggere: " : "Chiedi alla maestra e "}tocca un pallino: ✓ tutto · ½ metà · ✕ niente.</p>`;
   if (d.note) html += `<div class="info">${esc(d.note)}</div>`;
   for (const [title, slots] of [["Mattina", ["spuntino"]], ["Pranzo", ["primo", "secondo", "contorno", "frutta_dolce"]], ["Pomeriggio", ["merenda"]]]) {
     const items = d.items.filter(it => slots.includes(it.slot));
@@ -515,23 +522,28 @@ function viewOggi() {
   }
   const pane = d.items.find(it => it.slot === "pane");
   html += `<p class="hint">${pane ? esc(pane.name) + " a pranzo (non si segna). " : ""}Menù: ${esc(d.source)}.</p>`;
-  return html + `<button class="btn" data-tab="stasera">Vedi la cena di stasera</button>`;
+  return html + `<button class="btn" data-tab="stasera">${when === "today" ? "Vedi la cena di stasera" : "Vedi la cena di " + WEEKDAYS[parse(d.date).getDay()]}</button>`;
 }
 
 function dinnerWhy(x) {
   const { pick, per, prev, i } = x;
   const words = arr => [...new Set(arr)].filter(g => g in ART).map(g => ART[g]).join(" e ") || "niente di questo";
   const tomorrowSchool = k => i < 4 && atSchool(k, i + 1);
+  // Words relative to the real today: "oggi / domani / ieri sera" only when the day shown is today.
+  const isToday = WEEK.dates[i] === todayIso();
+  const wd = j => WEEKDAYS[parse(addDays(WEEK.start, j)).getDay()];
+  const D0 = isToday ? "oggi" : wd(i), D1 = isToday ? "domani" : wd(i + 1), EV = isToday ? "stasera" : "la sera";
+  const PREV = isToday ? "Ieri sera" : (i > 0 ? wd(i - 1)[0].toUpperCase() + wd(i - 1).slice(1) + " sera" : "La sera prima");
   let why;
   if (!many()) {
     const p = per[0], missing = p.missing;
     if (pick) {
-      why = `Questa settimana mancano ancora <strong>${fmt(missing[pick])} ${missing[pick] > 1 ? "porzioni" : "porzione"} di ${WORD[pick]}</strong>, contando anche i pranzi a scuola fino a venerdì. `;
-      why += p.noSchool ? "Oggi niente pranzo a scuola" : `A pranzo oggi: ${words(p.today)}`;
-      why += i < 4 ? (tomorrowSchool(0) ? `; domani: ${words(p.tomorrow)}.` : "; domani niente scuola.") : "; domani è sabato.";
+      why = `Questa settimana ${missing[pick] > 1 ? "mancano" : "manca"} ancora <strong>${fmt(missing[pick])} ${missing[pick] > 1 ? "porzioni" : "porzione"} di ${WORD[pick]}</strong>, contando anche i pranzi a scuola fino a venerdì. `;
+      why += p.noSchool ? `${D0[0].toUpperCase() + D0.slice(1)} niente pranzo a scuola` : `A pranzo ${D0}: ${words(p.today)}`;
+      why += i < 4 ? (tomorrowSchool(0) ? `; ${D1}: ${words(p.tomorrow)}.` : `; ${D1} niente scuola.`) : (isToday ? "; domani è sabato." : "; poi c'è il weekend.");
     } else why = SECONDS.some(g => missing[g] > 0)
-      ? "I secondi che mancano ci sono già a pranzo oggi o domani, o li avete mangiati ieri sera: stasera un piatto leggero con verdura, si recupera nei prossimi giorni."
-      : "I secondi della settimana sono già coperti: stasera basta un piatto leggero con verdura.";
+      ? `I secondi che mancano ci sono già a pranzo ${D0} o ${D1}, o li avete mangiati la sera prima: ${EV} un piatto leggero con verdura, si recupera nei giorni dopo.`
+      : `I secondi della settimana sono già coperti: ${EV} basta un piatto leggero con verdura.`;
   } else {
     const gaps = per.map(p => {
       const g = SECONDS.filter(s => p.missing[s] > 0).sort((a, b) => p.missing[b] - p.missing[a]);
@@ -542,23 +554,42 @@ function dinnerWhy(x) {
       why += x.lead !== null
         ? `<br>Proponiamo <strong>${WORD[pick]}</strong> perché ${esc(kidName(x.lead))} è più indietro con la settimana. `
         : `<br>Siete pari: proponiamo <strong>${WORD[pick]}</strong>, il piatto che serve di più a tutti. `;
-      why += "<br>A pranzo oggi: " + per.map(p => `${esc(kidName(p.k))} ${p.noSchool ? "a casa" : words(p.today)}`).join(", ");
-      why += i < 4 ? "; domani: " + per.map(p => `${esc(kidName(p.k))} ${tomorrowSchool(p.k) ? words(p.tomorrow) : "niente scuola"}`).join(", ") + "." : "; domani è sabato.";
+      why += `<br>A pranzo ${D0}: ` + per.map(p => `${esc(kidName(p.k))} ${p.noSchool ? "a casa" : words(p.today)}`).join(", ");
+      why += i < 4 ? `; ${D1}: ` + per.map(p => `${esc(kidName(p.k))} ${tomorrowSchool(p.k) ? words(p.tomorrow) : "niente scuola"}`).join(", ") + "." : (isToday ? "; domani è sabato." : "; poi c'è il weekend.");
       if (x.relaxed && x.repeatKids.length) why += `<br>Non c'era un piatto che andasse bene per tutti: meglio che ${andList(x.repeatKids.map(k => esc(kidName(k))))} ${x.repeatKids.length > 1 ? "ripetano" : "ripeta"} ${ART[pick]} piuttosto che lasciare scoperto chi è più indietro.`;
     } else why += per.some(p => behind(p.missing) > 0)
-      ? "I secondi che mancano ci sono già a pranzo oggi o domani, o li avete mangiati ieri sera: stasera un piatto leggero con verdura."
-      : "Stasera basta un piatto leggero con verdura.";
+      ? `I secondi che mancano ci sono già a pranzo ${D0} o ${D1}, o li avete mangiati la sera prima: ${EV} un piatto leggero con verdura.`
+      : `${EV[0].toUpperCase() + EV.slice(1)} basta un piatto leggero con verdura.`;
   }
-  if (pick && prev && ART[prev]) why += `${many() ? "<br>" : " "}Ieri sera: ${ART[prev]}.`;
+  if (pick && prev && ART[prev]) why += `${many() ? "<br>" : " "}${PREV}: ${ART[prev]}.`;
   for (const p of per) {
     const who = many() ? "<br>" + esc(kidName(p.k)) + ": " : "";
-    if (p.vegLeft) why += ` ${who}${many() ? "a" : "A"} pranzo la verdura (${esc(p.contorno.name.toLowerCase())}) è rimasta nel piatto, stasera ne serve il doppio.`;
-    if (p.potatoes) why += ` ${who}${many() ? "a" : "A"} pranzo il contorno era ${esc(p.contorno.name.toLowerCase())}; le patate non contano come verdura, quindi stasera verdura doppia.`;
-    if (p.noSchool) why += ` ${who}${many() ? "s" : "S"}enza il pranzo a scuola, oggi la verdura va doppia.`;
+    if (p.vegLeft) why += ` ${who}${many() ? "a" : "A"} pranzo la verdura (${esc(p.contorno.name.toLowerCase())}) è rimasta nel piatto, ${EV} ne serve il doppio.`;
+    if (p.potatoes) why += ` ${who}${many() ? "a" : "A"} pranzo il contorno era ${esc(p.contorno.name.toLowerCase())}; le patate non contano come verdura, quindi ${EV} verdura doppia.`;
+    if (p.noSchool) why += ` ${who}${many() ? "s" : "S"}enza il pranzo a scuola, ${D0} la verdura va doppia.`;
   }
   return why;
 }
 
+const rel = date => { const t = todayIso(); return date < t ? "past" : date > t ? "future" : "today"; };
+function dinnerChoices(x, title, intro) {
+  const opts = [...SECONDS.map(g => [g, GROUPS[g].label]), ["altro", "Altro"]];
+  return `<h3>${title}</h3><div class="card" style="font-size:14px">${intro}
+    <div class="choices">${opts.map(([k, l]) => `<button class="${x.done === k ? "on" : ""}" data-dinner="${k}">${l}</button>`).join("")}</div>
+    <p class="hint" style="margin:8px 0 0">${x.done === undefined ? `Se non segni niente, contiamo la cena proposta${x.pick ? ` (${GROUPS[x.pick].label.toLowerCase()})` : ""}.` : "Tocca di nuovo per togliere il segno."}</p></div>`;
+}
+function viewDinnerPast(i, x, date) {
+  const label = WEEKDAYS[parse(date).getDay()];
+  const done = x.done === undefined ? null : x.done === "altro" ? "Altro" : GROUPS[x.done].label;
+  const cooked = recipeById(state.cooked[date]);
+  let html = `<h2>Cena di ${dayLabel(date)}</h2>`;
+  html += `<div class="card"><div class="hint" style="margin:0">${done ? "Avete mangiato" : "Non l'avete segnata"}</div>
+    <div class="big">${done ? done + (cooked ? ` <span class="hint">· ${esc(cooked.title)}</span>` : "") : "—"}</div>
+    <p class="hint" style="margin:4px 0 0">${x.pick ? `Avevamo proposto: ${GROUPS[x.pick].label.toLowerCase()}.` : "Avevamo proposto una cena leggera."}</p></div>`;
+  html += dinnerChoices(x, `Cosa avete mangiato ${label} sera?`, "Se la segni, i conti dei giorni dopo diventano più precisi.");
+  html += `<button class="btn ghost" data-day="${WEEK.dates.indexOf(todayIso()) >= 0 ? WEEK.dates.indexOf(todayIso()) : 4}">Vai alla cena di oggi</button>`;
+  return html;
+}
 function viewStasera() {
   if (!anyMenu()) return noMenuCard();
   const i = state.sel, date = WEEK.dates[i];
@@ -568,7 +599,10 @@ function viewStasera() {
   plate.push(x.veg === 2 ? "Verdura (doppia)" : "Verdura", "Frutta", "Pane o cereali");
   const recent = recentVeg(i), avoid = Object.keys(recent);
   const season = SEASON[Number(date.slice(5, 7))], seasonOk = season[0].filter(v => !avoid.includes(v));
-  let html = `<h2>Stasera, ${dayLabel(date)}</h2><div class="card">
+  const when = rel(date);
+  if (when === "past") return viewDinnerPast(i, x, date);
+  let html = (when === "today" ? `<h2>Stasera, ${dayLabel(date)}</h2>` : `<h2>Cena di ${dayLabel(date)}</h2>
+    <div class="info">Anteprima: la proposta può cambiare in base a quello che mangerà a scuola nei prossimi giorni.</div>`) + `<div class="card">
     <div class="hint" style="margin:0">Per cena${many() ? " di tutta la famiglia" : ""} proponiamo</div><div class="big">${x.pick ? GROUPS[x.pick].label : "Cena leggera"}</div>
     <div class="plate">${plate.map(p => `<span class="chip">${p}</span>`).join("")}</div>
     <div class="why"><b>Perché</b>${dinnerWhy(x)}</div>
@@ -590,11 +624,7 @@ function viewStasera() {
       `\nA pranzo a scuola:\n${lunchToday(i)}\n\nPerché:\n${plain(dinnerWhy(x))}\n\n— Compagni di Merende ${siteLink()}` };
     html += shareBtn("stasera", "Manda la cena a chi cucina");
   }
-  const opts = [...SECONDS.map(g => [g, GROUPS[g].label]), ["altro", "Altro"]];
-  html += `<h3>Cosa avete mangiato a cena?</h3><div class="card" style="font-size:14px">
-    Segnalo dopo cena: serve a fare bene i conti dei giorni dopo.
-    <div class="choices">${opts.map(([k, l]) => `<button class="${x.done === k ? "on" : ""}" data-dinner="${k}">${l}</button>`).join("")}</div>
-    <p class="hint" style="margin:8px 0 0">${x.done === undefined ? "Se non segni niente, contiamo la cena proposta." : "Tocca di nuovo per togliere il segno."}</p></div>`;
+  if (when === "today") html += dinnerChoices(x, "Cosa avete mangiato a cena?", "Segnalo dopo cena: serve a fare bene i conti dei giorni dopo.");
   html += `<div class="draft"><b>Bozza.</b> Regola semplificata, da validare con un dietista: si propone il secondo che manca di più nella settimana, saltando quelli del pranzo di oggi e di domani e quello della sera prima.${many() ? " Con più figli la cena è una sola: viene prima chi è più indietro; se siete pari, il piatto che serve di più a tutti." : ""} Ricette di prova.</div>`;
   return html;
 }
@@ -751,7 +781,8 @@ document.addEventListener("click", async e => {
     if (c[ds.slot] === ds.v) delete c[ds.slot]; else c[ds.slot] = ds.v;
     const after = pickFor(state.sel);
     const name = g => g ? GROUPS[g].label.toLowerCase() : "una cena leggera";
-    if (before.pick !== after.pick) toast(`Stasera cambia: ora proponiamo <b>${name(after.pick)}</b> (prima: ${name(before.pick)}).<button data-tab="stasera">Vedi</button>`);
+    if (rel(date) !== "today") { /* past corrections: no "stasera" message */ }
+    else if (before.pick !== after.pick) toast(`Stasera cambia: ora proponiamo <b>${name(after.pick)}</b> (prima: ${name(before.pick)}).<button data-tab="stasera">Vedi</button>`);
     else if (before.veg !== after.veg) toast(after.veg === 2 ? `La verdura a pranzo è rimasta nel piatto: stasera <b>verdura doppia</b>.<button data-tab="stasera">Vedi</button>` : "Stasera basta una porzione di verdura.");
   }
   else if (ds.absent) { if (ds.absent === "1") K().absent[date] = true; else delete K().absent[date]; }
@@ -796,6 +827,15 @@ document.addEventListener("submit", async e => {
   if (first) track("nuovo-utente", "Nuovo utente");
   else toast(isNew ? `Aggiunto: ${esc(kidName(state.kid))}.` : "Impostazioni salvate.");
   trackProfile();
+});
+
+// ---------------------------------------------------------------- a new day while the app stays open
+let LOADED_DAY = todayIso();
+document.addEventListener("visibilitychange", async () => {
+  if (document.visibilityState !== "visible" || todayIso() === LOADED_DAY || !state.kids.length) return;
+  LOADED_DAY = todayIso(); state.sel = null; state.recipe = null; state.weekStart = null;
+  if (!["oggi", "stasera"].includes(state.tab)) state.tab = "oggi";
+  await loadWeek(); render();
 });
 
 // ---------------------------------------------------------------- start
