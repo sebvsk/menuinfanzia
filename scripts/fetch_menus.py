@@ -210,7 +210,7 @@ def to_json(rows, mun, ciclo, year, month, guessed):
             if slot == "primo" and row.get("unico"):      # piatto unico: it is also the secondo
                 g2, sec2, _ = classify(name, "secondo")
                 if g2 and g2 not in ("cereali", "verdura", "patate"):
-                    g, sec, guess = g2, [x for x in sec2 + ["cereali"] if x != g2], True
+                    g, sec, guess = g2, [x for x in dict.fromkeys(sec2 + ["cereali"]) if x != g2], True
             it = {"slot": slot, "name": name[0].upper() + name[1:], "group": g}
             if sec:
                 it["also"] = sec
