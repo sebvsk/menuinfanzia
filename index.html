@@ -62,6 +62,8 @@
   .choices button { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 7px 12px;
     font: inherit; font-size: 14px; color: var(--ink); }
   .choices button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .choices.kids { margin: 0 0 10px; }
+  .row .link { white-space: nowrap; }
   .why { background: #f7f3ee; border-radius: 10px; padding: 10px 12px; font-size: 15px; margin-top: 8px; }
   .why b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 2px; }
   .recipe-link { display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left;
@@ -147,31 +149,45 @@ const ART = { pesce: "il pesce", carne: "la carne", uova: "le uova", formaggi: "
 const WEEKDAYS = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
 
 // ---------------------------------------------------------------- statistics (GoatCounter, no cookies)
-// Only screen names and the Municipio are counted, never the child's name or what was eaten.
-const GOATCOUNTER = "menuinfanzia";   // e.g. "compagnidimerende" -> https://compagnidimerende.goatcounter.com
+// Only screen names, the Municipio and the number of children are counted, never names or what was eaten.
+const GOATCOUNTER = "menuinfanzia";   // -> https://menuinfanzia.goatcounter.com
 function track(path, title) {
   try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path, title: title || path, event: true }); } catch {}
+}
+function trackProfile() {
+  if (!INDEX) return;
+  track("figli-" + state.kids.length, "Figli: " + state.kids.length);
+  for (const k of state.kids) track("municipio-" + INDEX.municipi[k.mun], "Municipio " + INDEX.municipi[k.mun]);
 }
 if (GOATCOUNTER && !/^(localhost|127\.)/.test(location.hostname)) {
   window.goatcounter = { no_onload: true };
   const sc = document.createElement("script");
   sc.async = true; sc.src = "https://gc.zgo.at/count.js";
   sc.dataset.goatcounter = `https://${GOATCOUNTER}.goatcounter.com/count`;
-  sc.onload = () => { track("apertura", "App aperta"); if (state.profile) track("municipio-" + INDEX_MUN(), "Municipio " + INDEX_MUN()); };
+  sc.onload = () => { track("apertura", "App aperta"); if (state.kids.length) trackProfile(); };
   document.head.appendChild(sc);
 }
-function INDEX_MUN() { return INDEX && state.profile ? INDEX.municipi[state.profile.mun] : "?"; }
 
 // ---------------------------------------------------------------- state
+// kids: [{ name, mun, ciclo, checks: {date: {slot: ok|half|no}}, absent: {date: true} }]; dinners are shared by the family.
 const KEY = "menuinfanzia.v2";
-const state = Object.assign({ profile: null, tab: "oggi", sel: null, checks: {}, absent: {}, dinners: {},
-  unmarked: "ok", weekStart: null, recipe: null }, safeLoad(), { tab: "oggi", sel: null, recipe: null });
+const state = Object.assign({ kids: [], kid: 0, tab: "oggi", sel: null, dinners: {}, unmarked: "ok", weekStart: null, recipe: null },
+  migrate(safeLoad()), { tab: "oggi", sel: null, recipe: null, editing: null });
+if (state.kid >= state.kids.length) state.kid = 0;
 function safeLoad() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; } }
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {} };
+function migrate(s) {             // version with one child: profile + checks + absent
+  if (s.profile && !s.kids) s.kids = [Object.assign({}, s.profile, { checks: s.checks || {}, absent: s.absent || {} })];
+  delete s.profile; delete s.checks; delete s.absent;
+  return s;
+}
+const save = () => { try { const { editing, ...keep } = state; localStorage.setItem(KEY, JSON.stringify(keep)); } catch {} };
+const K = () => state.kids[state.kid];
+const many = () => state.kids.length > 1;
+const kidName = k => state.kids[k].name || (many() ? `Figlio ${k + 1}` : "Il bambino");
 
 let INDEX = null;          // data/index.json
 const MENUS = {};          // "2026-11/m6-c4" -> menu json (or null if missing)
-let WEEK = null;           // { start, days: [5 x {date, weekday, items|null, note, source}] }
+let WEEK = null;           // { start, dates: [5], kids: [ [5 x {date, items|null, note, source}] per child ] }
 
 // ---------------------------------------------------------------- dates (local, no UTC shifts)
 const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -190,7 +206,8 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
 const fmt = n => { const w = Math.floor(n + 1e-9), h = n - w > 0.01; return (w || !h ? String(w) : "") + (h ? "½" : ""); };
 const zero = () => Object.fromEntries(Object.keys(GROUPS).map(g => [g, 0]));
 const add = (a, b) => { for (const g in a) a[g] += b[g] || 0; return a; };
-const mark = (date, slot) => (state.checks[date] || {})[slot];
+const mark = (k, date, slot) => (state.kids[k].checks[date] || {})[slot];
+const andList = a => a.length < 2 ? (a[0] || "") : a.slice(0, -1).join(", ") + " e " + a[a.length - 1];
 
 // ---------------------------------------------------------------- data loading
 async function getJson(url) {
@@ -198,10 +215,10 @@ async function getJson(url) {
   if (!r.ok) throw new Error(url + ": " + r.status);
   return r.json();
 }
-async function loadMenu(month) {
-  const key = `${month}/m${state.profile.mun}-c${state.profile.ciclo}`;
+async function loadMenu(kid, month) {
+  const file = `m${kid.mun}-c${kid.ciclo}`, key = `${month}/${file}`;
   if (key in MENUS) return MENUS[key];
-  const has = INDEX.months[month] && INDEX.months[month].includes(`m${state.profile.mun}-c${state.profile.ciclo}`);
+  const has = INDEX.months[month] && INDEX.months[month].includes(file);
   MENUS[key] = has ? await getJson(`data/${key}.json`).catch(() => null) : null;
   return MENUS[key];
 }
@@ -209,10 +226,13 @@ async function loadWeek() {
   const start = state.weekStart || mondayOf(todayIso());
   const dates = [0, 1, 2, 3, 4].map(i => addDays(start, i));
   const months = [...new Set(dates.map(d => d.slice(0, 7)))];
-  const menus = await Promise.all(months.map(loadMenu));
-  const byDate = {};
-  menus.forEach(m => m && m.days.forEach(d => byDate[d.date] = Object.assign({ source: m.source, fetched: m.fetched }, d)));
-  WEEK = { start, days: dates.map(date => byDate[date] || { date, items: null }) };
+  const kids = await Promise.all(state.kids.map(async kid => {
+    const menus = await Promise.all(months.map(m => loadMenu(kid, m)));
+    const byDate = {};
+    menus.forEach(m => m && m.days.forEach(d => byDate[d.date] = Object.assign({ source: m.source, fetched: m.fetched }, d)));
+    return dates.map(date => byDate[date] || { date, items: null });
+  }));
+  WEEK = { start, dates, kids };
   const t = todayIso(), i = dates.indexOf(t);
   if (state.sel === null || state.sel > 4) state.sel = i >= 0 ? i : 4;
   if (i < 0 && t > dates[4] && t <= addDays(start, 6) && state.tab === "oggi" && !state.weekStart) state.tab = "weekend";
@@ -220,70 +240,97 @@ async function loadWeek() {
 function weeksAvailable() {
   const mondays = new Set();
   for (const m in INDEX.months) {
-    if (!INDEX.months[m].includes(`m${state.profile.mun}-c${state.profile.ciclo}`)) continue;
+    if (!state.kids.some(k => INDEX.months[m].includes(`m${k.mun}-c${k.ciclo}`))) continue;
     const d = parse(m + "-01");
     while (iso(d).slice(0, 7) === m) { if (d.getDay() >= 1 && d.getDay() <= 5) mondays.add(mondayOf(iso(d))); d.setDate(d.getDate() + 1); }
   }
   return [...mondays].sort();
 }
+const day = (k, i) => WEEK.kids[k][i];
+const anyMenu = () => WEEK.kids.some(ds => ds.some(d => d.items));
+const dayClosed = i => WEEK.kids.every(ds => !ds[i].items);
 
 // ---------------------------------------------------------------- the calculation
-const atSchool = i => { const d = WEEK.days[i]; return d && d.items && !state.absent[d.date]; };
-function schoolDay(i) {            // eaten at school, as marked
+const atSchool = (k, i) => { const d = day(k, i); return d && d.items && !state.kids[k].absent[d.date]; };
+function schoolDay(k, i) {         // eaten at school, as marked
   const out = zero();
-  if (!atSchool(i)) return out;
-  const d = WEEK.days[i];
+  if (!atSchool(k, i)) return out;
+  const d = day(k, i);
   for (const it of d.items) {
     if (!(it.group in out) || !MARKABLE.includes(it.slot)) continue;
-    const m = mark(d.date, it.slot);
+    const m = mark(k, d.date, it.slot);
     out[it.group] += m ? WEIGHT[m] : WEIGHT[state.unmarked];
   }
   return out;
 }
-function plannedDay(i) {           // still to come at school, everything eaten
+function plannedDay(k, i) {        // still to come at school, everything eaten
   const out = zero();
-  if (!atSchool(i)) return out;
-  for (const it of WEEK.days[i].items) if (it.group in out && MARKABLE.includes(it.slot)) out[it.group] += 1;
+  if (!atSchool(k, i)) return out;
+  for (const it of day(k, i).items) if (it.group in out && MARKABLE.includes(it.slot)) out[it.group] += 1;
   return out;
 }
-const lunchGroups = i => atSchool(i)
-  ? WEEK.days[i].items.filter(it => it.slot === "primo" || it.slot === "secondo").map(it => it.group) : [];
+const lunchGroups = (k, i) => i > 4 || !atSchool(k, i) ? []
+  : day(k, i).items.filter(it => it.slot === "primo" || it.slot === "secondo").map(it => it.group);
+const behind = m => SECONDS.reduce((a, g) => a + Math.max(0, m[g]), 0);
 
-function choose(missing, excluded) {
-  let pick = null;
+// One dish for the whole family. The child most behind with the week comes first;
+// if two or more are level, the dish that covers the most missing portions overall.
+function choose(missings, excluded) {
+  const scores = missings.map(behind), top = Math.max(...scores);
+  const leaders = scores.map((s, k) => s === top ? k : -1).filter(k => k >= 0);
+  const lead = missings.length > 1 && leaders.length === 1 && top > 0 ? leaders[0] : null;
+  let pick = null, best = null;
   for (const g of SECONDS) {
-    if (excluded.has(g) || missing[g] <= 0) continue;
-    if (!pick || missing[g] > missing[pick]) pick = g;
+    if (excluded.has(g)) continue;
+    const sum = missings.reduce((a, m) => a + Math.max(0, m[g]), 0);
+    if (sum <= 0) continue;
+    const key = lead !== null ? [Math.max(0, missings[lead][g]), sum] : [sum, 0];
+    if (!best || key[0] > best[0] || (key[0] === best[0] && key[1] > best[1])) { best = key; pick = g; }
   }
-  return pick;
+  return { pick, lead: pick ? lead : null };
 }
 
 // Dinners Monday..day `upto`. A dinner already recorded counts as recorded, otherwise as proposed.
 function plan(upto) {
-  const home = zero(), dinners = [];
+  const n = state.kids.length, home = state.kids.map(zero), dinners = [];
   let prev = null;
   for (let i = 0; i <= upto; i++) {
-    const school = zero();
-    for (let j = 0; j < 5; j++) add(school, j <= i ? schoolDay(j) : plannedDay(j));
-    const missing = {};
-    for (const g in GROUPS) missing[g] = GROUPS[g].target - school[g] - home[g];
-    const today = lunchGroups(i), tomorrow = i < 4 ? lunchGroups(i + 1) : [];
-    const excluded = new Set([...today, ...tomorrow]);
-    if (prev) excluded.add(prev);
-    const pick = choose(missing, excluded);
-    const d = WEEK.days[i];
-    const contorno = atSchool(i) && d.items.find(it => it.slot === "contorno");
-    const vegSide = !!contorno && contorno.group === "verdura";
-    const vegLeft = vegSide && mark(d.date, "contorno") === "no";
-    const potatoes = !!contorno && !vegSide;            // potatoes do not count as vegetables
-    const noSchool = !atSchool(i);
-    const veg = vegLeft || potatoes || noSchool ? 2 : 1;
-    const done = state.dinners[d.date];
+    const per = state.kids.map((_, k) => {
+      const school = zero();
+      for (let j = 0; j < 5; j++) add(school, j <= i ? schoolDay(k, j) : plannedDay(k, j));
+      const missing = {};
+      for (const g in GROUPS) missing[g] = GROUPS[g].target - school[g] - home[k][g];
+      const d = day(k, i);
+      const contorno = atSchool(k, i) && d.items.find(it => it.slot === "contorno");
+      const vegSide = !!contorno && contorno.group === "verdura";
+      return { k, missing, contorno, today: lunchGroups(k, i), tomorrow: lunchGroups(k, i + 1),
+        vegLeft: vegSide && mark(k, d.date, "contorno") === "no",
+        potatoes: !!contorno && !vegSide,             // potatoes do not count as vegetables
+        noSchool: !atSchool(k, i) };
+    });
+    const missings = per.map(p => p.missing);
+    const all = new Set(per.flatMap(p => [...p.today, ...p.tomorrow]));
+    if (prev) all.add(prev);
+    let r = choose(missings, all), relaxed = false;
+    if (!r.pick && n > 1) {          // better a repeat for one child than nobody covered
+      for (const k of [...per.keys()].sort((a, b) => behind(missings[b]) - behind(missings[a]))) {
+        const ex = new Set([...per[k].today, ...per[k].tomorrow]);
+        if (prev) ex.add(prev);
+        r = choose(missings, ex);
+        if (r.pick) { relaxed = true; break; }
+      }
+    }
+    const pick = r.pick;
+    const repeatKids = pick ? per.filter(p => p.today.includes(pick) || p.tomorrow.includes(pick)).map(p => p.k) : [];
+    const veg = per.some(p => p.vegLeft || p.potatoes || p.noSchool) ? 2 : 1;
+    const date = WEEK.dates[i], done = state.dinners[date];
     const eaten = done === undefined ? pick : (done === "altro" ? null : done);
-    if (eaten && eaten in home) home[eaten] += 1;
-    home.verdura += veg; home.frutta += 1;
-    if (noSchool) home.frutta += 1;   // lunch at home: one more fruit
-    dinners.push({ pick, veg, vegLeft, potatoes, noSchool, missing, today, tomorrow, contorno, prev, done });
+    per.forEach((p, k) => {
+      if (eaten && eaten in home[k]) home[k][eaten] += 1;
+      home[k].verdura += veg; home[k].frutta += 1;
+      if (p.noSchool) home[k].frutta += 1;  // lunch at home: one more fruit
+    });
+    dinners.push({ pick, lead: r.lead, relaxed, repeatKids, veg, per, prev, done, i });
     prev = eaten;
   }
   return { dinners, home };
@@ -291,70 +338,87 @@ function plan(upto) {
 
 function weekendPlan() {
   const { home, dinners } = plan(4);
-  const school = zero();
-  for (let j = 0; j < 5; j++) add(school, schoolDay(j));
-  const missing = {};
-  for (const g in GROUPS) missing[g] = GROUPS[g].target - school[g] - home[g];
-  const left = Object.assign({}, missing);
+  const missings = state.kids.map((_, k) => {
+    const school = zero();
+    for (let j = 0; j < 5; j++) add(school, schoolDay(k, j));
+    const m = {};
+    for (const g in GROUPS) m[g] = GROUPS[g].target - school[g] - home[k][g];
+    return m;
+  });
+  const left = missings.map(m => Object.assign({}, m));
   const meals = [["Sabato", "pranzo"], ["Sabato", "cena"], ["Domenica", "pranzo"], ["Domenica", "cena"]];
-  let prev = dinners[4].done === undefined ? dinners[4].pick : dinners[4].done;
+  let prev = dinners[4].done === undefined ? dinners[4].pick : (dinners[4].done === "altro" ? null : dinners[4].done);
   const used = {};
-  const out = meals.map(([day, meal]) => {
-    const pick = choose(left, new Set(prev ? [prev] : []));
-    if (pick) left[pick] -= 1;
+  const out = meals.map(([d, meal]) => {
+    const { pick, lead } = choose(left, new Set(prev ? [prev] : []));
+    if (pick) left.forEach(m => m[pick] -= 1);
     prev = pick;
     const list = pick ? RECIPES.filter(r => r.group === pick) : [];
     const recipe = list.length ? list[(used[pick] = (used[pick] || 0) + 1) % list.length] : null;
-    return { day, meal, pick, recipe };
+    return { day: d, meal, pick, lead, recipe };
   });
-  return { missing, meals: out };
+  return { missings, meals: out };
 }
 
 // ---------------------------------------------------------------- views
 function renderHeader() {
-  const p = state.profile;
-  document.getElementById("header").innerHTML = p
-    ? `<div><h1>Compagni di Merende</h1><p>${esc(p.name || "Il bambino")} · ${esc(INDEX.cicli[p.ciclo])} · Municipio ${esc(INDEX.municipi[p.mun])}</p></div>
-       <button data-tab="impostazioni" aria-label="Impostazioni">⚙︎</button>`
-    : `<div><h1>Compagni di Merende</h1><p>Il menù della mensa, la cena di casa</p></div>`;
+  const sub = !state.kids.length ? "Il menù della mensa, la cena di casa"
+    : many() ? state.kids.map((_, k) => kidName(k)).join(" · ")
+    : `${kidName(0)} · ${INDEX.cicli[K().ciclo]} · Municipio ${INDEX.municipi[K().mun]}`;
+  document.getElementById("header").innerHTML = `<div><h1>Compagni di Merende</h1><p>${esc(sub)}</p></div>` +
+    (state.kids.length ? `<button data-tab="impostazioni" aria-label="Impostazioni">⚙︎</button>` : "");
 }
 function renderDays() {
   const el = document.getElementById("days");
-  const show = state.profile && WEEK && ["oggi", "stasera"].includes(state.tab);
+  const show = state.kids.length && WEEK && ["oggi", "stasera"].includes(state.tab);
   el.hidden = !show;
   if (!show) return;
   const t = todayIso();
-  el.innerHTML = WEEK.days.map((d, i) =>
-    `<button class="${i === state.sel ? "on" : ""}${d.date === t ? " today" : ""}${d.items ? "" : " closed"}" data-day="${i}">${WEEKDAYS[parse(d.date).getDay()].slice(0, 3)}<b>${Number(d.date.slice(8))}</b></button>`).join("");
+  el.innerHTML = WEEK.dates.map((date, i) =>
+    `<button class="${i === state.sel ? "on" : ""}${date === t ? " today" : ""}${dayClosed(i) ? " closed" : ""}" data-day="${i}">${WEEKDAYS[parse(date).getDay()].slice(0, 3)}<b>${Number(date.slice(8))}</b></button>`).join("");
 }
 function renderNav() {
   const el = document.getElementById("nav");
-  el.hidden = !state.profile;
+  el.hidden = !state.kids.length;
   const tabs = [["oggi", "🍽️", "A scuola"], ["stasera", "🌙", "Stasera"], ["settimana", "📊", "Settimana"], ["weekend", "🧺", "Weekend"]];
   el.innerHTML = tabs.map(([k, ic, l]) =>
     `<button class="${state.tab === k ? "on" : ""}" data-tab="${k}"><span>${ic}</span>${l}</button>`).join("");
 }
+const kidSwitch = () => many() ? `<div class="choices kids">${state.kids.map((_, k) =>
+  `<button class="${k === state.kid ? "on" : ""}" data-kid="${k}">${esc(kidName(k))}</button>`).join("")}</div>` : "";
 
-function viewWelcome() {
-  const p = state.profile || { name: "", mun: 6, ciclo: 4 };
+function kidForm(p, isNew) {
   const opts = (obj, sel, fmtL) => Object.entries(obj).map(([k, v]) => `<option value="${k}"${Number(k) === Number(sel) ? " selected" : ""}>${esc(fmtL(v))}</option>`).join("");
-  return `<h2>${state.profile ? "Impostazioni" : "Benvenuti!"}</h2>
-  ${state.profile ? "" : `<p class="hint">Ogni sera ti proponiamo cosa cucinare per completare quello che il bambino ha mangiato a scuola. Il menù arriva da solo dal sito del Comune di Roma.</p>`}
-  <form class="card" id="profile">
+  const first = !state.kids.length;
+  return `<form class="card" id="profile">
+    ${first ? "" : `<div class="big" style="font-size:18px">${isNew ? "Nuovo figlio" : "Modifica " + esc(p.name || "")}</div>`}
     <label class="field" for="f-name">Nome del bambino (anche di fantasia)</label>
-    <input id="f-name" name="name" maxlength="20" value="${esc(p.name)}" placeholder="Es. Lia">
+    <input id="f-name" name="name" maxlength="20" value="${esc(p.name)}" placeholder="${state.kids.length ? "Es. Tommaso" : "Es. Lia"}">
     <label class="field" for="f-mun">Municipio della scuola</label>
     <select id="f-mun" name="mun">${opts(INDEX.municipi, p.mun, v => "Municipio " + v)}</select>
     <label class="field" for="f-ciclo">Tipo di scuola</label>
     <select id="f-ciclo" name="ciclo">${opts(INDEX.cicli, p.ciclo, v => v)}</select>
-    <p class="hint" style="margin:8px 0 0">Il menù è lo stesso per tutte le scuole comunali del Municipio. Gli obiettivi della settimana sono quelli per 4–6 anni.</p>
-    <button class="btn" type="submit">${state.profile ? "Salva" : "Cominciamo"}</button>
-  </form>
-  ${state.profile ? viewSettingsExtra() : `<p class="hint">Le spunte restano solo su questo telefono: nessun dato del bambino esce dall'app. Contiamo solo, in forma anonima e senza cookie, quante volte si aprono le schermate e da quale Municipio.</p>`}`;
+    <p class="hint" style="margin:8px 0 0">Il menù è lo stesso per tutte le scuole comunali del Municipio. Gli obiettivi della settimana sono quelli per 4–6 anni: per la primaria e la secondaria le frequenze sono simili e cambiano le porzioni; per il nido vanno verificati con il pediatra o il dietista.</p>
+    <button class="btn" type="submit">${first ? "Cominciamo" : isNew ? "Aggiungi" : "Salva"}</button>
+    ${first ? "" : `<button class="btn ghost" type="button" data-cancel-edit>Annulla</button>`}
+  </form>`;
+}
+function viewWelcome() {
+  if (!state.kids.length) return `<h2>Benvenuti!</h2>
+    <p class="hint">Ogni sera ti proponiamo cosa cucinare per completare quello che i bambini hanno mangiato a scuola. Il menù arriva da solo dal sito del Comune di Roma. Se hai più figli, li aggiungi dopo dalle impostazioni.</p>
+    ${kidForm({ name: "", mun: 6, ciclo: 4 }, true)}
+    <p class="hint">Le spunte restano solo su questo telefono: nessun dato dei bambini esce dall'app. Contiamo solo, in forma anonima e senza cookie, quante volte si aprono le schermate, da quale Municipio e quanti figli.</p>`;
+  let html = `<h2>Impostazioni</h2>`;
+  if (state.editing !== null) html += kidForm(state.editing === "new" ? { name: "", mun: K().mun, ciclo: K().ciclo } : state.kids[state.editing], state.editing === "new");
+  html += `<h3>I tuoi figli</h3><div class="card">` + state.kids.map((kid, k) =>
+    `<div class="row"><div class="dish">${esc(kidName(k))}<small>${esc(INDEX.cicli[kid.ciclo])} · Municipio ${esc(INDEX.municipi[kid.mun])}</small></div>
+     <button class="link" data-edit-kid="${k}">Modifica</button>${many() ? `<button class="link" data-remove-kid="${k}">Togli</button>` : ""}</div>`).join("") +
+    `<button class="btn ghost" data-edit-kid="new">+ Aggiungi un figlio</button></div>`;
+  return html + viewSettingsExtra();
 }
 function viewSettingsExtra() {
   const weeks = weeksAvailable(), cur = WEEK.start;
-  const fetched = WEEK.days.find(d => d.fetched);
+  const fetched = WEEK.kids.flat().find(d => d.fetched);
   return `<h3>Settimana</h3><div class="card">
     <select data-week>${(weeks.includes(cur) ? weeks : [cur, ...weeks]).map(w =>
       `<option value="${w}"${w === cur ? " selected" : ""}>${short(w)} – ${short(addDays(w, 4))}${w === mondayOf(todayIso()) ? " (questa)" : ""}</option>`).join("")}</select>
@@ -376,13 +440,13 @@ function noMenuCard() {
 }
 
 function viewOggi() {
-  if (!WEEK.days.some(d => d.items)) return noMenuCard();
-  const d = WEEK.days[state.sel];
-  let html = `<h2>A scuola, ${dayLabel(d.date)}</h2>`;
-  if (!d.items) return html + `<div class="info">Nessun menù per questo giorno: festa o scuola chiusa. Stasera contiamo un pranzo a casa.</div>`;
-  const absent = !!state.absent[d.date];
+  if (!anyMenu()) return noMenuCard();
+  const k = state.kid, d = day(k, state.sel);
+  let html = `<h2>A scuola, ${dayLabel(d.date)}</h2>` + kidSwitch();
+  if (!d.items) return html + `<div class="info">Nessun menù per ${many() ? esc(kidName(k)) : "questo giorno"}: festa o scuola chiusa. Stasera contiamo un pranzo a casa.</div>`;
+  const absent = !!K().absent[d.date];
   html += `<div class="switch" style="margin:0 0 10px"><button class="${absent ? "" : "on"}" data-absent="0">A scuola</button><button class="${absent ? "on" : ""}" data-absent="1">Assente, a casa</button></div>`;
-  if (absent) return html + `<div class="info">Oggi a scuola non conta niente: stasera la proposta tiene conto di un pranzo a casa.</div>`;
+  if (absent) return html + `<div class="info">Oggi a scuola non conta niente${many() ? " per " + esc(kidName(k)) : ""}: stasera la proposta tiene conto di un pranzo a casa.</div>`;
   html += `<p class="hint">Chiedi alla maestra e tocca un pallino: ✓ tutto · ½ metà · ✕ niente.</p>`;
   if (d.note) html += `<div class="info">${esc(d.note)}</div>`;
   for (const [title, slots] of [["Mattina", ["spuntino"]], ["Pranzo", ["primo", "secondo", "contorno", "frutta_dolce"]], ["Pomeriggio", ["merenda"]]]) {
@@ -390,11 +454,11 @@ function viewOggi() {
     if (!items.length) continue;
     html += `<h3>${title}</h3><div class="card">`;
     for (const it of items) {
-      const m = mark(d.date, it.slot);
+      const m = mark(k, d.date, it.slot);
       const g = it.group ? (GROUPS[it.group] ? GROUPS[it.group].label : OTHER_LABEL[it.group] || it.group) : "gruppo sconosciuto";
       html += `<div class="row"><div class="dish">${esc(it.name)}<small>${SLOT_LABEL[it.slot]} · ${esc(g)}${it.guess ? " (stimato)" : ""}</small></div><div class="dots">` +
-        [["ok", "✓", "tutto"], ["half", "½", "metà"], ["no", "✕", "niente"]].map(([k, s, a]) =>
-          `<button class="dot ${k}${m === k ? " on" : ""}" aria-label="${a}" aria-pressed="${m === k}" data-slot="${it.slot}" data-v="${k}">${s}</button>`).join("") + `</div></div>`;
+        [["ok", "✓", "tutto"], ["half", "½", "metà"], ["no", "✕", "niente"]].map(([v, s, a]) =>
+          `<button class="dot ${v}${m === v ? " on" : ""}" aria-label="${a}" aria-pressed="${m === v}" data-slot="${it.slot}" data-v="${v}">${s}</button>`).join("") + `</div></div>`;
     }
     html += `</div>`;
   }
@@ -403,38 +467,59 @@ function viewOggi() {
   return html + `<button class="btn" data-tab="stasera">Vedi la cena di stasera</button>`;
 }
 
-function dinnerWhy(x, i) {
-  const { pick, missing, today, tomorrow, prev } = x;
+function dinnerWhy(x) {
+  const { pick, per, prev, i } = x;
   const words = arr => [...new Set(arr)].filter(g => g in ART).map(g => ART[g]).join(" e ") || "niente di questo";
+  const tomorrowSchool = k => i < 4 && atSchool(k, i + 1);
   let why;
-  if (pick) {
-    why = `Questa settimana mancano ancora <strong>${fmt(missing[pick])} ${missing[pick] > 1 ? "porzioni" : "porzione"} di ${WORD[pick]}</strong>, contando anche i pranzi a scuola fino a venerdì. `;
-    why += x.noSchool ? "Oggi niente pranzo a scuola" : `A pranzo oggi: ${words(today)}`;
-    why += i < 4 ? (atSchool(i + 1) ? `; domani: ${words(tomorrow)}.` : "; domani niente scuola.") : "; domani è sabato.";
-    if (prev && ART[prev]) why += ` Ieri sera: ${ART[prev]}.`;
-  } else if (SECONDS.some(g => missing[g] > 0)) {
-    why = "I secondi che mancano ci sono già a pranzo oggi o domani, o li avete mangiati ieri sera: stasera un piatto leggero con verdura, si recupera nei prossimi giorni.";
+  if (!many()) {
+    const p = per[0], missing = p.missing;
+    if (pick) {
+      why = `Questa settimana mancano ancora <strong>${fmt(missing[pick])} ${missing[pick] > 1 ? "porzioni" : "porzione"} di ${WORD[pick]}</strong>, contando anche i pranzi a scuola fino a venerdì. `;
+      why += p.noSchool ? "Oggi niente pranzo a scuola" : `A pranzo oggi: ${words(p.today)}`;
+      why += i < 4 ? (tomorrowSchool(0) ? `; domani: ${words(p.tomorrow)}.` : "; domani niente scuola.") : "; domani è sabato.";
+    } else why = SECONDS.some(g => missing[g] > 0)
+      ? "I secondi che mancano ci sono già a pranzo oggi o domani, o li avete mangiati ieri sera: stasera un piatto leggero con verdura, si recupera nei prossimi giorni."
+      : "I secondi della settimana sono già coperti: stasera basta un piatto leggero con verdura.";
   } else {
-    why = "I secondi della settimana sono già coperti: stasera basta un piatto leggero con verdura.";
+    const gaps = per.map(p => {
+      const g = SECONDS.filter(s => p.missing[s] > 0).sort((a, b) => p.missing[b] - p.missing[a]);
+      return `${esc(kidName(p.k))} ${g.length ? g.map(s => `${fmt(p.missing[s])} ${WORD[s]}`).join(", ") : "niente"}`;
+    });
+    why = `Per chiudere la settimana mancano: ${gaps.join("; ")}. `;
+    if (pick) {
+      why += x.lead !== null
+        ? `<br>Proponiamo <strong>${WORD[pick]}</strong> perché ${esc(kidName(x.lead))} è più indietro con la settimana. `
+        : `<br>Siete pari: proponiamo <strong>${WORD[pick]}</strong>, il piatto che serve di più a tutti. `;
+      why += "<br>A pranzo oggi: " + per.map(p => `${esc(kidName(p.k))} ${p.noSchool ? "a casa" : words(p.today)}`).join(", ");
+      why += i < 4 ? "; domani: " + per.map(p => `${esc(kidName(p.k))} ${tomorrowSchool(p.k) ? words(p.tomorrow) : "niente scuola"}`).join(", ") + "." : "; domani è sabato.";
+      if (x.relaxed && x.repeatKids.length) why += `<br>Non c'era un piatto che andasse bene per tutti: meglio che ${andList(x.repeatKids.map(k => esc(kidName(k))))} ${x.repeatKids.length > 1 ? "ripetano" : "ripeta"} ${ART[pick]} piuttosto che lasciare scoperto chi è più indietro.`;
+    } else why += per.some(p => behind(p.missing) > 0)
+      ? "I secondi che mancano ci sono già a pranzo oggi o domani, o li avete mangiati ieri sera: stasera un piatto leggero con verdura."
+      : "Stasera basta un piatto leggero con verdura.";
   }
-  if (x.vegLeft) why += ` A pranzo la verdura (${esc(x.contorno.name.toLowerCase())}) è rimasta nel piatto: stasera ne serve il doppio.`;
-  if (x.potatoes) why += ` A pranzo il contorno era ${esc(x.contorno.name.toLowerCase())}: le patate non contano come verdura, quindi stasera verdura doppia.`;
-  if (x.noSchool) why += " Senza il pranzo a scuola, oggi la verdura va doppia.";
+  if (pick && prev && ART[prev]) why += `${many() ? "<br>" : " "}Ieri sera: ${ART[prev]}.`;
+  for (const p of per) {
+    const who = many() ? "<br>" + esc(kidName(p.k)) + ": " : "";
+    if (p.vegLeft) why += ` ${who}a pranzo la verdura (${esc(p.contorno.name.toLowerCase())}) è rimasta nel piatto, stasera ne serve il doppio.`;
+    if (p.potatoes) why += ` ${who}a pranzo il contorno era ${esc(p.contorno.name.toLowerCase())}; le patate non contano come verdura, quindi stasera verdura doppia.`;
+    if (p.noSchool) why += ` ${who}senza il pranzo a scuola, oggi la verdura va doppia.`;
+  }
   return why;
 }
 
 function viewStasera() {
-  if (!WEEK.days.some(d => d.items)) return noMenuCard();
-  const i = state.sel, d = WEEK.days[i];
+  if (!anyMenu()) return noMenuCard();
+  const i = state.sel, date = WEEK.dates[i];
   const x = plan(i).dinners[i];
   const plate = [];
   if (x.pick) plate.push(GROUPS[x.pick].label);
   plate.push(x.veg === 2 ? "Verdura (doppia)" : "Verdura", "Frutta", "Pane o cereali");
-  const season = SEASON[Number(d.date.slice(5, 7))];
-  let html = `<h2>Stasera, ${dayLabel(d.date)}</h2><div class="card">
-    <div class="hint" style="margin:0">Per cena proponiamo</div><div class="big">${x.pick ? GROUPS[x.pick].label : "Cena leggera"}</div>
+  const season = SEASON[Number(date.slice(5, 7))];
+  let html = `<h2>Stasera, ${dayLabel(date)}</h2><div class="card">
+    <div class="hint" style="margin:0">Per cena${many() ? " di tutta la famiglia" : ""} proponiamo</div><div class="big">${x.pick ? GROUPS[x.pick].label : "Cena leggera"}</div>
     <div class="plate">${plate.map(p => `<span class="chip">${p}</span>`).join("")}</div>
-    <div class="why"><b>Perché</b>${dinnerWhy(x, i)}</div>
+    <div class="why"><b>Perché</b>${dinnerWhy(x)}</div>
     <p class="hint" style="margin:8px 0 0">Verdura di stagione: ${season[0].join(", ")}.</p></div>`;
   if (x.pick) {
     html += `<h3>Idee per stasera</h3><div class="card">` + RECIPES.filter(r => r.group === x.pick).map(r =>
@@ -445,21 +530,21 @@ function viewStasera() {
     Segnalo dopo cena: serve a fare bene i conti dei giorni dopo.
     <div class="choices">${opts.map(([k, l]) => `<button class="${x.done === k ? "on" : ""}" data-dinner="${k}">${l}</button>`).join("")}</div>
     <p class="hint" style="margin:8px 0 0">${x.done === undefined ? "Se non segni niente, contiamo la cena proposta." : "Tocca di nuovo per togliere il segno."}</p></div>`;
-  html += `<div class="draft"><b>Bozza.</b> Regola semplificata, da validare con un dietista: si propone il secondo che manca di più nella settimana, saltando quelli del pranzo di oggi e di domani e quello della sera prima. Ricette di prova.</div>`;
+  html += `<div class="draft"><b>Bozza.</b> Regola semplificata, da validare con un dietista: si propone il secondo che manca di più nella settimana, saltando quelli del pranzo di oggi e di domani e quello della sera prima.${many() ? " Con più figli la cena è una sola: viene prima chi è più indietro; se siete pari, il piatto che serve di più a tutti." : ""} Ricette di prova.</div>`;
   return html;
 }
 
 function viewSettimana() {
-  if (!WEEK.days.some(d => d.items)) return noMenuCard();
-  const t = todayIso();
-  let upto = WEEK.days.reduce((a, d, i) => d.date <= t ? i : a, -1);
+  if (!anyMenu()) return noMenuCard();
+  const t = todayIso(), k = state.kid;
+  let upto = WEEK.dates.reduce((a, d, i) => d <= t ? i : a, -1);
   if (state.weekStart) upto = state.sel;
   upto = Math.max(0, Math.min(4, upto));
-  const { home } = plan(upto);
+  const home = plan(upto).home[k];
   const school = zero(), planned = zero();
-  for (let j = 0; j < 5; j++) add(j <= upto ? school : planned, j <= upto ? schoolDay(j) : plannedDay(j));
-  let html = `<h2>Settimana ${short(WEEK.start)} – ${short(addDays(WEEK.start, 4))}</h2>
-    <p class="hint">Conti fino a ${dayLabel(WEEK.days[upto].date)}, cena compresa.</p>
+  for (let j = 0; j < 5; j++) add(j <= upto ? school : planned, j <= upto ? schoolDay(k, j) : plannedDay(k, j));
+  let html = `<h2>Settimana ${short(WEEK.start)} – ${short(addDays(WEEK.start, 4))}</h2>${kidSwitch()}
+    <p class="hint">Conti${many() ? " di " + esc(kidName(k)) : ""} fino a ${dayLabel(WEEK.dates[upto])}, cena compresa.</p>
     <div class="legend"><span><i style="background:var(--school)"></i>a scuola</span><span><i style="background:var(--home)"></i>a casa</span><span><i style="background:var(--ink);width:2px"></i>obiettivo</span></div><div class="card">`;
   for (const g in GROUPS) {
     const tgt = GROUPS[g].target, s = school[g], h = home[g], tot = s + h, scale = Math.max(tgt, tot);
@@ -474,45 +559,48 @@ function viewSettimana() {
 }
 
 function viewWeekend() {
-  if (!WEEK.days.some(d => d.items)) return noMenuCard();
-  const { missing, meals } = weekendPlan();
+  if (!anyMenu()) return noMenuCard();
+  const { missings, meals } = weekendPlan();
   const sat = addDays(WEEK.start, 5), month = Number(sat.slice(5, 7)), season = SEASON[month];
   let html = `<h2>Weekend ${short(sat)} – ${short(addDays(sat, 1))}</h2>`;
-  const gaps = SECONDS.filter(g => missing[g] > 0);
-  html += `<p class="hint">${gaps.length ? "Per chiudere la settimana mancano: " + gaps.map(g => `${fmt(missing[g])} ${WORD[g]}`).join(", ") + "." : "I secondi della settimana sono coperti: weekend libero, con verdura e frutta."}
+  const gapText = m => SECONDS.filter(g => m[g] > 0).map(g => `${fmt(m[g])} ${WORD[g]}`).join(", ");
+  const any = missings.some(m => SECONDS.some(g => m[g] > 0));
+  html += `<p class="hint">${!any ? "I secondi della settimana sono coperti: weekend libero, con verdura e frutta."
+    : many() ? "Per chiudere la settimana mancano: " + missings.map((m, k) => `${esc(kidName(k))} ${gapText(m) || "niente"}`).join("; ") + "."
+    : "Per chiudere la settimana mancano: " + gapText(missings[0]) + "."}
     Il conto usa le spunte di scuola e le cene segnate; quelle future contano come proposte.</p><div class="card">`;
   for (const m of meals) {
     html += `<div class="meal"><div class="when">${m.day} ${m.meal}</div><div class="what">${m.pick ? GROUPS[m.pick].label : "Libero"}
       ${m.recipe ? `<small><button class="link" style="padding:0;text-align:left" data-recipe="${m.recipe.id}">${esc(m.recipe.title)}</button></small>` : `<small>pasta o pizza con verdura</small>`}</div></div>`;
   }
   html += `</div>`;
-  const vegLeft = Math.max(4, missing.verdura), fruitLeft = Math.max(4, missing.frutta);
+  const vegLeft = Math.max(4, ...missings.map(m => m.verdura)), fruitLeft = Math.max(4, ...missings.map(m => m.frutta));
   const ingr = [];
   for (const m of meals) if (m.recipe) for (const x of m.recipe.ingredients) if (!ingr.includes(x)) ingr.push(x);
   html += `<h3>Lista della spesa</h3><div class="card"><ul class="list">${ingr.map(x => `<li>${esc(x)}</li>`).join("")}
-    <li>Verdura di stagione per ${fmt(vegLeft)} porzioni: ${season[0].join(", ")}</li>
-    <li>Frutta di stagione per ${fmt(fruitLeft)} porzioni: ${season[1].join(", ")}</li>
-    <li>Latte e yogurt per le colazioni</li></ul></div>
-    <div class="draft"><b>Bozza.</b> I pasti del weekend coprono prima i secondi che mancano di più, senza ripetere lo stesso due pasti di fila. Stagionalità indicativa per il Lazio.</div>`;
+    <li>Verdura di stagione per ${fmt(vegLeft)} porzioni${many() ? " a testa" : ""}: ${season[0].join(", ")}</li>
+    <li>Frutta di stagione per ${fmt(fruitLeft)} porzioni${many() ? " a testa" : ""}: ${season[1].join(", ")}</li>
+    <li>Latte e yogurt per le colazioni</li></ul>${many() ? `<p class="hint" style="margin:6px 0 0">Le dosi delle ricette sono per 2 adulti e 1 bambino: aumentale per ${state.kids.length} figli.</p>` : ""}</div>
+    <div class="draft"><b>Bozza.</b> I pasti del weekend coprono prima i secondi che mancano di più${many() ? " (prima a chi è più indietro)" : ""}, senza ripetere lo stesso due pasti di fila. Stagionalità indicativa per il Lazio.</div>`;
   return html;
 }
 
 function viewRecipe() {
   const r = RECIPES.find(x => x.id === state.recipe);
   if (!r) { state.recipe = null; return render(); }
-  const d = WEEK.days[state.sel];
+  const date = WEEK.dates[state.sel];
   return `<button class="back" data-close-recipe>‹ Indietro</button><h2>${esc(r.title)}</h2>
-    <p class="hint">${GROUPS[r.group].label} · ${r.minutes} minuti · per 2 adulti e 1 bambino</p>
+    <p class="hint">${GROUPS[r.group].label} · ${r.minutes} minuti · per 2 adulti e 1 bambino${many() ? " (aumenta le dosi)" : ""}</p>
     <h3>Ingredienti</h3><div class="card"><ul class="list">${r.ingredients.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
     <h3>Come si fa</h3><div class="card"><ol class="steps">${r.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>
-    <button class="btn" data-cook="${r.group}">Stasera cuciniamo questa (${dayLabel(d.date)})</button>
+    <button class="btn" data-cook="${r.group}">Stasera cuciniamo questa (${dayLabel(date)})</button>
     <div class="draft"><b>Bozza.</b> Ricetta di prova, da rivedere con un dietista. Poco sale; per i bambini pesce senza spine e uova ben cotte.</div>`;
 }
 
 function render() {
   renderHeader(); renderNav(); renderDays();
   const main = document.getElementById("main");
-  if (!state.profile) { main.innerHTML = viewWelcome(); return; }
+  if (!state.kids.length) { main.innerHTML = viewWelcome(); return; }
   if (state.recipe) { main.innerHTML = viewRecipe(); document.getElementById("days").hidden = true; return; }
   main.innerHTML = ({ oggi: viewOggi, stasera: viewStasera, settimana: viewSettimana, weekend: viewWeekend,
     impostazioni: viewWelcome }[state.tab] || viewOggi)();
@@ -531,27 +619,35 @@ const pickFor = i => { const x = plan(i).dinners[i]; return { pick: x.pick, veg:
 document.addEventListener("click", async e => {
   const b = e.target.closest("button");
   if (!b || (b.type === "submit" && b.form)) return;
-  const ds = b.dataset;
+  const ds = b.dataset, date = WEEK && WEEK.dates[state.sel];
   if (ds.day) state.sel = Number(ds.day);
-  else if (ds.tab) { state.tab = ds.tab; state.recipe = null; scrollTo(0, 0); track("schermata-" + ds.tab, "Schermata " + ds.tab); }
+  else if (ds.kid) state.kid = Number(ds.kid);
+  else if (ds.tab) { state.tab = ds.tab; state.recipe = null; state.editing = null; scrollTo(0, 0); track("schermata-" + ds.tab, "Schermata " + ds.tab); }
   else if (ds.slot) {
-    const date = WEEK.days[state.sel].date, before = pickFor(state.sel);
-    const c = state.checks[date] = state.checks[date] || {};
+    const before = pickFor(state.sel);
+    const c = K().checks[date] = K().checks[date] || {};
     if (c[ds.slot] === ds.v) delete c[ds.slot]; else c[ds.slot] = ds.v;
     const after = pickFor(state.sel);
     const name = g => g ? GROUPS[g].label.toLowerCase() : "una cena leggera";
     if (before.pick !== after.pick) toast(`Stasera cambia: ora proponiamo <b>${name(after.pick)}</b> (prima: ${name(before.pick)}).<button data-tab="stasera">Vedi</button>`);
     else if (before.veg !== after.veg) toast(after.veg === 2 ? `La verdura a pranzo è rimasta nel piatto: stasera <b>verdura doppia</b>.<button data-tab="stasera">Vedi</button>` : "Stasera basta una porzione di verdura.");
   }
-  else if (ds.absent) { const date = WEEK.days[state.sel].date; if (ds.absent === "1") state.absent[date] = true; else delete state.absent[date]; }
-  else if (ds.dinner) { const date = WEEK.days[state.sel].date; if (state.dinners[date] === ds.dinner) delete state.dinners[date]; else state.dinners[date] = ds.dinner; }
+  else if (ds.absent) { if (ds.absent === "1") K().absent[date] = true; else delete K().absent[date]; }
+  else if (ds.dinner) { if (state.dinners[date] === ds.dinner) delete state.dinners[date]; else state.dinners[date] = ds.dinner; }
   else if (ds.recipe) { state.recipe = ds.recipe; scrollTo(0, 0); track("ricetta-" + ds.recipe, "Ricetta " + ds.recipe); }
   else if ("closeRecipe" in ds) state.recipe = null;
-  else if (ds.cook) { track("cucinata-" + ds.cook, "Cena scelta: " + ds.cook); state.dinners[WEEK.days[state.sel].date] = ds.cook; state.recipe = null; state.tab = "stasera"; toast("Segnato: stasera " + GROUPS[ds.cook].label.toLowerCase() + "."); }
+  else if (ds.cook) { track("cucinata-" + ds.cook, "Cena scelta: " + ds.cook); state.dinners[date] = ds.cook; state.recipe = null; state.tab = "stasera"; toast("Segnato: stasera " + GROUPS[ds.cook].label.toLowerCase() + "."); }
+  else if (ds.editKid) { state.editing = ds.editKid === "new" ? "new" : Number(ds.editKid); scrollTo(0, 0); }
+  else if ("cancelEdit" in ds) state.editing = null;
+  else if (ds.removeKid) {
+    const k = Number(ds.removeKid);
+    if (!confirm(`Togliere ${kidName(k)} e le sue spunte?`)) return;
+    state.kids.splice(k, 1); state.kid = 0; state.editing = null; await loadWeek();
+  }
   else if (ds.unmarked) state.unmarked = ds.unmarked;
   else if (ds.weekSet) { state.weekStart = ds.weekSet; state.sel = 0; await loadWeek(); }
   else if ("weekToday" in ds) { state.weekStart = null; state.sel = null; await loadWeek(); }
-  else if ("reset" in ds) { if (!confirm("Cancellare tutte le spunte e le cene segnate?")) return; state.checks = {}; state.absent = {}; state.dinners = {}; }
+  else if ("reset" in ds) { if (!confirm("Cancellare tutte le spunte e le cene segnate?")) return; state.kids.forEach(k => { k.checks = {}; k.absent = {}; }); state.dinners = {}; }
   else return;
   save(); render();
 });
@@ -566,19 +662,23 @@ document.addEventListener("submit", async e => {
   if (e.target.id !== "profile") return;
   e.preventDefault();
   const f = new FormData(e.target);
-  const first = !state.profile;
-  state.profile = { name: String(f.get("name") || "").trim(), mun: Number(f.get("mun")), ciclo: Number(f.get("ciclo")) };
-  state.tab = "oggi"; state.sel = null;
+  const data = { name: String(f.get("name") || "").trim(), mun: Number(f.get("mun")), ciclo: Number(f.get("ciclo")) };
+  const first = !state.kids.length, isNew = first || state.editing === "new";
+  if (isNew) { state.kids.push(Object.assign(data, { checks: {}, absent: {} })); state.kid = state.kids.length - 1; }
+  else Object.assign(state.kids[state.editing], data);
+  state.editing = null;
+  if (first) { state.tab = "oggi"; state.sel = null; }
   await loadWeek(); save(); render();
-  if (!first) toast("Impostazioni salvate."); else track("nuovo-utente", "Nuovo utente");
-  track("municipio-" + INDEX_MUN(), "Municipio " + INDEX_MUN());
+  if (first) track("nuovo-utente", "Nuovo utente");
+  else toast(isNew ? `Aggiunto: ${esc(kidName(state.kid))}.` : "Impostazioni salvate.");
+  trackProfile();
 });
 
 // ---------------------------------------------------------------- start
 (async function start() {
   try {
     INDEX = await getJson("data/index.json");
-    if (state.profile) await loadWeek();
+    if (state.kids.length) await loadWeek();
     render();
   } catch (err) {
     document.getElementById("main").innerHTML = `<div class="info">Non riesco a caricare il menù. Controlla la connessione e riprova.<br><small>${esc(err.message)}</small></div>`;
