@@ -1,0 +1,4881 @@
+{
+ "fonte": "Roma Capitale, capitolato 2021-2026, Allegato 02 «Menu nidi e scuole e ricettario», sez. 5.3-5.5: tabelle dietetiche del nido per 13-18, 19-24 e 25-36 mesi (pp. 74-104). Estratto con strumenti ricettario/parse4.py; nomi degli ingredienti non ripuliti.",
+ "ricette": {
+  "N101": {
+   "nome": "Crema di carote con pasta",
+   "pagina": 74,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 85.0,
+      "nido_19_24": 85.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare le carote, tagliarle a dadini e lasciarle stufare insieme alla cipolla finemente tritata e poco brodo vegetale (ricetta N 401). Portare a cottura e aggiungere alla purea ottenuta altro brodo vegetale bollente. Versare la pastina e far cuocere. A fuoco spento aggiungere il parmigiano. Condire la preparazione con olio a crudo N.B. Usare sale iodato con moderazione"
+  },
+  "N102": {
+   "nome": "Crema di ceci con pasta",
+   "pagina": 74,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Ceci secchi",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Patate",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Aglio",
+     {}
+    ],
+    [
+     "Rosmarino",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Cuocere in abbondante acqua i ceci (precedentemente messi in ammollo per una notte, risciacquati bene e scolati) con gli odori, i pomodori e le patate tagliate a dadini. Eliminare l’aglio. Ridurre il tutto in crema con il passaverdure (se necessario allungare con acqua calda). Lessare a parte la pasta, scolarla e unirla alla crema di ceci. A fuoco spento aggiungere il parmigiano. Condire la preparazione con olio a crudo N.B. Usare sale iodato con moderazione"
+  },
+  "N103": {
+   "nome": "Crema di fagioli con pasta",
+   "pagina": 75,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Fagioli secchi borlotti/",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "cannellini Carote",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Patate",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Cuocere in abbondante acqua i fagioli (precedentemente messi in ammollo per una notte, risciacquati bene e scolati) con gli odori, i pomodori e le patate tagliate a dadini. Ridurre il tutto in crema con il passaverdure (se necessario allungare con acqua calda). Lessare a parte la pasta, scolarla e unirla alla crema di fagioli. A fuoco spento aggiungere il parmigiano. Condire la preparazione con olio a crudo N.B. Usare sale iodato con moderazione"
+  },
+  "N104": {
+   "nome": "Crema di lenticchie con farro",
+   "pagina": 75,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Farro",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Lenticchie secche",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Sciacquare le lenticchie e cuocerle in abbondante acqua con gli odori e i pomodori. Ridurre il tutto in crema con il passaverdure (se necessario allungare con acqua calda). Lessare il farro, scolarlo e unirlo alla crema di lenticchie. Condire la preparazione con olio a crudo N.B. Usare sale iodato con moderazione"
+  },
+  "N105": {
+   "nome": "Crema di lenticchie con pasta",
+   "pagina": 75,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Lenticchie secche",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Patate",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Sciacquare le lenticchie e cuocerle in abbondante acqua con gli odori, i pomodori e le patate tagliate a dadini. Ridurre il tutto in crema con il passaverdure (se necessario allungare con acqua calda). Lessare a parte la pasta, scolarla e unirla alla crema di lenticchie. A fuoco spento aggiungere il parmigiano. Condire la preparazione con olio a crudo. N.B. Usare sale iodato con moderazione"
+  },
+  "N106": {
+   "nome": "Crema di piselli con pasta",
+   "pagina": 76,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Piselli surgelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 15.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Stufare i piselli con la cipolla finemente tritata nell'olio e poco brodo vegetale (ricetta N 401). Passarli in modo da ottenere una crema omogenea (se necessario allungare con brodo vegetale bollente). Lessare la pasta, scolarla e unirla alla crema di piselli. A fuoco spento aggiungere il parmigiano. Condire la preparazione con olio a crudo. N.B. Usare sale iodato con moderazione"
+  },
+  "N107": {
+   "nome": "Crema di verdure con pasta (estate)",
+   "pagina": 76,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 20.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Patate",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Zucchine",
+     {
+      "nido_13_18": 20.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Lattuga",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Bieta",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare le patate e le verdure. Tagliarle in grossi pezzi ed immergerle in acqua fredda con i pomodori pelati e far cuocere. Ridurre il tutto in crema con il passaverdure. Lessare a parte la pasta, scolarla e unirla alla crema di verdure. A fuoco spento aggiungere il parmigiano. Condire la preparazione con olio a crudo N.B. Usare sale iodato con moderazione"
+  },
+  "N108": {
+   "nome": "Crema di verdure con pasta (inverno)",
+   "pagina": 76,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Patate",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Zucca",
+     {
+      "nido_13_18": 20.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Lattuga",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Bieta",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Cavolfiore",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare le patate e le verdure. Tagliarle in grossi pezzi ed immergerle in acqua fredda con i pomodori pelati e far cuocere. Ridurre il tutto in crema con il passaverdure. Lessare a parte la pasta, scolarla e unirla alla crema di verdure. A fuoco spento aggiungere il parmigiano. Condire la preparazione con olio a crudo. N.B. Usare sale iodato con moderazione"
+  },
+  "N109": {
+   "nome": "Crema di zucca con pasta",
+   "pagina": 77,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Zucca",
+     {
+      "nido_13_18": 85.0,
+      "nido_19_24": 85.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare la zucca eliminando la buccia ed i semini interni, tagliarla a dadini e lasciarla stufare con la cipolla finemente tritata e poco brodo vegetale (ricetta N 401). Portare a cottura e aggiungere alla purea ottenuta altro brodo vegetale bollente, versare la pastina e far cuocere. A fuoco spento aggiungere il parmigiano. Condire la preparazione con olio a crudo N.B. Usare sale iodato con moderazione"
+  },
+  "N110": {
+   "nome": "Farro all'ortolana",
+   "pagina": 77,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Farro",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 20.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Patate",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Zucchine",
+     {
+      "nido_13_18": 20.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Lattuga",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Bieta",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Fagiolini",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare le carote, la cipolla, il sedano, le patate, la zucchina, la lattuga e la bieta e i fagiolini. Aggiungere i pomodori pelati e far cuocere. Passare il tutto. Lessare a parte il farro, scolarlo e unirlo alla crema di verdure. Servire il parmigiano a tavola. Condire la preparazione con olio a crudo N.B. Usare sale iodato con moderazione"
+  },
+  "N111": {
+   "nome": "Pasta al burro e parmigiano",
+   "pagina": 77,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 5.5,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Burro",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 5.5,
+      "nido_25_36": 6.0
+     }
+    ]
+   ],
+   "procedimento": "Lessare la pasta, scolarla e condirla con il burro aggiungendo, se necessario, poca acqua di cottura. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N112": {
+   "nome": "Pasta al pesto delicato",
+   "pagina": 78,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Basilico",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare le foglie di basilico e asciugarle. Porle nell’omogeneizzatore insieme all’olio e tritare. Lessare la pasta e scolarla. Condire con il pesto ed il parmigiano e aggiungere, se necessario, poca acqua di cottura. N.B. Usare sale iodato con moderazione"
+  },
+  "N113": {
+   "nome": "Pasta al pomodoro",
+   "pagina": 78,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Tritare finemente gli odori, farli cuocere nell’olio con i pomodori passati e far addensare. Lessare la pasta, scolarla e condirla con la salsa. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N114": {
+   "nome": "Pasta al pomodoro fresco e basilico",
+   "pagina": 78,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Pomodori freschi",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Basilico Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare i pomodori freschi ed eliminare i piccioli. Tagliarli a metà ed eliminare i semi. Tritare finemente la cipolla e farla appassire nell’olio. Aggiungere i pomodori freschi e far cuocere. A fine cottura passare la salsa con il passaverdure e aggiungere il basilico fresco. Lessare la pasta, scolarla e condirla con la salsa. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N115": {
+   "nome": "Pasta al ragù di carne",
+   "pagina": 79,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Spalla di bovino",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Tritare finemente gli odori e farli appassire nell’olio. Unire la carne precedentemente macinata e quando sarà dorata aggiungere i pomodori passati e far addensare. Lessare la pasta, scolarla e condirla con la salsa. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N116": {
+   "nome": "Pasta al sugo di spigola",
+   "pagina": 79,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Aglio",
+     {}
+    ],
+    [
+     "Filetti di spigola surg.",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di spigola (correttamente scongelati). Preparare una salsa con i pomodori passati, l’olio, l’aglio intero ed i filetti di spigola e far addensare. A fine cottura togliere l’aglio. Lessare la pasta, scolarla e condirla con la salsa. N.B. Usare sale iodato con moderazione"
+  },
+  "N117": {
+   "nome": "Pasta al trito vegetale",
+   "pagina": 79,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Tritare finemente gli odori e farli appassire nell’olio e poco brodo vegetale (ricetta N 401). Aggiungere i pomodori e, a cottura ultimata, passare il sugo con il passaverdure. Lessare la pasta, scolarla e condirla con la salsa. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N118": {
+   "nome": "Pasta all’olio e parmigiano",
+   "pagina": 80,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 5.5,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 5.5,
+      "nido_25_36": 6.0
+     }
+    ]
+   ],
+   "procedimento": "Lessare la pasta, scolarla e condirla con l’olio aggiungendo, se necessario, poca acqua di cottura. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N119": {
+   "nome": "Pasta all’ortolana",
+   "pagina": 80,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Zucchine",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Mondare e lavare le verdure, tagliarle in piccoli pezzi. Metterle a cuocere con gli odori finemente tritati in poco brodo vegetale (ricetta N 401) e olio. Aggiungere i pomodori. A cottura ultimata, passare il sugo con il passaverdure. Lessare la pasta, scolarla e condirla con la salsa. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N120": {
+   "nome": "Pasta all’uovo al pomodoro",
+   "pagina": 80,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta all’uovo (maccheroncini)",
+     {
+      "nido_13_18": 35.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 45.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Tritare finemente gli odori, farli cuocere nell’olio con i pomodori passati e far addensare. Lessare la pasta, scolarla e condirla con la salsa. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N121": {
+   "nome": "Pasta con zucca",
+   "pagina": 81,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Zucca",
+     {
+      "nido_13_18": 25.0,
+      "nido_19_24": 25.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare la zucca eliminando la buccia ed i semini interni, tagliarla a dadini e lasciarla stufare con la cipolla finemente tritata e poco brodo vegetale (ricetta N 401). Portare a cottura aggiungendo, man mano, se necessario, brodo vegetale bollente. Lessare la pasta, scolarla e condirla con la zucca. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N122": {
+   "nome": "Pasta con zucchine",
+   "pagina": 81,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Zucchine",
+     {
+      "nido_13_18": 25.0,
+      "nido_19_24": 25.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare le zucchine, tagliarle a dadini e lasciarle stufare, con la cipolla finemente tritata, nell’olio e poco brodo vegetale (ricetta N 401). Portare a cottura aggiungendo, man mano, se necessario, brodo vegetale bollente. Lessare la pasta, scolarla e condirla con le zucchine A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N123": {
+   "nome": "Pasta e patate",
+   "pagina": 81,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 35.0
+     }
+    ],
+    [
+     "Patate",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 45.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare e sbucciare le patate e tagliarle a dadini. Tritare finemente gli odori e farli appassire in poco brodo vegetale (ricetta N 401). Aggiungere le patate ed i pomodori passati. Allungare con acqua calda e portare a cottura. Lessare a parte la pasta, scolarla ed unirla agli altri ingredienti. A fuoco spento aggiungere il parmigiano. Condire la preparazione con olio a crudo N.B. Usare sale iodato con moderazione"
+  },
+  "N124": {
+   "nome": "Pasta rosa",
+   "pagina": 82,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Ricotta",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 15.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Tritare finemente gli odori e farli appassire nell’olio ed aggiungere i pomodori passati. Far addensare. Lessare la pasta. Nel frattempo, a fuoco spento, aggiungere la ricotta nel sugo. Scolare la pasta e condirla con la salsa, mescolando con cura. N.B. Usare sale iodato con moderazione"
+  },
+  "N125": {
+   "nome": "Polenta al ragù di carne",
+   "pagina": 82,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Farina di mais",
+     {
+      "nido_13_18": 35.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 45.0
+     }
+    ],
+    [
+     "Spalla di bovino",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 60.0,
+      "nido_19_24": 70.0,
+      "nido_25_36": 80.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Tritare finemente gli odori e farli appassire in olio. Unire la carne precedentemente macinata e quando sarà dorata aggiungere i pomodori passati. Far addensare il tutto. Portare a bollore l’acqua, versare la farina di mais a pioggia e iniziare a mescolare; continuare senza interrompere e sempre nello stesso verso. Per il quantitativo dell’acqua e il tempo di cottura attenersi a quanto riportato sulla confezione. Versare il ragù sulla polenta e spolverare con parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N126": {
+   "nome": "Riso alla parmigiana",
+   "pagina": 82,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 5.5,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Burro",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 5.5,
+      "nido_25_36": 6.0
+     }
+    ]
+   ],
+   "procedimento": "Lessare il riso, scolarlo e condirlo con il burro aggiungendo, se necessario, poca acqua di cottura. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N127": {
+   "nome": "Risotto al pomodoro",
+   "pagina": 83,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Tritare finemente gli odori e farli cuocere con i pomodori passati e l’olio. Unire il riso. Mescolare accuratamente in modo che il riso assorba tutto il condimento e portare a cottura aggiungendo, man mano, brodo vegetale bollente (ricetta N 401). A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N128": {
+   "nome": "Risotto al ragù di carne",
+   "pagina": 83,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Spalla di bovino",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 55.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Tritare finemente gli odori e farli appassire in olio. Unire la carne precedentemente macinata e quando sarà dorata aggiungere i pomodori passati. Unire il riso. Mescolare accuratamente e portare a cottura aggiungendo, man mano, brodo vegetale bollente (ricetta N 401). A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N129": {
+   "nome": "Risotto allo zafferano",
+   "pagina": 83,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Zafferano",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Far appassire la cipolla finemente tritata nell’olio. Unire il riso. Mescolare accuratamente e portare a cottura aggiungendo, man mano, brodo vegetale bollente (ricetta N 401). A cottura ultimata sciogliere lo zafferano in poco brodo vegetale, unirlo al riso e amalgamare bene. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N130": {
+   "nome": "Risotto allo zafferano con crema di ceci",
+   "pagina": 84,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Ceci secchi",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Zafferano",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Cuocere in abbondante acqua i ceci (precedentemente messi in ammollo per una notte, risciacquati bene e scolati). Stufarli con la cipolla finemente tritata nell’olio e poco brodo vegetale (ricetta N 401). Passarli in modo da ottenere una crema omogenea. Cuocere a parte il riso, scolarlo e unirlo alla crema di ceci. Mescolare accuratamente in modo che il riso assorba il condimento. A cottura ultimata sciogliere lo zafferano in poco brodo vegetale, unirlo al riso e amalgamare bene. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N131": {
+   "nome": "Risotto con crema di piselli",
+   "pagina": 84,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Piselli surgelati",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 10.0,
+      "nido_25_36": 15.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Stufare i piselli con la cipolla finemente tritata nell’olio e poco brodo vegetale (ricetta N 401). Passarli in modo da ottenere una crema omogenea ed unire il riso. Mescolare accuratamente in modo che il riso assorba tutto il condimento. Portare a cottura aggiungendo, man mano, brodo vegetale bollente. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N132": {
+   "nome": "Risotto con indivia",
+   "pagina": 84,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Indivia vegetale",
+     {
+      "nido_13_18": 25.0,
+      "nido_19_24": 25.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Brodo Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Dopo aver mondato e lavato l’indivia, tagliarla e stufarla con la cipolla finemente tritata nell’olio e poco brodo vegetale (ricetta N 401). Passare il tutto e versare in una casseruola unendo il riso. Mescolare accuratamente in modo che il riso assorba tutto il condimento. Portare a cottura aggiungendo, man mano, brodo vegetale bollente. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N133": {
+   "nome": "Risotto con zucca",
+   "pagina": 85,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Zucca",
+     {
+      "nido_13_18": 25.0,
+      "nido_19_24": 25.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare la zucca. Tagliarla a dadini e stufarla con la cipolla finemente tritata nell’olio e poco brodo vegetale (ricetta N 401). Unire il riso. Mescolare accuratamente in modo che il riso assorba tutto il condimento. Portare a cottura aggiungendo, man mano, brodo vegetale bollente. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N134": {
+   "nome": "Risotto con zucchine",
+   "pagina": 85,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Riso",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Zucchine",
+     {
+      "nido_13_18": 25.0,
+      "nido_19_24": 25.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ]
+   ],
+   "procedimento": "Mondare e lavare le zucchine. Tagliarle a dadini e stufarle con la cipolla finemente tritata nell’olio e poco brodo vegetale (ricetta N 401). Unire il riso. Mescolare accuratamente in modo che il riso assorba tutto il condimento. Portare a cottura aggiungendo, man mano, brodo vegetale bollente. A fuoco spento aggiungere il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N135": {
+   "nome": "Timballo di pasta",
+   "pagina": 85,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pasta",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Ragù Spalla bovino",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 40.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 80.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Carote",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extravergine",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.5
+     }
+    ],
+    [
+     "Besciamella Latte",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 35.0,
+      "nido_25_36": 40.0
+     }
+    ],
+    [
+     "Farina",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.5,
+      "nido_25_36": 4.0
+     }
+    ],
+    [
+     "Burro",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.5,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Ragù: Lavare e tritare finemente gli odori e farli appassire nell’olio. Unire la carne precedentemente macinata e quando sarà dorata aggiungere i pomodori passati e far addensare. Besciamella: Far sciogliere il burro, aggiungere la farina lasciando cuocere un paio di minuti senza far prendere colore; versare il latte freddo, portare ad ebollizione mescolando di continuo, preferibilmente con una frusta in modo da eliminare la formazione dei grumi. Lessare la pasta, scolarla al dente e condirla con il sugo, la besciamella ed il parmigiano. Mescolare delicatamente, versare in una teglia ed infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N201": {
+   "nome": "Arrosto di bovino",
+   "pagina": 86,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Noce bovino",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Carota",
+     {
+      "nido_13_18": 6.0,
+      "nido_19_24": 8.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Rosmarino",
+     {}
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Condire la carne con rosmarino tritato. Mettere a cuocere in un tegame, aggiungere l’olio e un trito di sedano, carota e cipolla. Far cuocere a fuoco moderato unendo, di tanto in tanto, brodo vegetale bollente (ricetta N 401). A cottura ultimata affettare la carne, tagliarla in piccolissimi pezzi e cospargerla con la salsa di cottura. N.B. Usare sale iodato con moderazione"
+  },
+  "N202": {
+   "nome": "Arrosto di maiale",
+   "pagina": 86,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Arista maiale",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Alloro",
+     {}
+    ],
+    [
+     "Rosmarino",
+     {}
+    ],
+    [
+     "Aglio",
+     {}
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Condire la carne con un trito di alloro e rosmarino. Metterla in un tegame, aggiungere aglio intero e olio. Far cuocere a fuoco moderato unendo, di tanto in tanto, brodo vegetale bollente (ricetta N 401). Togliere l’aglio. A cottura ultimata affettare la carne, tagliarla in piccolissimi pezzi e cospargerla con la salsa di cottura. N.B. Usare sale iodato con moderazione"
+  },
+  "N203": {
+   "nome": "Arrosto di tacchino",
+   "pagina": 86,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Fesa tacchino",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Sedano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Carota",
+     {
+      "nido_13_18": 6.0,
+      "nido_19_24": 8.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Mettere a cuocere la carne in un tegame, aggiungere l’olio, un trito di sedano, carota e cipolla. Far cuocere a fuoco moderato unendo, di tanto in tanto, brodo vegetale bollente (ricetta N 401). A cottura ultimata affettare la carne, tagliarla in piccolissimi pezzi e cospargerla con la salsa di cottura. N.B. Usare sale iodato con moderazione"
+  },
+  "N204": {
+   "nome": "Bocconcini di maiale al tegame",
+   "pagina": 87,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Arista maiale",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Aglio",
+     {}
+    ],
+    [
+     "Rosmarino",
+     {}
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Mettere in un tegame la carne tagliata in piccolissimi dadini e condirla con olio, aglio intero e rosmarino tritato. Far cuocere a fuoco moderato unendo, di tanto in tanto brodo vegetale bollente (ricetta N 401). Togliere l’aglio. Servire la carne con la salsa di cottura. N.B. Usare sale iodato con moderazione"
+  },
+  "N205": {
+   "nome": "Bocconcini di pollo al tegame",
+   "pagina": 87,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Petto pollo",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Aglio",
+     {}
+    ],
+    [
+     "Rosmarino",
+     {}
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Mettere in un tegame il petto di pollo tagliato in piccolissimi dadini e condirlo con olio, aglio intero e rosmarino tritato. Far cuocere a fuoco moderato unendo, di tanto in tanto brodo vegetale bollente (ricetta N 401). Togliere l’aglio. Servire la carne con la salsa di cottura. N.B. Usare sale iodato con moderazione"
+  },
+  "N206": {
+   "nome": "Bocconcini di tacchino",
+   "pagina": 87,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Fesa tacchino",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Aglio",
+     {}
+    ],
+    [
+     "Rosmarino",
+     {}
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Mettere in un tegame il tacchino tagliato in piccolissimi dadini e condirlo con olio, aglio intero e rosmarino tritato. Far cuocere a fuoco moderato unendo, di tanto in tanto brodo vegetale bollente (ricetta N 401). Togliere l’aglio. Servire la carne con la salsa di cottura. N.B. Usare sale iodato con moderazione"
+  },
+  "N207": {
+   "nome": "Crocchette di nasello",
+   "pagina": 88,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto nasello surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Pangrattato per panatura",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 3.5
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di nasello (correttamente scongelati). Unire il pane raffermo precedentemente ammollato e le uova. Amalgamare fino ad ottenere un impasto solido, ma non duro. Formare le crocchette e passarle nel pangrattato. Disporle in una teglia oliata ed infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N208": {
+   "nome": "Fesa di tacchino al limone",
+   "pagina": 88,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Fesa tacchino",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Farina",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.5
+     }
+    ],
+    [
+     "Limone (succo)",
+     {}
+    ],
+    [
+     "+acqua Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tagliare il tacchino in piccolissimi pezzi, infarinarli, disporli in una teglia oliata ed infornare. Diluire il succo di limone filtrato con altrettanta acqua e versarlo sulla carne. Lasciar ridurre un pochino il liquido e sfornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N209": {
+   "nome": "Filetti di platessa gratinati",
+   "pagina": 88,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto platessa",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "surg. Pangrattato",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Limone (succo)",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Porre i filetti di platessa (correttamente scongelati) in una teglia oliata. Spolverizzare con il pangrattato ed infornare. A cottura ultimata aggiungere una spruzzata di succo di limone. N.B. Usare sale iodato con moderazione"
+  },
+  "N210": {
+   "nome": "Filetti di platessa panati",
+   "pagina": 89,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto platessa",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pangrattato per",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "impanatura Uova",
+     {
+      "nido_13_18": 5.5,
+      "nido_19_24": 6.5,
+      "nido_25_36": 8.0
+     }
+    ],
+    [
+     "Limone",
+     {}
+    ],
+    [
+     "(succo) Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Passare i filetti di platessa (correttamente scongelati) nelle uova sbattute e successivamente nel pangrattato. Disporre in una teglia oliata ed infornare. A cottura ultimata aggiungere una spruzzata di succo di limone. N.B. Usare sale iodato con moderazione"
+  },
+  "N211": {
+   "nome": "Formaggio caciotta dolce",
+   "pagina": 89,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Caciotta dolce",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 25.0
+     }
+    ]
+   ],
+   "procedimento": "Tagliare la caciotta dolce in piccolissimi pezzi"
+  },
+  "N212": {
+   "nome": "Formaggio crescenza",
+   "pagina": 89,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Crescenza",
+     {
+      "nido_13_18": 25.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 40.0
+     }
+    ]
+   ],
+   "procedimento": "Realizzare le porzioni di crescenza seguendo accuratamente le grammature indicate."
+  },
+  "N213": {
+   "nome": "Formaggio provolone dolce",
+   "pagina": 89,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Provolone dolce",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 25.0
+     }
+    ]
+   ],
+   "procedimento": "Tagliare il provolone dolce in piccolissimi pezzi"
+  },
+  "N214": {
+   "nome": "Formaggio robiola",
+   "pagina": 89,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Robiola",
+     {
+      "nido_13_18": 25.0,
+      "nido_19_24": 30.0,
+      "nido_25_36": 40.0
+     }
+    ]
+   ],
+   "procedimento": "Realizzare le porzioni di robiola seguendo accuratamente le grammature indicate."
+  },
+  "N215": {
+   "nome": "Frittata",
+   "pagina": 90,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Uova",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Latte",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Sbattere le uova con il latte. Oliare una teglia ed infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N216": {
+   "nome": "Frittata con patate",
+   "pagina": 90,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Uova",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Patate",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 70.0,
+      "nido_25_36": 70.0
+     }
+    ],
+    [
+     "Latte",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e sbucciare le patate e tagliarle a dadini. Condirle con olio, metterle in una teglia ed infornare. Sbattere le uova con il latte e versare il composto sulle patate. Infornare nuovamente. N.B. Usare sale iodato con moderazione"
+  },
+  "N217": {
+   "nome": "Frittata con spinaci",
+   "pagina": 90,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Uova",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Spinaci surg.",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 70.0,
+      "nido_25_36": 70.0
+     }
+    ],
+    [
+     "Latte",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Lessare gli spinaci, scolarli accuratamente in modo da eliminare tutto il liquido di cottura. Tritare finemente gli spinaci e unirli alle uova, precedentemente sbattute con il latte. Versare in una teglia oliata ed infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N218": {
+   "nome": "Frittata con zucchine",
+   "pagina": 90,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Uova",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Zucchine",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 70.0,
+      "nido_25_36": 70.0
+     }
+    ],
+    [
+     "Latte",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare le zucchine e tagliarle in piccoli pezzi. Condirle con olio, metterle in una teglia ed infornare. Sbattere le uova con il latte e versare il composto sulle zucchine. Infornare nuovamente. N.B. Usare sale iodato con moderazione"
+  },
+  "N219": {
+   "nome": "Medaglioni di limanda",
+   "pagina": 91,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto limanda surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di limanda (correttamente scongelati). Unire il pane raffermo precedentemente ammollato, le uova ed amalgamare fino ad ottenere un impasto solido, ma non duro. Formare i medaglioni, disporli in una teglia oliata ed infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N220": {
+   "nome": "Medaglioni di merluzzo",
+   "pagina": 91,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto merluzzo surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di merluzzo (correttamente scongelati). Unire il pane raffermo precedentemente ammollato, le uova ed amalgamare fino ad ottenere un impasto solido, ma non duro. Formare i medaglioni, disporli in una teglia oliata ed infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N221": {
+   "nome": "Medaglioni di merluzzo al limone",
+   "pagina": 91,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto merluzzo surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Limone (succo)",
+     {}
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di merluzzo (correttamente scongelati). Unire il pane raffermo precedentemente ammollato, le uova ed amalgamare fino ad ottenere un impasto solido, ma non duro. Formare i medaglioni, disporli in una teglia oliata ed infornare. A cottura ultimata aggiungere una spruzzata di succo di limone. N.B. Usare sale iodato con moderazione"
+  },
+  "N222": {
+   "nome": "Medaglioni di nasello",
+   "pagina": 91,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto nasello surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di nasello (correttamente scongelati). Unire il pane raffermo precedentemente ammollato, le uova ed amalgamare fino ad ottenere un impasto solido, ma non duro. Formare i medaglioni, disporli in una teglia oliata ed infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N223": {
+   "nome": "Medaglioni di nasello al limone",
+   "pagina": 92,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto nasello surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Limone (succo)",
+     {}
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di nasello (correttamente scongelati). Unire il pane raffermo precedentemente ammollato, le uova ed amalgamare fino ad ottenere un impasto solido, ma non duro. Formare i medaglioni, disporli in una teglia oliata ed infornare. A cottura ultimata aggiungere una spruzzata di succo di limone. N.B. Usare sale iodato con moderazione"
+  },
+  "N224": {
+   "nome": "Medaglioni di spigola",
+   "pagina": 92,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto spigola surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di spigola (correttamente scongelati). Unire il pane raffermo precedentemente ammollato, le uova ed amalgamare fino ad ottenere un impasto solido, ma non duro. Formare i medaglioni, disporli in una teglia oliata ed infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N225": {
+   "nome": "Mozzarella",
+   "pagina": 92,
+   "fasce": [
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Mozzarella",
+     {
+      "nido_25_36": 50.0
+     }
+    ]
+   ],
+   "procedimento": "Tagliare la mozzarella in piccolissimi pezzi."
+  },
+  "N226": {
+   "nome": "Polpette di carne mista al pomodoro",
+   "pagina": 92,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Spalla bovino",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 25.0
+     }
+    ],
+    [
+     "Spalla maiale",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 25.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.5
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 20.0,
+      "nido_19_24": 25.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 1.0,
+      "nido_19_24": 1.5,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Far appassire nell’olio la cipolla finemente tritata, aggiungere i pomodori passati e far cuocere. Macinare le carni. Unire le uova, il pane raffermo precedentemente ammollato ed amalgamare. Formare le polpette. Disporre le polpette in una teglia oliata ed infornare; a metà cottura irrorare con il brodo vegetale (ricetta N 401) e lasciar ridurre. Versare il sugo sulle polpette e infornare nuovamente per terminare la cottura. Prima di servire spolverizzare le polpette con il parmigiano. N.B. Usare sale iodato con moderazione"
+  },
+  "N227": {
+   "nome": "Polpettone di agnello",
+   "pagina": 93,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Agnello disossato",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.5
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e asciugare bene l’agnello. Macinare la carne, amalgamare con le uova ed il pane raffermo precedentemente ammollato. Amalgamare e formare il polpettone. Avvolgerlo con carta da forno precedentemente oliata, disporlo in una teglia e infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N228": {
+   "nome": "Polpettone di bovino",
+   "pagina": 93,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Spalla bovino",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.5
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Prezzemolo",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Macinare la carne. Unire le uova, il prezzemolo fresco lavato e tritato finemente, il pane raffermo precedentemente ammollato. Amalgamare e formare il polpettone. Avvolgerlo con carta da forno precedentemente oliata, disporlo in una teglia e infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N229": {
+   "nome": "Polpettone goloso di bovino",
+   "pagina": 93,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Spalla bovino",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Prosciutto cotto",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.5
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Prezzemolo",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Macinare la carne. Unire le uova, il prezzemolo fresco lavato e tritato finemente, il pane raffermo precedentemente ammollato, il prosciutto tritato. Amalgamare e formare il polpettone. Avvolgerlo con carta da forno precedentemente oliata, disporlo in una teglia e infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N230": {
+   "nome": "Ricotta",
+   "pagina": 93,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Ricotta",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ]
+   ],
+   "procedimento": "Realizzare le porzioni di ricotta seguendo accuratamente le grammature indicate."
+  },
+  "N231": {
+   "nome": "Sformatino di platessa",
+   "pagina": 94,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto platessa surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di platessa (correttamente scongelati). Unire il pane raffermo precedentemente ammollato, le uova ed amalgamare fino ad ottenere un impasto solido. Disporre il composto in teglia stendendolo in maniera uniforme, infine infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N232": {
+   "nome": "Straccetti di pollo cremolati",
+   "pagina": 94,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Petto pollo",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 40.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Farina",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.5
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tagliare il petto di pollo a striscioline molto sottili infarinarle e adagiarle in un tegame con l’olio. Far cuocere con poco brodo vegetale (ricetta N 401); mescolare con cura e far ridurre il liquido. N.B. Usare sale iodato con moderazione"
+  },
+  "N233": {
+   "nome": "Timballo di nasello al limone",
+   "pagina": 94,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto nasello surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Limone (succo)",
+     {}
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di nasello (correttamente scongelati). Unire il pane raffermo precedentemente ammollato, le uova ed amalgamare fino ad ottenere un impasto solido. Disporre il composto in teglia stendendolo in maniera uniforme, infine infornare. A cottura ultimata aggiungere una spruzzata di succo di limone. N.B. Usare sale iodato con moderazione"
+  },
+  "N234": {
+   "nome": "Tortino di fagioli e carote",
+   "pagina": 95,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Fagioli cannellini",
+     {
+      "nido_13_18": 20.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 25.0
+     }
+    ],
+    [
+     "secchi Carote",
+     {
+      "nido_13_18": 30.0,
+      "nido_19_24": 45.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Prezzemolo",
+     {}
+    ],
+    [
+     "Rosmarino",
+     {}
+    ],
+    [
+     "Pangrattato per impasto",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.5,
+      "nido_25_36": 4.5
+     }
+    ],
+    [
+     "Pangrattato per",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.5
+     }
+    ],
+    [
+     "impanatura Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Cuocere in abbondante acqua i fagioli (precedentemente messi in ammollo per una notte, risciacquati bene e scolati) con il rosmarino e lessare le carote con la cipolla. Passare il tutto, unire il pangrattato ed il prezzemolo tritato ed amalgamare. Versare il composto in una teglia oliata, spolverare con pangrattato ed infornare fino a quando non si sarà formata una crosticina. N.B. Usare sale iodato con moderazione"
+  },
+  "N235": {
+   "nome": "Tortino di limanda",
+   "pagina": 95,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Filetto limanda surg.",
+     {
+      "nido_13_18": 40.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 60.0
+     }
+    ],
+    [
+     "Pane raffermo",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 5.0,
+      "nido_25_36": 6.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Tritare i filetti di limanda (correttamente scongelati). Unire il pane raffermo precedentemente ammollato, le uova ed amalgamare fino ad ottenere un impasto solido. Disporre il composto in teglia stendendolo in maniera uniforme, infine infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N236": {
+   "nome": "Tortino di patate",
+   "pagina": 95,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Patate",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Prosciutto cotto",
+     {
+      "nido_13_18": 10.0,
+      "nido_19_24": 15.0,
+      "nido_25_36": 20.0
+     }
+    ],
+    [
+     "Latte",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 8.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 5.0,
+      "nido_19_24": 8.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Pangrattato",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.5,
+      "nido_19_24": 3.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e lessare le patate; sbucciarle e passarle. Unire le uova, il latte, il prosciutto cotto tritato e il parmigiano grattugiato. Amalgamare il composto e stenderlo sulla teglia oliata e cosparsa di pangrattato. Cospargere anche la superficie del tortino con il pangrattato ed infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N237": {
+   "nome": "Uova strapazzate",
+   "pagina": 96,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Uova",
+     {
+      "nido_13_18": 50.0,
+      "nido_19_24": 50.0,
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Latte",
+     {
+      "nido_13_18": 3.0,
+      "nido_19_24": 3.0,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 4.0,
+      "nido_19_24": 4.0,
+      "nido_25_36": 4.0
+     }
+    ]
+   ],
+   "procedimento": "Sbattere le uova con il latte. Versare il composto in una padella oliata mescolando in continuazione. Quando le uova diventano simili ad una crema, togliere dal fuoco. N.B. Usare sale iodato con moderazione"
+  },
+  "N301": {
+   "nome": "Bieta al pomodoro",
+   "pagina": 97,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Bieta",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare la bieta, lavarla e lessarla in poca acqua. In un tegame far appassire nell’olio la cipolla finemente tritata ed unire i pomodori passati. Aggiungere la bieta e terminare la cottura. Tagliarla finemente. N.B. Usare sale iodato con moderazione"
+  },
+  "N302": {
+   "nome": "Bieta all’olio",
+   "pagina": 97,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Bieta",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare la bieta, lavarla e lessarla in poca acqua. Scolare bene, tagliarla finemente e condire con olio. N.B. Usare sale iodato con moderazione"
+  },
+  "N303": {
+   "nome": "Broccoli romaneschi all’olio",
+   "pagina": 97,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Broccolo romanesco",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare e lavare i broccoli. Lessarli accuratamente in modo che assumano una consistenza morbida in tutte le loro parti. Dopo averli scolati bene, tagliarli in piccoli pezzi e condirli con olio. N.B. Usare sale iodato con moderazione"
+  },
+  "N304": {
+   "nome": "Carote all’olio",
+   "pagina": 97,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Carote",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare e lavare le carote e lessarle. Scolarle, tagliarle a pezzettini e condirle con olio. N.B. Usare sale iodato con moderazione"
+  },
+  "N305": {
+   "nome": "Carote stufate",
+   "pagina": 98,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Carote",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare le carote, lavarle e tagliarle a pezzettini. In un tegame far appassire nell’olio la cipolla finemente tritata. Unire le carote, aggiungere poco brodo vegetale (ricetta N 401) e far stufare. Durante la cottura, se necessario, aggiungere altro brodo vegetale bollente. A fine cottura il brodo deve essere del tutto consumato. N.B. Usare sale iodato con moderazione"
+  },
+  "N306": {
+   "nome": "Cavolfiori all’olio",
+   "pagina": 98,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Cavolfiori",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare, lavare e lessare i cavolfiori. Tagliarli in piccoli pezzi e condire con olio. N.B. Usare sale iodato con moderazione"
+  },
+  "N307": {
+   "nome": "Cavolfiori gratinati",
+   "pagina": 98,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Cavolfiori",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Pangrattato",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare, lavare e lessare i cavolfiori. Scolarli e disporli in una teglia oliata e spolverizzare con il pangrattato. Gratinare al forno. N.B. Usare sale iodato con moderazione"
+  },
+  "N308": {
+   "nome": "Fagiolini al pomodoro",
+   "pagina": 98,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Fagiolini surg.",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Cipolla",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Pomodori pelati",
+     {
+      "nido_13_18": 15.0,
+      "nido_19_24": 20.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lessare i fagiolini al dente e scolarli. In un tegame far appassire nell’olio la cipolla finemente tritata ed unire i pomodori passati. Aggiungere i fagiolini e terminare la cottura. Tagliare i fagiolini in piccoli pezzi. N.B. Usare sale iodato con moderazione"
+  },
+  "N309": {
+   "nome": "Fagiolini all’olio (estate)",
+   "pagina": 99,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Fagiolini freschi",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Fagiolini surg.",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare, lavare e lessare i fagiolini. Scolarli e tagliarli in piccoli pezzi. Condire con olio. N.B. Usare sale iodato con moderazione N 309 A - FAGIOLINI ALL’OLIO (inverno) Ricetta: Lessare i fagiolini. Scolarli e tagliarli in piccoli pezzi. Condire con olio. N.B. Usare sale iodato con moderazione"
+  },
+  "N310": {
+   "nome": "Finocchi al tegame",
+   "pagina": 99,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Finocchi",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Aglio intero",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare e lavare i finocchi. Tagliarli in piccoli pezzi e disporli in un tegame con olio e aglio intero. Aggiungere poco brodo vegetale (ricetta N 401), mescolare e far stufare. Togliere l’aglio. Durante la cottura, se necessario, aggiungere altro brodo vegetale bollente. A fine cottura il brodo deve essere del tutto consumato. N.B. Usare sale iodato con moderazione"
+  },
+  "N311": {
+   "nome": "Finocchi gratinati",
+   "pagina": 99,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Finocchi",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Pangrattato",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare, lavare i finocchi e tagliarli in quattro. Lessarli e scolarli. Tagliarli a fette e disporli in una teglia oliata. Spolverizzare con il pangrattato. Gratinare al forno. N.B. Usare sale iodato con moderazione"
+  },
+  "N312": {
+   "nome": "Insalata cappuccina",
+   "pagina": 100,
+   "fasce": [
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Cappuccina",
+     {
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare e lavare l’insalata, tagliare finemente e condirla con olio. N.B. Usare sale iodato con moderazione"
+  },
+  "N313": {
+   "nome": "Insalata di pomodori",
+   "pagina": 100,
+   "fasce": [
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Pomodori",
+     {
+      "nido_25_36": 50.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare i pomodori e togliere i piccioli. Tagliarli in piccoli pezzi e condirli con olio. N.B. Usare sale iodato con moderazione"
+  },
+  "N314": {
+   "nome": "Patate al forno",
+   "pagina": 100,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Patate",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Rosmarino",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e sbucciare le patate e tagliarle a dadini. Condirle con olio e rosmarino tritato e metterle in una teglia. Infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N315": {
+   "nome": "Patate al tegame",
+   "pagina": 100,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Patate",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Aglio intero",
+     {}
+    ],
+    [
+     "Rosmarino.",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e lessare per pochi minuti le patate. Sbucciarle, tagliarle a dadini e disporle in un tegame con l’olio, l’aglio intero ed il rosmarino tritato. Far cuocere fino a quando non saranno ben rosolate ed eliminare l’aglio. N.B. Usare sale iodato con moderazione"
+  },
+  "N316": {
+   "nome": "Patate all’olio",
+   "pagina": 100,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Patate",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e lessare le patate; sbucciarle e tagliarle a dadini. Condire con olio. N.B. Usare sale iodato con moderazione"
+  },
+  "N317": {
+   "nome": "Purea di carote",
+   "pagina": 101,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Carote",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Latte",
+     {
+      "nido_13_18": 20.0,
+      "nido_19_24": 25.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Burro",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare, lavare e lessare le carote; schiacciarle e raccogliere la purea in una casseruola. Scaldare il latte senza farlo bollire. Aggiungere alle carote il burro a pezzetti. Versare lentamente il latte caldo e lavorare bene il composto fino ad ottenere una purea soffice ed omogenea. Togliere dal fuoco, aggiungere il parmigiano e mescolare bene. N.B. Usare sale iodato con moderazione"
+  },
+  "N318": {
+   "nome": "Purea di patate",
+   "pagina": 101,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Patate",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Latte",
+     {
+      "nido_13_18": 20.0,
+      "nido_19_24": 25.0,
+      "nido_25_36": 30.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Burro",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e lessare le patate; sbucciarle e passarle. Raccogliere la purea in una casseruola. Scaldare il latte senza farlo bollire. Aggiungere alle patate il burro a pezzetti. Versare lentamente il latte caldo e lavorare bene il composto fino ad ottenere una purea soffice ed omogenea. Togliere dal fuoco, aggiungere il parmigiano e mescolare bene. N.B. Usare sale iodato con moderazione"
+  },
+  "N319": {
+   "nome": "Spinaci all’olio (estate)",
+   "pagina": 101,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Spinaci freschi",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Mondare, lavare accuratamente gli spinaci e lessarli in pochissima acqua; strizzarli bene e tagliarli finemente. Condire con olio. N.B. Usare sale iodato con moderazione"
+  },
+  "N320": {
+   "nome": "Spinaci all’olio e parmigiano",
+   "pagina": 102,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Spinaci surg.",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lessare gli spinaci in poca acqua, scolarli e strizzarli bene. Tagliare finemente gli spinaci, condirli con olio, parmigiano e mescolarli bene. N.B. Usare sale iodato con moderazione"
+  },
+  "N321": {
+   "nome": "Tortino di zucca",
+   "pagina": 102,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Zucca",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.5,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Pangrattato",
+     {
+      "nido_13_18": 7.0,
+      "nido_19_24": 9.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 7.0,
+      "nido_19_24": 9.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare la zucca eliminando la buccia ed i semini interni, tagliarla a dadini e cuocerla in un tegame con poca acqua. Dopo averla scolata molto bene per far perdere tutta l’acqua, metterla in un recipiente, aggiungere le uova, il pangrattato ed il parmigiano. Amalgamare il tutto finché il composto non risulti omogeneo e adagiarlo in una teglia leggermente oliata. Infornare fino al formarsi della crosticina in superficie. N.B. Usare sale iodato con moderazione"
+  },
+  "N322": {
+   "nome": "Tortino di zucchine",
+   "pagina": 102,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Zucchine",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Parmigiano",
+     {
+      "nido_13_18": 3.5,
+      "nido_19_24": 4.5,
+      "nido_25_36": 5.0
+     }
+    ],
+    [
+     "Pangrattato",
+     {
+      "nido_13_18": 7.0,
+      "nido_19_24": 9.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Uova",
+     {
+      "nido_13_18": 7.0,
+      "nido_19_24": 9.0,
+      "nido_25_36": 10.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare le zucchine, tagliarle a dadini e cuocerle in un tegame con poca acqua. Dopo averle scolate molto bene per far perdere tutta l’acqua, metterle in un recipiente, aggiungere le uova, il pangrattato ed il parmigiano. Amalgamare il tutto finché il composto non risulti omogeneo e adagiarlo in una teglia leggermente oliata. Infornare fino al formarsi della crosticina in superficie. N.B. Usare sale iodato con moderazione"
+  },
+  "N323": {
+   "nome": "Zucca al tegame",
+   "pagina": 103,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Zucca",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Brodo vegetale",
+     {}
+    ],
+    [
+     "Aglio intero",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare la zucca eliminando la buccia ed i semini interni, tagliarla a dadini e cuocerla in un tegame con olio e aglio intero. Aggiungere poco brodo vegetale (ricetta N 401), mescolare e far stufare. Togliere l’aglio. Durante la cottura, se necessario, aggiungere altro brodo vegetale bollente. A fine cottura il brodo deve essere del tutto consumato. N.B. Usare sale iodato con moderazione"
+  },
+  "N324": {
+   "nome": "Zucca gratinata",
+   "pagina": 103,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Zucca",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Pangrattato",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare la zucca eliminando la buccia ed i semini interni, tagliarla a dadini e cuocerla in un tegame con poca acqua. Adagiare il composto in una teglia oliata. Spolverare con pangrattato e gratinare in forno. N.B. Usare sale iodato con moderazione"
+  },
+  "N325": {
+   "nome": "Zucchine gratinate",
+   "pagina": 103,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Zucchine",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Pangrattato",
+     {
+      "nido_13_18": 1.5,
+      "nido_19_24": 2.0,
+      "nido_25_36": 2.0
+     }
+    ],
+    [
+     "Prezzemolo",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare le zucchine e tagliarle a pezzettini. Disporle in una teglia oliata, condirle con pangrattato, prezzemolo fresco lavato e tritato finemente. Infornare. N.B. Usare sale iodato con moderazione"
+  },
+  "N326": {
+   "nome": "Zucchine trifolate",
+   "pagina": 103,
+   "fasce": [
+    "nido_13_18",
+    "nido_19_24",
+    "nido_25_36"
+   ],
+   "ingredienti": [
+    [
+     "Zucchine",
+     {
+      "nido_13_18": 70.0,
+      "nido_19_24": 90.0,
+      "nido_25_36": 100.0
+     }
+    ],
+    [
+     "Aglio intero",
+     {}
+    ],
+    [
+     "Prezzemolo",
+     {}
+    ],
+    [
+     "Olio extrav.",
+     {
+      "nido_13_18": 2.0,
+      "nido_19_24": 2.5,
+      "nido_25_36": 3.0
+     }
+    ]
+   ],
+   "procedimento": "Lavare e mondare le zucchine, tagliarle a pezzettini. Metterle in un tegame con olio e aglio intero e far cuocere. A cottura ultimata eliminare l’aglio e aggiungere il prezzemolo fresco lavato e tritato finemente. N.B. Usare sale iodato con moderazione"
+  }
+ }
+}

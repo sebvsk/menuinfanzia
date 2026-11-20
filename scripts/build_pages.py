@@ -156,7 +156,7 @@ def build(today):
                     f"<p>Il menù delle scuole comunali del <strong>Municipio {roman}</strong> ({e(QUARTIERI[roman])}) "
                     f"per la {e(CICLO_TEXT[ciclo])}: è lo stesso per tutte le scuole comunali del Municipio. "
                     f"Aggiornato il {dt.date.fromisoformat(max(x['fetched'] for x in menus)).strftime('%d/%m/%Y')}.</p>",
-                    f'<a class="cta" href="../../../?mun={mun}&amp;ciclo={ciclo}">Cosa cucino stasera? Apri {NAME}</a>',
+                    f'<a class="cta" href="../../../?municipio={roman.lower()}&amp;ciclo={ciclo}">Cosa cucino stasera? Apri {NAME}</a>',
                     '<div id="oggi"></div>']
             for x in menus:
                 body.append(f"<h2>{MESI[int(x['month'][5:])].capitalize()} {x['month'][:4]}</h2>")
