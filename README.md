@@ -48,6 +48,7 @@ e si caricano su GitHub le cartelle `data` cambiate (*Add file → Upload files*
 | `index.html` | l'app (schermate A scuola, Stasera, Ricetta, Settimana, Weekend, Impostazioni) |
 | `recipes.js` | verdura e frutta di stagione (bozza); le ricette inventate sono state tolte il 20/11/2026 |
 | `recipes_comune.js` | 90 ricette (secondi, legumi, creme, contorni) prese dal ricettario delle mense di Roma Capitale; file generato da `scripts/build_cene.py`, non si modifica a mano |
+| `scripts/ricettario_nido.json` | ricette e dosi del nido (13-36 mesi) dal capitolato 2021-2026, Allegato 02; `build_cene.py` le usa per le dosi dei bambini del nido |
 | `data/AAAA-MM/m<municipio>-c<ciclo>.json` | menù scaricati, un file per Municipio e ciclo |
 | `data/da_controllare.md` | piatti nuovi classificati in automatico: da rivedere |
 | `scripts/build_pages.py` | genera le pagine pubbliche dei menù, `sitemap.xml`, `robots.txt`, `llms.txt` (su GitHub, a ogni pubblicazione) |

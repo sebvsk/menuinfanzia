@@ -213,8 +213,14 @@ function migrate(s) {             // version with one child: profile + checks + 
 }
 const save = () => { try { const { editing, showIntro, more, ...keep } = state; localStorage.setItem(KEY, JSON.stringify(keep)); } catch {} };
 const K = () => state.kids[state.kid];
+// Links: ?municipio=5 or ?municipio=v is the Municipio as people call it (V). The old ?mun=6 is the id of the
+// MESIS portal, where the numbers do not match (6 = Municipio V): kept only so that old links still work.
+const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"];
 const URLP = (() => { const q = new URLSearchParams(location.search), m = Number(q.get("mun")), c = Number(q.get("ciclo"));
-  return { mun: m > 0 ? m : null, ciclo: c >= 1 && c <= 6 ? c : null }; })();
+  const w = (q.get("municipio") || "").trim().toUpperCase(), roman = /^\d+$/.test(w) ? ROMAN[Number(w) - 1] : ROMAN.includes(w) ? w : null;
+  return { mun: m > 0 ? m : null, roman: roman || null, ciclo: c >= 1 && c <= 6 ? c : null }; })();
+const urlMun = () => { const id = URLP.roman && Object.keys(INDEX.municipi).find(k => INDEX.municipi[k] === URLP.roman);
+  return id ? Number(id) : URLP.mun in INDEX.municipi ? URLP.mun : null; };
 const many = () => state.kids.length > 1;
 const kidName = k => state.kids[k].name || (many() ? `Figlio ${k + 1}` : "Il bambino");
 
@@ -258,7 +264,13 @@ if (typeof RECIPES_COMUNE !== "undefined") RECIPES.unshift(...RECIPES_COMUNE);
 RECIPES.forEach(r => { r.kind = r.kind || "secondo"; r.veg = r.veg || vegIn(r.title); });
 const mainsOf = group => RECIPES.filter(r => r.group === group && (r.kind === "secondo" || r.kind === "primo"));
 const BAND = { 1: "ponte", 2: "ponte", 3: "ponte", 4: "infanzia", 5: "primaria_3_5", 6: "secondaria" };
-const BAND_ORDER = ["ponte", "infanzia", "primaria_1_2", "primaria_3_5", "secondaria"], ADULTS = 2;
+const BAND_ORDER = ["nido_13_18", "nido_19_24", "nido_25_36", "ponte", "infanzia", "primaria_1_2", "primaria_3_5", "secondaria"], ADULTS = 2;
+// Nido: the grams come from the nido tables of the same contract (Allegato 02), which have three age bands.
+// Sections: Regione Lazio, regolamento regionale 16 luglio 2021, n. 12, art. 6: medi (semidivezzi) 13-24 months,
+// grandi (divezzi) 25-36 months. "Grandi" = band 25-36; "Medi" is two bands, so the parent chooses (kid.nido).
+const NIDO_AGE = { nido_13_18: "13–18 mesi", nido_19_24: "19–24 mesi" };
+const bandOf = k => k.ciclo == 1 ? (k.nido in NIDO_AGE ? k.nido : "nido_13_18") : k.ciclo == 2 ? "nido_25_36" : BAND[k.ciclo];
+const isNido = k => k.ciclo < 3;
 // A recipe not served to an age band has no grams for it: take the nearest older band (then the nearest younger).
 function bandGrams(g, band) {
   const i = BAND_ORDER.indexOf(band), near = BAND_ORDER.slice(i).concat(BAND_ORDER.slice(0, i).reverse()).find(b => g[b] != null);
@@ -267,8 +279,10 @@ function bandGrams(g, band) {
 const roundG = g => g >= 100 ? Math.round(g / 10) * 10 : g >= 20 ? Math.round(g / 5) * 5 : Math.max(1, Math.round(g));
 // Grams of each ingredient for the whole family (null = "q.b." in the recipe book).
 function ingrParts(r) {
-  const bands = state.kids.map(k => BAND[k.ciclo]).concat(Array(ADULTS).fill("secondaria"));
-  return r.ing.map(([name, g]) => [name, Object.keys(g).length ? bands.reduce((s, b) => s + bandGrams(g, b), 0) : null]);
+  const bands = state.kids.map(bandOf).concat(Array(ADULTS).fill("secondaria"));
+  // Where the nido cooks the same dish (r.nido), an ingredient its recipe does not have counts 0 for the nido child.
+  const grams = (g, b) => r.nido && b.startsWith("nido") && !Object.keys(g).some(x => x.startsWith("nido")) ? 0 : bandGrams(g, b);
+  return r.ing.map(([name, g]) => [name, Object.keys(g).length ? bands.reduce((s, b) => s + grams(g, b), 0) : null]);
 }
 function ingrLine([name, tot]) {
   if (tot === null) return `${name} q.b.`;
@@ -289,7 +303,7 @@ function shopping(recipes) {
 const recipeTime = r => r.code ? "ricetta del Comune" : r.minutes + " min";
 const recipeFor = () => `2 adulti${state.kids.map((k, i) => ` + ${kidName(i)} (${INDEX.cicli[k.ciclo].toLowerCase()})`).join("")}`;
 // A recipe the Comune does not serve to a child's age band has no grams for it.
-const fits = r => !r.ing || state.kids.every(k => r.ing.some(([, g]) => BAND[k.ciclo] in g));
+const fits = r => !r.ing || state.kids.every(k => r.ing.some(([, g]) => bandOf(k) in g));
 const isSummer = date => { const m = Number(date.slice(5, 7)); return m >= 4 && m <= 10; };  // school menu: summer 01/04-31/10
 // Recipes (and their main food) cooked in the two weeks before `date`: rule R4, do not repeat.
 function recentCooked(date) {
@@ -539,6 +553,11 @@ function kidForm(p, isNew) {
     <select id="f-mun" name="mun">${opts(INDEX.municipi, p.mun, v => "Municipio " + v)}</select>
     <label class="field" for="f-ciclo">Tipo di scuola</label>
     <select id="f-ciclo" name="ciclo">${opts(INDEX.cicli, p.ciclo, v => v)}</select>
+    <div id="f-nido-box"${Number(p.ciclo) === 1 ? "" : " hidden"}>
+      <label class="field" for="f-nido">Età (serve solo per le dosi delle ricette)</label>
+      <select id="f-nido" name="nido">${Object.entries(NIDO_AGE).map(([k, v]) => `<option value="${k}"${p.nido === k ? " selected" : ""}>${v}</option>`).join("")}</select>
+      <p class="hint" style="margin:6px 0 0">La sezione dei medi va da 13 a 24 mesi, quella dei grandi da 25 a 36 (Regolamento regionale del Lazio 16 luglio 2021, n. 12, art. 6). Le tabelle del nido di Roma Capitale hanno dosi diverse per 13–18 e 19–24 mesi; per i grandi la fascia è una sola.</p>
+    </div>
     <p class="hint" style="margin:8px 0 0">Il menù è lo stesso per tutte le scuole comunali del Municipio. Gli obiettivi della settimana sono quelli per 4–6 anni: per la primaria e la secondaria le frequenze sono simili e cambiano le porzioni; per il nido vanno verificati con il pediatra o il dietista.</p>
     <button class="btn" type="submit">${first ? "Cominciamo" : isNew ? "Aggiungi" : "Salva"}</button>
     ${first ? "" : `<button class="btn ghost" type="button" data-cancel-edit>Annulla</button>`}
@@ -547,7 +566,7 @@ function kidForm(p, isNew) {
 function viewWelcome() {
   if (!state.kids.length) return `<h2>Benvenuti!</h2>
     <p class="hint">Ogni sera ti proponiamo cosa cucinare per completare quello che i bambini hanno mangiato a scuola. Il menù arriva da solo dal sito del Comune di Roma. Se hai più figli, li aggiungi dopo dalle impostazioni.</p>
-    ${kidForm({ name: "", mun: URLP.mun || 6, ciclo: URLP.ciclo || 4 }, true)}
+    ${kidForm({ name: "", mun: urlMun() || 6, ciclo: URLP.ciclo || 4 }, true)}
     <p class="hint">Le spunte restano solo su questo telefono: nessun dato dei bambini esce dal sito.</p>`;
   let html = `<h2>Impostazioni</h2>`;
   if (state.editing !== null) html += kidForm(state.editing === "new" ? { name: "", mun: K().mun, ciclo: K().ciclo } : state.kids[state.editing], state.editing === "new");
@@ -810,7 +829,7 @@ function viewRecipe() {
     ${r.kind === "contorno" || r.kind === "brodo" ? `<button class="btn" data-cook-side="1">Stasera facciamo anche questo (${dayLabel(date)})</button>`
       : `<button class="btn" data-cook="${r.group}">Stasera cuciniamo questa (${dayLabel(date)})</button>`}
     ${(SHARE = { title: r.title, text: `👩‍🍳 ${recipeText(r)}\n\n— Compagni di Merende ${siteLink()}` }, shareBtn("ricetta", "Manda la ricetta"))}
-    ${r.code ? `<div class="info"><b>Da dove viene.</b> È la ricetta n. ${esc(r.code)} del ricettario delle mense di Roma Capitale (Allegato C al capitolato 2021-2026, p. ${r.page}): la stessa che si cucina a scuola. Le dosi sono quelle del ricettario per la fascia d'età di ogni figlio, più due porzioni «secondaria di I grado/adulti»${r.ing.some(x => x[0] === "Uova") ? "; per il ricettario un uovo pesa 50 g" : ""}.${state.kids.some(k => k.ciclo < 3) ? " Per il nido il ricettario delle scuole non ha dosi: contiamo quella della sezione ponte." : ""}${state.kids.some(k => k.ciclo == 5) ? " Per la primaria contiamo la dose delle classi III-V." : ""}${fits(r) ? "" : " Il ricettario non dà questa ricetta per tutte le fasce d'età: dove manca contiamo la dose della fascia più vicina."} Il testo è scritto per la cucina della mensa: a casa il forno e i tempi li regoli tu.</div>
+    ${r.code ? `<div class="info"><b>Da dove viene.</b> È la ricetta n. ${esc(r.code)} del ricettario delle mense di Roma Capitale (Allegato C al capitolato 2021-2026, p. ${r.page}): la stessa che si cucina a scuola. Le dosi sono quelle del ricettario per la fascia d'età di ogni figlio, più due porzioni «secondaria di I grado/adulti»${r.ing.some(x => x[0] === "Uova") ? "; per il ricettario un uovo pesa 50 g" : ""}.${!state.kids.some(isNido) ? "" : r.nido ? ` Per il nido la dose viene dalla stessa ricetta nelle tabelle del nido (ricetta ${esc(r.nido.code)}, Allegato 02 al capitolato 2021-2026, p. ${r.nido.page}); se lì un ingrediente manca, per il bambino del nido non è contato.` : " Le tabelle del nido non hanno questa ricetta: per il bambino del nido contiamo la dose della sezione ponte."}${state.kids.some(k => k.ciclo == 5) ? " Per la primaria contiamo la dose delle classi III-V." : ""}${fits(r) || state.kids.every(k => isNido(k) || r.ing.some(([, g]) => bandOf(k) in g)) ? "" : " Il ricettario non dà questa ricetta per tutte le fasce d'età: dove manca contiamo la dose della fascia più vicina."} Il testo è scritto per la cucina della mensa: a casa il forno e i tempi li regoli tu.</div>
     <div class="draft"><b>Bozza.</b> La scelta di proporla per cena è nostra, da rivedere con un dietista. Sito indipendente, non affiliato a Roma Capitale.</div>`
     : `<div class="draft"><b>Bozza.</b> Ricetta di prova, da rivedere con un dietista. Poco sale; per i bambini pesce senza spine e uova ben cotte.</div>`}`;
 }
@@ -926,6 +945,7 @@ document.addEventListener("click", async e => {
 });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && state.showIntro) { state.showIntro = false; state.introSeen = true; save(); render(); } });
 document.addEventListener("change", async e => {
+  if (e.target.id === "f-ciclo") { const box = document.getElementById("f-nido-box"); if (box) box.hidden = e.target.value !== "1"; return; }
   if (e.target.matches("[data-week]")) {
     const w = e.target.value;
     state.weekStart = w === mondayOf(todayIso()) ? null : w; state.sel = state.weekStart ? 0 : null;
@@ -937,6 +957,7 @@ document.addEventListener("submit", async e => {
   e.preventDefault();
   const f = new FormData(e.target);
   const data = { name: String(f.get("name") || "").trim(), mun: Number(f.get("mun")), ciclo: Number(f.get("ciclo")) };
+  data.nido = data.ciclo === 1 ? String(f.get("nido") || "nido_13_18") : null;
   const first = !state.kids.length, isNew = first || state.editing === "new";
   if (isNew) { state.kids.push(Object.assign(data, { checks: {}, absent: {} })); state.kid = state.kids.length - 1; }
   else Object.assign(state.kids[state.editing], data);
