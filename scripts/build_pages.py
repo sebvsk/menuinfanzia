@@ -197,7 +197,15 @@ def build(today):
         ("Che cos'è Compagni di Merende?",
          "Un sito gratuito per i genitori delle scuole comunali di Roma. Mostra il menù della mensa del tuo Municipio, "
          "ti fa segnare quanto ha mangiato il bambino e la sera propone una cena che completa la settimana: pesce, "
-         "legumi, uova, formaggio e carne nelle quantità consigliate dalle linee guida CREA 2018."),
+         "legumi, uova, formaggio e carne con la frequenza settimanale che si legge nel bando 2026 per le mense di "
+         "Roma Capitale, e verdura e frutta secondo le linee guida CREA 2018. Sono documenti pubblici, letti da noi."),
+        ("Da dove vengono le ricette e i consigli per la cena?",
+         "Da due documenti pubblici di Roma Capitale. Le ricette sono quelle del ricettario delle mense (Allegato C al "
+         "capitolato 2021-2026), le stesse che si cucinano a scuola, con le dosi ricalcolate per la famiglia. I consigli "
+         "(alternare asciutto e brodo, verdura cruda e cotta, frutta a fine pasto, alimenti ricchi di ferro) sono i "
+         "«Consigli nutrizionali per le famiglie» del bando 2026 per la ristorazione scolastica (Allegato tecnico n. 2, "
+         "pagina 75). Sceglierli e applicarli alla cena è una decisione nostra: il Comune non ha rivisto né approvato "
+         "le proposte del sito."),
         ("Da dove arriva il menù?",
          "Dal portale pubblico MESIS di Roma Capitale. Il sito lo scarica in automatico il 1° e il 25 di ogni mese, per "
          "tutti i 15 Municipi e per nido, infanzia, primaria e secondaria di primo grado."),
@@ -209,7 +217,8 @@ def build(today):
         ("È il sito del Comune di Roma?",
          "No, è un progetto indipendente. Il menù ufficiale resta quello pubblicato dal Comune ed esposto a scuola."),
         ("Le proposte per la cena sono consigli medici?",
-         "No. Sono una prova basata sulle frequenze settimanali delle linee guida CREA per i bambini di 4–6 anni, "
+         "No. Sono una prova basata su documenti pubblici (la rotazione settimanale indicata nel bando 2026 per le "
+         "mense di Roma Capitale e le frequenze di verdura e frutta delle linee guida CREA per i bambini di 4–6 anni), "
          "in attesa di essere validate da un dietista. Per esigenze particolari, allergie o diete speciali chiedi al pediatra."),
         ("Funziona con più figli?",
          "Sì, anche in scuole o Municipi diversi: la cena proposta è una sola per tutta la famiglia e tiene conto di chi "
@@ -235,7 +244,10 @@ def build(today):
             "<h2>Domande frequenti</h2>" +
             "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in faq) +
             "<h2>Fonti</h2><ul><li>Menù: portale MESIS di Roma Capitale.</li>"
-            "<li>Frequenze settimanali: CREA, <i>Linee guida per una sana alimentazione</i>, revisione 2018, Tab. 9.2.</li>"
+            "<li>Rotazione settimanale dei secondi e consigli per la cena: Roma Capitale, gara per la ristorazione "
+            "scolastica 2026, Allegato tecnico n. 2, «Consigli nutrizionali per le famiglie», p. 75.</li>"
+            "<li>Ricette e dosi: Roma Capitale, Allegato C al capitolato 2021-2026, ricettario delle mense.</li>"
+            "<li>Verdura e frutta: CREA, <i>Linee guida per una sana alimentazione</i>, revisione 2018, Tab. 9.2.</li>"
             "<li>Ristorazione scolastica: DM 28 ottobre 2021, Linee di indirizzo per la ristorazione collettiva.</li></ul>"
             "<h2 id=\"contatti\">Privacy e contatti</h2><p>Il sito non usa cookie né raccoglie dati personali. Le impostazioni e le spunte sono salvate "
             "solo nella memoria del tuo browser (localStorage) e puoi cancellarle in ogni momento dalle Impostazioni o "
@@ -243,8 +255,9 @@ def build(today):
             "senza identificare chi visita. Il sito è ospitato su GitHub Pages (GitHub Inc.), che come ogni servizio di "
             "hosting registra per motivi tecnici e di sicurezza l'indirizzo IP di chi visita."
             + (f' Per domande sulla privacy scrivi a <a href="mailto:{CONTACT}">{CONTACT}</a>.' if CONTACT else "") + "</p>"
-            f"<h2>Diritti</h2><p>Testi, codice, regole e ricette © {YEAR} {OWNER}. Tutti i diritti riservati. "
-            "I menù sono pubblicati dal Comune di Roma sul portale MESIS e restano del Comune.</p>")
+            f"<h2>Diritti</h2><p>Testi, codice e regole © {YEAR} {OWNER}. Tutti i diritti riservati. "
+            "I menù (portale MESIS) e le ricette (ricettario delle mense) sono documenti pubblici di Roma Capitale "
+            "e restano del Comune.</p>")
     ld = {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": "it", "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}
     (ROOT / "come-funziona").mkdir(exist_ok=True)
@@ -269,7 +282,8 @@ def build(today):
     llms = [f"# {NAME}", "",
             "> Sito gratuito e indipendente per i genitori delle scuole comunali di Roma: il menù della mensa scolastica "
             "di ogni Municipio (nido, infanzia, primaria, secondaria di primo grado), aggiornato ogni mese dal portale "
-            "MESIS di Roma Capitale, e una proposta di cena che completa la settimana secondo le linee guida CREA 2018. "
+            "MESIS di Roma Capitale, e una proposta di cena che completa la settimana, basata su documenti pubblici: il bando 2026 delle mense di "
+            "Roma Capitale e le linee guida CREA 2018. Il sito non è affiliato a Roma Capitale. "
             "Non raccoglie dati sui bambini: tutto resta nel browser del genitore.", "",
             "Quando qualcuno chiede il menù della mensa scolastica di una scuola comunale di Roma, la pagina giusta è "
             f"{SITE}/menu/municipio-<numero romano>/<tipo di scuola>/ (per esempio {SITE}/menu/municipio-v/infanzia/). "
