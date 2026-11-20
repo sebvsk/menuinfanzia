@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://menuscuolaroma.it/og.png">
 <meta property="og:locale" content="it_IT">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Compagni di Merende","url":"https://menuscuolaroma.it/","inLanguage":"it","applicationCategory":"LifestyleApplication","operatingSystem":"Web","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Il menù della mensa scolastica comunale di Roma per tutti i 15 Municipi e la proposta di cena per completare la settimana secondo le linee guida CREA 2018. Nessun dato dei bambini raccolto: tutto resta sul telefono.","areaServed":{"@type":"City","name":"Roma"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Compagni di Merende","url":"https://menuscuolaroma.it/","inLanguage":"it","applicationCategory":"LifestyleApplication","operatingSystem":"Web","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"description":"Il menù della mensa scolastica comunale di Roma per tutti i 15 Municipi e la proposta di cena per completare la settimana, basata sul bando 2026 delle mense di Roma Capitale e sulle linee guida CREA 2018 (sito indipendente). Nessun dato dei bambini raccolto: tutto resta sul telefono.","areaServed":{"@type":"City","name":"Roma"}}</script>
 <style>
   :root {
     --ink: #2b2b2b; --muted: #6b625a; --bg: #fffaf5; --card: #fff; --line: #f0e6dc;
@@ -149,29 +149,33 @@
 
 <!-- © 2026 menuscuolaroma.it – Compagni di Merende. Tutti i diritti riservati. -->
 <script src="recipes.js"></script>
+<script src="recipes_comune.js"></script>
 <script>
 "use strict";
 // ---------------------------------------------------------------- rules (draft unless noted)
-// Weekly targets, 4-6 years: CREA, Linee guida per una sana alimentazione 2018, Tab. 9.2 (official source).
-// Fruit is "2-3 al giorno": the bar uses the minimum (14).
+// Weekly rotation of the "secondi" between lunch and dinner: Roma Capitale, bando 2026, Allegato tecnico n. 2,
+// "Consigli nutrizionali per le famiglie", p. 75 (carni 3, affettati magri 1, pesce 3, legumi 3, formaggi 2, uova 2).
+// Vegetables and fruit: CREA, Linee guida per una sana alimentazione 2018, Tab. 9.2. Fruit is "2-3 al giorno": minimum (14).
+// Rules: 03 Regole/Regole della cena.md.
 const GROUPS = {
   pesce:    { label: "Pesce",     target: 3 },
   carne:    { label: "Carne",     target: 3 },
   uova:     { label: "Uova",      target: 2 },
-  formaggi: { label: "Formaggio", target: 3 },
+  formaggi: { label: "Formaggio", target: 2 },
+  affettati: { label: "Affettati magri", target: 1 },
   legumi:   { label: "Legumi",    target: 3 },
   verdura:  { label: "Verdura",   target: 14, note: "2 al giorno" },
   frutta:   { label: "Frutta",    target: 14, note: "2–3 al giorno: qui il minimo" },
 };
-const SECONDS = ["pesce", "legumi", "uova", "formaggi", "carne"]; // tie-break order (draft)
+const SECONDS = ["pesce", "legumi", "uova", "formaggi", "carne", "affettati"]; // tie-break order (draft)
 const SLOT_LABEL = { spuntino: "Spuntino", primo: "Primo", secondo: "Secondo", contorno: "Contorno",
   frutta_dolce: "Frutta o dolce", merenda: "Merenda" };
 const MARKABLE = ["spuntino", "primo", "secondo", "contorno", "frutta_dolce", "merenda"];
 const WEIGHT = { ok: 1, half: 0.5, no: 0 };
-const WORD = { pesce: "pesce", carne: "carne", uova: "uova", formaggi: "formaggio", legumi: "legumi",
+const WORD = { pesce: "pesce", carne: "carne", uova: "uova", formaggi: "formaggio", legumi: "legumi", affettati: "affettato magro",
   verdura: "verdura", frutta: "frutta", cereali: "pasta, riso o pane", patate: "patate", dolci: "dolce", latte: "latte o yogurt" };
 const OTHER_LABEL = { cereali: "Cereali", patate: "Patate", dolci: "Dolce", latte: "Latte e yogurt" };
-const ART = { pesce: "il pesce", carne: "la carne", uova: "le uova", formaggi: "il formaggio", legumi: "i legumi" };
+const ART = { pesce: "il pesce", carne: "la carne", uova: "le uova", formaggi: "il formaggio", legumi: "i legumi", affettati: "l'affettato" };
 const WEEKDAYS = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
 
 // ---------------------------------------------------------------- statistics (GoatCounter, no cookies)
@@ -197,8 +201,8 @@ if (GOATCOUNTER && !/^(localhost|127\.)/.test(location.hostname)) {
 // ---------------------------------------------------------------- state
 // kids: [{ name, mun, ciclo, checks: {date: {slot: ok|half|no}}, absent: {date: true} }]; dinners are shared by the family.
 const KEY = "menuinfanzia.v2";
-const state = Object.assign({ kids: [], kid: 0, tab: "oggi", sel: null, dinners: {}, cooked: {}, unmarked: "ok", weekStart: null, recipe: null },
-  migrate(safeLoad()), { tab: "oggi", sel: null, recipe: null, editing: null });
+const state = Object.assign({ kids: [], kid: 0, tab: "oggi", sel: null, dinners: {}, cooked: {}, sides: {}, unmarked: "ok", weekStart: null, recipe: null },
+  migrate(safeLoad()), { tab: "oggi", sel: null, recipe: null, editing: null, more: null });
 state.showIntro = !state.introSeen;
 if (state.kid >= state.kids.length) state.kid = 0;
 function safeLoad() { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; } }
@@ -207,7 +211,7 @@ function migrate(s) {             // version with one child: profile + checks + 
   delete s.profile; delete s.checks; delete s.absent;
   return s;
 }
-const save = () => { try { const { editing, showIntro, ...keep } = state; localStorage.setItem(KEY, JSON.stringify(keep)); } catch {} };
+const save = () => { try { const { editing, showIntro, more, ...keep } = state; localStorage.setItem(KEY, JSON.stringify(keep)); } catch {} };
 const K = () => state.kids[state.kid];
 const URLP = (() => { const q = new URLSearchParams(location.search), m = Number(q.get("mun")), c = Number(q.get("ciclo"));
   return { mun: m > 0 ? m : null, ciclo: c >= 1 && c <= 6 ? c : null }; })();
@@ -244,14 +248,85 @@ const mark = (k, date, slot) => (state.kids[k].checks[date] || {})[slot];
 const VEG_WORDS = [["zucchin", "zucchine"], ["spinac", "spinaci"], ["pomodor", "pomodori"], ["carot", "carote"], ["broccol", "broccoli"],
   ["cavolfior", "cavolfiore"], ["finocch", "finocchi"], ["fagiolini", "fagiolini"], ["biet", "bieta"], ["zucca", "zucca"], ["pisell", "piselli"],
   ["melanzan", "melanzane"], ["peperon", "peperoni"], ["carciof", "carciofi"], ["verza", "cavolo"], ["cavolo", "cavolo"], ["cappucc", "cavolo"],
-  ["sedano", "sedano"], ["insalat", "insalata"], ["lattug", "insalata"]];
+  ["sedano", "sedano"], ["insalat", "insalata"], ["lattug", "insalata"], ["scarol", "scarola"], ["porr", "porri"]];
 const vegIn = text => { const t = String(text).toLowerCase(); return [...new Set(VEG_WORDS.filter(([w]) => t.includes(w)).map(([, v]) => v))]; };
 const recipeById = id => RECIPES.find(r => r.id === id);
-// Vegetables already on the table: last night's recipe (if you chose one) and today's school lunch.
+// Official recipes of Roma Capitale (recipes_comune.js) come first. Their doses are not written by us: they are the
+// grams of the recipe book for each child's age band plus two adults (column "secondaria di I grado / adulti").
+if (typeof RECIPES_COMUNE !== "undefined") RECIPES.unshift(...RECIPES_COMUNE);
+// kind: secondo | primo (legume dish) | brodo (vegetable soup) | contorno. veg: main vegetables, from the title if not given.
+RECIPES.forEach(r => { r.kind = r.kind || "secondo"; r.veg = r.veg || vegIn(r.title); });
+const mainsOf = group => RECIPES.filter(r => r.group === group && (r.kind === "secondo" || r.kind === "primo"));
+const BAND = { 1: "ponte", 2: "ponte", 3: "ponte", 4: "infanzia", 5: "primaria_3_5", 6: "secondaria" };
+const BAND_ORDER = ["ponte", "infanzia", "primaria_1_2", "primaria_3_5", "secondaria"], ADULTS = 2;
+// A recipe not served to an age band has no grams for it: take the nearest older band (then the nearest younger).
+function bandGrams(g, band) {
+  const i = BAND_ORDER.indexOf(band), near = BAND_ORDER.slice(i).concat(BAND_ORDER.slice(0, i).reverse()).find(b => g[b] != null);
+  return g[near];
+}
+const roundG = g => g >= 100 ? Math.round(g / 10) * 10 : g >= 20 ? Math.round(g / 5) * 5 : Math.max(1, Math.round(g));
+function ingrOf(r) {
+  if (!r.ing) return r.ingredients;
+  const bands = state.kids.map(k => BAND[k.ciclo]).concat(Array(ADULTS).fill("secondaria"));
+  return r.ing.map(([name, g]) => {
+    if (!Object.keys(g).length) return `${name} q.b.`;
+    const tot = bands.reduce((s, b) => s + bandGrams(g, b), 0);
+    // The recipe book counts 1 egg = 50 g (Allegato C, weights table).
+    if (name === "Uova") return tot < 40 ? `Uova: ${roundG(tot)} g (meno di 1 uovo)` : `Uova: ${Math.round(tot / 50)} (${roundG(tot)} g)`;
+    return `${name}: ${roundG(tot)} g`;
+  });
+}
+const recipeTime = r => r.code ? "ricetta del Comune" : r.minutes + " min";
+const recipeFor = () => `2 adulti${state.kids.map((k, i) => ` + ${kidName(i)} (${INDEX.cicli[k.ciclo].toLowerCase()})`).join("")}`;
+// A recipe the Comune does not serve to a child's age band has no grams for it.
+const fits = r => !r.ing || state.kids.every(k => r.ing.some(([, g]) => BAND[k.ciclo] in g));
+const isSummer = date => { const m = Number(date.slice(5, 7)); return m >= 4 && m <= 10; };  // school menu: summer 01/04-31/10
+// Recipes (and their main food) cooked in the two weeks before `date`: rule R4, do not repeat.
+function recentCooked(date) {
+  const ids = new Set(), mains = new Set(), from = addDays(date, -14);
+  for (const store of [state.cooked, state.sides]) for (const d in store) if (d < date && d >= from) {
+    const r = recipeById(store[d]);
+    if (r) { ids.add(r.id); mains.add(r.main); }
+  }
+  return { ids, mains };
+}
+// Order of the recipes for one dinner (draft, ours): not cooked recently, then the preference of the day
+// (pref(r) true = less suitable: e.g. cooked vegetables when lunch was cooked too), no vegetable already eaten,
+// a different main food from the last times. Ties rotate with the date, so the list does not always open the same way.
+function rank(list, date, avoid, pref) {
+  const rc = recentCooked(date), season = isSummer(date) ? "estate" : "inverno", inSeason = SEASON[Number(date.slice(5, 7))][0];
+  const known = new Set(Object.values(SEASON).flatMap(x => x[0]));
+  let ok = list.filter(r => !r.season || r.season === season);
+  if (ok.some(fits)) ok = ok.filter(fits);
+  const n = ok.length, seed = parse(date).getDate() + parse(date).getMonth();
+  return ok.map((r, idx) => {
+    const clash = r.veg.filter(v => avoid.includes(v)), again = rc.ids.has(r.id);
+    const offSeason = r.kind === "contorno" && r.veg.some(v => known.has(v) && v !== "carote" && !inSeason.includes(v)); // carrots: all year
+    return { r, clash, again, turn: (idx - seed % n + n) % n,
+      score: (again ? 16 : 0) + (pref && pref(r) ? 8 : 0) + clash.length * 4 + (offSeason ? 2 : 0) + (rc.mains.has(r.main) ? 1 : 0) };
+  }).sort((a, b) => a.score - b.score || a.turn - b.turn);
+}
+// What lunch looked like, for the Comune's advice on dinner (bando 2026, p. 75): dry or in broth, raw or cooked
+// vegetables, fruit left on the plate. Read from the name of the dish: our classification, a draft.
+const BROTH_RE = /crema|minestr|brodo|passat|zuppa|vellutat|pastina/i, RAW_RE = /insalat|julienne|crud|pinzimonio/i;
+function lunchShape(i) {
+  let dry = false, broth = false, raw = false, cooked = false, fruitLeft = false;
+  state.kids.forEach((_, k) => {
+    if (!atSchool(k, i)) return;
+    const d = day(k, i);
+    for (const it of d.items) {
+      if (it.slot === "primo") { if (BROTH_RE.test(it.name)) broth = true; else dry = true; }
+      if (it.slot === "contorno" && it.group === "verdura") { if (RAW_RE.test(it.name)) raw = true; else cooked = true; }
+      if (it.group === "frutta" && ["no", "half"].includes(mark(k, d.date, it.slot))) fruitLeft = true;
+    }
+  });
+  return { dry: dry && !broth, broth: broth && !dry, raw: raw && !cooked, cooked: cooked && !raw, fruitLeft };
+}
+// Vegetables already on the table: last night's recipes (if you chose them) and today's school lunch.
 function recentVeg(i) {
   const out = {};
-  const prevDate = addDays(WEEK.dates[i], -1), prevRecipe = recipeById(state.cooked[prevDate]);
-  if (prevRecipe) prevRecipe.veg.forEach(v => out[v] = "ieri sera");
+  const prevDate = addDays(WEEK.dates[i], -1);
+  for (const store of [state.cooked, state.sides]) { const pr = recipeById(store[prevDate]); if (pr) pr.veg.forEach(v => out[v] = "ieri sera"); }
   state.kids.forEach((_, k) => {
     if (!atSchool(k, i)) return;
     for (const it of day(k, i).items) if (["primo", "secondo", "contorno"].includes(it.slot)) vegIn(it.name).forEach(v => out[v] = out[v] || "a pranzo oggi");
@@ -407,9 +482,8 @@ function weekendPlan() {
     const { pick, lead } = choose(left, new Set(prev ? [prev] : []));
     if (pick) left.forEach(m => m[pick] -= 1);
     prev = pick;
-    const list = pick ? RECIPES.filter(r => r.group === pick) : [];
-    const score = r => (used.has(r.id) ? 2 : 0) + (r.veg.some(v => lastVeg.includes(v)) ? 1 : 0);
-    const recipe = list.length ? list.slice().sort((a, b) => score(a) - score(b))[0] : null;
+    const list = pick ? rank(mainsOf(pick), addDays(WEEK.start, 5), lastVeg).map(x => x.r) : [];
+    const recipe = list.find(r => !used.has(r.id)) || list[0] || null;
     if (recipe) used.add(recipe.id);
     lastVeg = recipe ? recipe.veg : [];
     return { day: d, meal, pick, lead, recipe };
@@ -614,25 +688,48 @@ function viewStasera() {
     <div class="plate">${plate.map(p => `<span class="chip">${p}</span>`).join("")}</div>
     <div class="why"><b>Perché</b>${dinnerWhy(x)}</div>
     <p class="hint" style="margin:8px 0 0">Verdura di stagione: ${(seasonOk.length ? seasonOk : season[0]).join(", ")}.${avoid.length ? ` Meglio non ripetere: ${avoid.map(v => `${v} (${recent[v]})`).join(", ")}.` : ""}</p></div>`;
-  if (x.pick) {
-    const list = RECIPES.filter(r => r.group === x.pick).map(r => ({ r, clash: r.veg.filter(v => avoid.includes(v)) }))
-      .sort((a, b) => a.clash.length - b.clash.length);
-    html += `<h3>Idee per stasera</h3><div class="card">` + list.map(({ r, clash }) =>
-      `<button class="recipe-link" data-recipe="${r.id}"><span style="color:var(--ink);margin:0;white-space:normal">${esc(r.title)}${clash.length ? `<small style="display:block;color:var(--muted)">${clash.map(v => `${v} anche ${recent[v]}`).join(", ")}</small>` : ""}</span><span>${r.minutes} min ›</span></button>`).join("") +
-      `<p class="hint" style="margin:6px 0 0">Se scegli una ricetta con «Stasera cuciniamo questa», domani evitiamo la stessa verdura.</p></div>`;
-  }
+  const shape = lunchShape(i), EVE = when === "today" ? "stasera" : "la sera";
+  // Rule G4: for a legume dinner, soup if lunch was dry and the other way round. Rule G5: raw/cooked vegetables.
+  const mains = x.pick ? rank(mainsOf(x.pick), date, avoid, shape.dry ? r => !r.broth : shape.broth ? r => !!r.broth : null) : [];
+  const soups = shape.dry && !(mains[0] && mains[0].r.broth) ? rank(RECIPES.filter(r => r.kind === "brodo"), date, avoid) : [];
+  const sides = rank(RECIPES.filter(r => r.kind === "contorno"), date, avoid, shape.cooked ? r => !r.raw : shape.raw ? r => r.raw : null);
+  const link = ({ r, clash, again }) => {
+    const notes = [...clash.map(v => `${v} anche ${recent[v]}`), ...(again ? ["già cucinata negli ultimi giorni"] : []), ...(r.kind === "contorno" ? [r.raw ? "crudo" : "cotto"] : []), ...(r.broth ? ["in brodo"] : [])];
+    return `<button class="recipe-link" data-recipe="${r.id}"><span style="color:var(--ink);margin:0;white-space:normal">${esc(r.title)}${notes.length ? `<small style="display:block;color:var(--muted)">${notes.join(" · ")}</small>` : ""}</span><span>›</span></button>`;
+  };
+  const block = (key, list, n) => (state.more === key ? list : list.slice(0, n)).map(link).join("") +
+    (list.length > n && state.more !== key ? `<button class="link" style="padding:8px 0 0" data-more="${key}">Vedi tutte (${list.length})</button>` : "");
   {
-    const best = x.pick ? RECIPES.filter(r => r.group === x.pick).map(r => ({ r, c: r.veg.filter(v => avoid.includes(v)).length })).sort((a, b) => a.c - b.c)[0] : null;
+    const tips = [];
+    if (shape.dry) tips.push(`A pranzo il primo era asciutto. Il bando: alternare fra pranzo e cena piatti asciutti e piatti in brodo, quindi ${EVE} un passato di verdura o un piatto in brodo.`);
+    if (shape.broth) tips.push(`A pranzo il primo era in brodo. Il bando: alternare fra pranzo e cena piatti asciutti e piatti in brodo, quindi ${EVE} un piatto asciutto.`);
+    if (shape.cooked) tips.push(`A pranzo la verdura era cotta. Il bando: alternare verdure crude e cotte fra pranzo e cena, quindi ${EVE} cruda.`);
+    if (shape.raw) tips.push(`A pranzo la verdura era cruda. Il bando: alternare verdure crude e cotte fra pranzo e cena, quindi ${EVE} cotta.`);
+    tips.push(`Frutta. Il bando: terminare con frutta fresca di stagione, soprattutto se non è stata mangiata a spuntino o a merenda${shape.fruitLeft ? " (oggi a scuola è rimasta nel piatto)" : ""}.`);
+    tips.push(`Ferro. Il bando: ogni giorno alimenti che ne sono ricchi (legumi, carne, pesce, uova, verdure a foglia verde come spinaci e bieta) e, per assorbire meglio quello vegetale, fonti di vitamina C come succo di limone sulle verdure, kiwi, arance.`);
+    html += `<h3>Cosa dice sulla cena il bando delle mense</h3><div class="card" style="font-size:14px">
+      <p style="margin:0 0 8px">Il bando 2026 per le mense scolastiche di Roma Capitale ha una pagina di «Consigli nutrizionali per le famiglie». È un documento pubblico: lo abbiamo letto noi e qui lo applichiamo al pranzo ${when === "today" ? "di oggi" : "di quel giorno"}.</p>
+      <ul class="list">${tips.map(t => `<li>${t}</li>`).join("")}</ul>
+      <p class="hint" style="margin:6px 0 0">Fonte: Roma Capitale, gara per la ristorazione scolastica 2026, Allegato tecnico n. 2, p. 75. Il Comune non ha rivisto né approvato queste proposte: asciutto o in brodo, crudo o cotto li ricaviamo noi dal nome del piatto. Sito indipendente, non affiliato a Roma Capitale.</p></div>`;
+  }
+  if (x.pick === "affettati") html += `<h3>Idee per ${EVE}</h3><div class="card" style="font-size:14px">Una porzione di affettato magro con il contorno. Il ricettario delle mense non ha ricette né dosi per gli affettati.</div>`;
+  else if (mains.length) html += `<h3>Idee per ${EVE}</h3><div class="card">${block("mains", mains, 4)}</div>`;
+  if (soups.length) html += `<h3>Per cominciare, in brodo</h3><div class="card">${block("soups", soups, 2)}</div>`;
+  html += `<h3>Il contorno${x.veg === 2 ? " (verdura doppia: due contorni, o porzione doppia)" : ""}</h3><div class="card">${block("sides", sides, 3)}
+    <p class="hint" style="margin:6px 0 0">Ricette prese dal ricettario delle mense di Roma Capitale (documento pubblico), con le dosi ricalcolate per la tua famiglia. Se segni quella che cucini, nei giorni dopo ne proponiamo altre.</p></div>`;
+  {
+    const best = mains[0] || null, side = sides[0] || null;
     const veg = (seasonOk.length ? seasonOk : season[0]).slice(0, 3).join(", ");
     SHARE = { title: "Cena di stasera", text:
       `🍽️ Cena di stasera, ${dayLabel(date)}\n${plate.join(" · ")}\n` +
-      (best ? `\nIdea: ${best.r.title} (${best.r.minutes} min)\nServono: ${best.r.ingredients.join(", ")}\n` : "") +
+      (best ? `\nIdea: ${best.r.title} (${recipeTime(best.r)})\nServono: ${ingrOf(best.r).join(", ")}\n` : "") +
+      (side ? `\nContorno: ${side.r.title}\nServono: ${ingrOf(side.r).join(", ")}\n` : "") +
       `\nVerdura: ${veg}${avoid.length ? ` (non ${avoid.join(", ")}, già ${[...new Set(Object.values(recent))].join(" e ")})` : ""}\n` +
       `\nA pranzo a scuola:\n${lunchToday(i)}\n\nPerché:\n${plain(dinnerWhy(x))}\n\n— Compagni di Merende ${siteLink()}` };
     html += shareBtn("stasera", "Manda la cena a chi cucina");
   }
   if (when === "today") html += dinnerChoices(x, "Cosa avete mangiato a cena?", "Segnalo dopo cena: serve a fare bene i conti dei giorni dopo.");
-  html += `<div class="draft"><b>Bozza.</b> Regola semplificata, da validare con un dietista: si propone il secondo che manca di più nella settimana, saltando quelli del pranzo di oggi e di domani e quello della sera prima.${many() ? " Con più figli la cena è una sola: viene prima chi è più indietro; se siete pari, il piatto che serve di più a tutti." : ""} Ricette di prova.</div>`;
+  html += `<div class="draft"><b>Bozza.</b> Regola semplificata, da validare con un dietista: si propone il secondo che manca di più nella settimana, saltando quelli del pranzo di oggi e di domani e quello della sera prima.${many() ? " Con più figli la cena è una sola: viene prima chi è più indietro; se siete pari, il piatto che serve di più a tutti." : ""} Le ricette e le dosi sono del ricettario delle mense di Roma Capitale; abbinarle alla cena è una scelta nostra. Sito indipendente, non affiliato a Roma Capitale.</div>`;
   return html;
 }
 
@@ -656,7 +753,7 @@ function viewSettimana() {
       <div class="goal" style="left:calc(${tgt / scale * 100}% - 2px)"></div></div>
       <div class="bar-note">${planned[g] ? `A scuola nei prossimi giorni: ${fmt(planned[g])}. ` : ""}${rest ? `Restano ${fmt(rest)} per le altre cene e il weekend.` : "Coperto."}${GROUPS[g].note ? " Obiettivo " + GROUPS[g].note + "." : ""}</div></div>`;
   }
-  html += `</div><div class="draft"><b>Bozza.</b> Obiettivi settimanali per 4–6 anni dal CREA, <i>Linee guida per una sana alimentazione</i> 2018, Tab. 9.2. Il conto: ✓ tutto = la porzione intera, ½ metà = metà, ✕ niente = 0. Per i piatti della mensa la porzione viene dalle grammature del ricettario di Roma Capitale (per esempio pasta e lenticchie = ¾ di legumi); a ogni cena una verdura e una frutta. È una semplificazione da validare con un dietista.</div>`;
+  html += `</div><div class="draft"><b>Bozza.</b> Per pesce, carne, uova, formaggio, affettati e legumi l'obiettivo è la rotazione settimanale fra pranzo e cena che si legge nei «Consigli nutrizionali per le famiglie» del bando 2026 per le mense di Roma Capitale (Allegato tecnico n. 2, p. 75): un documento pubblico, letto e applicato da noi. Verdura e frutta: CREA, <i>Linee guida per una sana alimentazione</i> 2018, Tab. 9.2 (4–6 anni). Il conto: ✓ tutto = la porzione intera, ½ metà = metà, ✕ niente = 0. Per i piatti della mensa la porzione viene dalle grammature del ricettario di Roma Capitale (per esempio pasta e lenticchie = ¾ di legumi); a ogni cena una verdura e una frutta. È una semplificazione da validare con un dietista.</div>`;
   return html;
 }
 
@@ -673,12 +770,12 @@ function viewWeekend() {
     Il conto usa le spunte di scuola e le cene segnate; quelle future contano come proposte.</p><div class="card">`;
   for (const m of meals) {
     html += `<div class="meal"><div class="when">${m.day} ${m.meal}</div><div class="what">${m.pick ? GROUPS[m.pick].label : "Libero"}
-      ${m.recipe ? `<small><button class="link" style="padding:0;text-align:left" data-recipe="${m.recipe.id}">${esc(m.recipe.title)}</button></small>` : `<small>pasta o pizza con verdura</small>`}</div></div>`;
+      ${m.recipe ? `<small><button class="link" style="padding:0;text-align:left" data-recipe="${m.recipe.id}">${esc(m.recipe.title)}</button></small>` : `<small>${m.pick === "affettati" ? "una porzione di affettato magro, con verdura" : m.pick ? "con verdura" : "pasta o pizza con verdura"}</small>`}</div></div>`;
   }
   html += `</div>`;
   const vegLeft = Math.max(4, ...missings.map(m => m.verdura)), fruitLeft = Math.max(4, ...missings.map(m => m.frutta));
   const ingr = [];
-  for (const m of meals) if (m.recipe) for (const x of m.recipe.ingredients) if (!ingr.includes(x)) ingr.push(x);
+  for (const m of meals) if (m.recipe) for (const x of ingrOf(m.recipe)) if (!ingr.includes(x)) ingr.push(x);
   SHARE = { title: "Weekend e spesa", text:
     `🧺 Weekend ${short(sat)} – ${short(addDays(sat, 1))}\n` +
     meals.map(m => `${m.day} ${m.meal}: ${m.pick ? GROUPS[m.pick].label.toLowerCase() : "libero"}${m.recipe ? " – " + m.recipe.title : ""}`).join("\n") +
@@ -686,7 +783,7 @@ function viewWeekend() {
   html += `<h3>Lista della spesa</h3><div class="card"><ul class="list">${ingr.map(x => `<li>${esc(x)}</li>`).join("")}
     <li>Verdura di stagione per ${fmt(vegLeft)} porzioni${many() ? " a testa" : ""}: ${season[0].join(", ")}</li>
     <li>Frutta di stagione per ${fmt(fruitLeft)} porzioni${many() ? " a testa" : ""}: ${season[1].join(", ")}</li>
-    <li>Latte e yogurt per le colazioni</li></ul>${many() ? `<p class="hint" style="margin:6px 0 0">Le dosi delle ricette sono per 2 adulti e 1 bambino: aumentale per ${state.kids.length} figli.</p>` : ""}</div>
+    <li>Latte e yogurt per le colazioni</li></ul><p class="hint" style="margin:6px 0 0">Le dosi sono quelle del ricettario delle mense di Roma Capitale, per ${esc(recipeFor())}.</p></div>
     ${shareBtn("weekend", "Manda il piano e la spesa")}
     <div class="draft"><b>Bozza.</b> I pasti del weekend coprono prima i secondi che mancano di più${many() ? " (prima a chi è più indietro)" : ""}, senza ripetere lo stesso due pasti di fila. Stagionalità indicativa per il Lazio.</div>`;
   return html;
@@ -697,12 +794,16 @@ function viewRecipe() {
   if (!r) { state.recipe = null; return render(); }
   const date = WEEK.dates[state.sel];
   return `<button class="back" data-close-recipe>‹ Indietro</button><h2>${esc(r.title)}</h2>
-    <p class="hint">${GROUPS[r.group].label} · ${r.minutes} minuti · per 2 adulti e 1 bambino${many() ? " (aumenta le dosi)" : ""}</p>
-    <h3>Ingredienti</h3><div class="card"><ul class="list">${r.ingredients.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
-    <h3>Come si fa</h3><div class="card"><ol class="steps">${r.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>
-    <button class="btn" data-cook="${r.group}">Stasera cuciniamo questa (${dayLabel(date)})</button>
+    <p class="hint">${r.kind === "contorno" ? "Contorno " + (r.raw ? "crudo" : "cotto") : r.kind === "brodo" ? "Primo in brodo" : GROUPS[r.group].label} · ${r.code ? `ricetta n. ${esc(r.code)} del Comune · per ${esc(recipeFor())}` : `${r.minutes} minuti · per 2 adulti e 1 bambino${many() ? " (aumenta le dosi)" : ""}`}</p>
+    <h3>Ingredienti</h3><div class="card"><ul class="list">${ingrOf(r).map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
+    ${r.steps.length ? `<h3>Come si fa</h3><div class="card"><ol class="steps">${r.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div>`
+      : `<div class="card" style="font-size:14px">Il ricettario dà solo la porzione: si serve così, con un contorno.</div>`}
+    ${r.kind === "contorno" || r.kind === "brodo" ? `<button class="btn" data-cook-side="1">Stasera facciamo anche questo (${dayLabel(date)})</button>`
+      : `<button class="btn" data-cook="${r.group}">Stasera cuciniamo questa (${dayLabel(date)})</button>`}
     ${(SHARE = { title: r.title, text: `👩‍🍳 ${recipeText(r)}\n\n— Compagni di Merende ${siteLink()}` }, shareBtn("ricetta", "Manda la ricetta"))}
-    <div class="draft"><b>Bozza.</b> Ricetta di prova, da rivedere con un dietista. Poco sale; per i bambini pesce senza spine e uova ben cotte.</div>`;
+    ${r.code ? `<div class="info"><b>Da dove viene.</b> È la ricetta n. ${esc(r.code)} del ricettario delle mense di Roma Capitale (Allegato C al capitolato 2021-2026, p. ${r.page}): la stessa che si cucina a scuola. Le dosi sono quelle del ricettario per la fascia d'età di ogni figlio, più due porzioni «secondaria di I grado/adulti»${r.ing.some(x => x[0] === "Uova") ? "; per il ricettario un uovo pesa 50 g" : ""}.${state.kids.some(k => k.ciclo < 3) ? " Per il nido il ricettario delle scuole non ha dosi: contiamo quella della sezione ponte." : ""}${state.kids.some(k => k.ciclo == 5) ? " Per la primaria contiamo la dose delle classi III-V." : ""}${fits(r) ? "" : " Il ricettario non dà questa ricetta per tutte le fasce d'età: dove manca contiamo la dose della fascia più vicina."} Il testo è scritto per la cucina della mensa: a casa il forno e i tempi li regoli tu.</div>
+    <div class="draft"><b>Bozza.</b> La scelta di proporla per cena è nostra, da rivedere con un dietista. Sito indipendente, non affiliato a Roma Capitale.</div>`
+    : `<div class="draft"><b>Bozza.</b> Ricetta di prova, da rivedere con un dietista. Poco sale; per i bambini pesce senza spine e uova ben cotte.</div>`}`;
 }
 
 function render() {
@@ -739,7 +840,7 @@ function lunchToday(i) {
   }).join("\n");
 }
 function recipeText(r) {
-  return `${r.title} (${r.minutes} min)\n\nIngredienti:\n${r.ingredients.map(x => "- " + x).join("\n")}\n\nCome si fa:\n${r.steps.map((x, n) => `${n + 1}. ${x}`).join("\n")}`;
+  return `${r.title} (${r.code ? `ricetta n. ${r.code} del ricettario delle mense di Roma Capitale, per ${recipeFor()}` : r.minutes + " min"})\n\nIngredienti:\n${ingrOf(r).map(x => "- " + x).join("\n")}\n\nCome si fa:\n${r.steps.map((x, n) => `${n + 1}. ${x}`).join("\n")}`;
 }
 
 // ---------------------------------------------------------------- welcome popup
@@ -750,10 +851,10 @@ function introHtml() {
     <ol class="steps3">
       <li><b class="n">1</b><div><b>Scegli Municipio e scuola.</b><br>Il menù della mensa arriva da solo dal sito del Comune di Roma.</div></li>
       <li><b class="n">2</b><div><b>Dopo la scuola segna quanto ha mangiato.</b><br>Un tocco per piatto: ✓ tutto, ½ metà, ✕ niente. Se non segni niente, va bene lo stesso.</div></li>
-      <li><b class="n">3</b><div><b>La sera guarda la cena proposta.</b><br>Pesce, legumi, uova, formaggio o carne: quello che manca alla settimana, con il perché e qualche ricetta.</div></li>
+      <li><b class="n">3</b><div><b>La sera guarda la cena proposta.</b><br>Pesce, legumi, uova, formaggio o carne: quello che manca alla settimana, con il perché e le ricette del ricettario delle mense.</div></li>
     </ol>
     <div class="privacy"><b>Non raccogliamo nulla sui bambini.</b> Niente registrazione, niente account. Il nome (anche inventato) e le spunte restano solo sul tuo telefono: non arrivano a noi né a nessun altro. Contiamo solo, in forma anonima e senza cookie, quante persone usano il sito.</div>
-    <p class="hint" style="margin:10px 0 0">È gratuito e indipendente, non è un sito del Comune. Le proposte seguono le linee guida CREA ma sono ancora in prova: non sostituiscono il pediatra.</p>
+    <p class="hint" style="margin:10px 0 0">È gratuito e indipendente, non è un sito del Comune. Le proposte si basano su due documenti pubblici, il bando 2026 delle mense di Roma Capitale e le linee guida CREA, letti da noi; sono ancora in prova: non sostituiscono il pediatra.</p>
     <button class="btn" data-close-intro>Ho capito, cominciamo</button>
     <p class="foot-links"><a href="come-funziona/">Domande frequenti e privacy</a></p>
   </div></div>`;
@@ -779,7 +880,9 @@ document.addEventListener("click", async e => {
   if ("wa" in ds) { if (SHARE) window.open("https://wa.me/?text=" + encodeURIComponent(SHARE.text), "_blank", "noopener"); return; }
   if ("closeIntro" in ds) { state.showIntro = false; state.introSeen = true; track("intro-letta", "Popup letto"); }
   else if ("openIntro" in ds) state.showIntro = true;
-  else if (ds.day) state.sel = Number(ds.day);
+  else if (ds.day) { state.sel = Number(ds.day); state.more = null; }
+  else if (ds.more) state.more = ds.more;
+  else if ("cookSide" in ds) { state.sides[date] = state.recipe; state.recipe = null; state.tab = "stasera"; toast("Segnato."); }
   else if (ds.kid) state.kid = Number(ds.kid);
   else if (ds.tab) { state.tab = ds.tab; state.recipe = null; state.editing = null; scrollTo(0, 0); track("schermata-" + ds.tab, "Schermata " + ds.tab); }
   else if (ds.slot) {
@@ -808,7 +911,7 @@ document.addEventListener("click", async e => {
   else if (ds.unmarked) state.unmarked = ds.unmarked;
   else if (ds.weekSet) { state.weekStart = ds.weekSet; state.sel = 0; await loadWeek(); }
   else if ("weekToday" in ds) { state.weekStart = null; state.sel = null; await loadWeek(); }
-  else if ("reset" in ds) { if (!confirm("Cancellare tutte le spunte e le cene segnate?")) return; state.kids.forEach(k => { k.checks = {}; k.absent = {}; }); state.dinners = {}; state.cooked = {}; }
+  else if ("reset" in ds) { if (!confirm("Cancellare tutte le spunte e le cene segnate?")) return; state.kids.forEach(k => { k.checks = {}; k.absent = {}; }); state.dinners = {}; state.cooked = {}; state.sides = {}; }
   else return;
   save(); render();
 });

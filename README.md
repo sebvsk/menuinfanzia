@@ -2,7 +2,8 @@
 
 App web per i genitori delle scuole comunali di Roma. Mostra il menù della mensa, fa segnare
 quanto ha mangiato il bambino e propone la cena (e il weekend) per completare la settimana
-secondo le frequenze del CREA (Linee guida 2018, Tab. 9.2). Le regole sono una **bozza** da
+secondo la rotazione consigliata da Roma Capitale alle famiglie (bando 2026) e le frequenze di verdura e frutta del CREA
+(Linee guida 2018, Tab. 9.2). Le regole sono una **bozza** da
 validare con un dietista.
 
 Il menù arriva da solo: il 1° e il 25 di ogni mese GitHub scarica dal portale MESIS di
@@ -45,7 +46,8 @@ e si caricano su GitHub le cartelle `data` cambiate (*Add file → Upload files*
 | File | Cosa fa |
 |---|---|
 | `index.html` | l'app (schermate A scuola, Stasera, Ricetta, Settimana, Weekend, Impostazioni) |
-| `recipes.js` | ricette di prova e verdura/frutta di stagione (bozza) |
+| `recipes.js` | verdura e frutta di stagione (bozza); le ricette inventate sono state tolte il 20/11/2026 |
+| `recipes_comune.js` | 90 ricette (secondi, legumi, creme, contorni) prese dal ricettario delle mense di Roma Capitale; file generato da `scripts/build_cene.py`, non si modifica a mano |
 | `data/AAAA-MM/m<municipio>-c<ciclo>.json` | menù scaricati, un file per Municipio e ciclo |
 | `data/da_controllare.md` | piatti nuovi classificati in automatico: da rivedere |
 | `scripts/build_pages.py` | genera le pagine pubbliche dei menù, `sitemap.xml`, `robots.txt`, `llms.txt` (su GitHub, a ogni pubblicazione) |
