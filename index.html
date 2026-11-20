@@ -232,7 +232,11 @@ const dayLabel = s => `${WEEKDAYS[parse(s).getDay()]} ${short(s)}`;
 
 // ---------------------------------------------------------------- helpers
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const fmt = n => { const w = Math.floor(n + 1e-9), h = n - w > 0.01; return (w || !h ? String(w) : "") + (h ? "½" : ""); };
+const fmt = n => { const q = Math.round(n * 4), w = Math.floor(q / 4), f = ["", "¼", "½", "¾"][q % 4]; return (w || !f ? String(w) : "") + f; };
+// Portions of each food group that one school serving gives. Dishes found in the Comune's recipe book carry
+// "por" (from the grams of the recipe: e.g. pasta e lenticchie = ¾ legumi); the others count 1 for their group.
+const portions = it => it.por && ["primo", "secondo", "contorno"].includes(it.slot) ? it.por : (it.group ? { [it.group]: 1 } : {});
+const porText = por => Object.entries(por).filter(([g]) => g in GROUPS).map(([g, v]) => `${fmt(v)} ${GROUPS[g].label.toLowerCase()}`).join(", ");
 const zero = () => Object.fromEntries(Object.keys(GROUPS).map(g => [g, 0]));
 const add = (a, b) => { for (const g in a) a[g] += b[g] || 0; return a; };
 const mark = (k, date, slot) => (state.kids[k].checks[date] || {})[slot];
@@ -304,16 +308,17 @@ function schoolDay(k, i) {         // eaten at school, as marked
   if (!atSchool(k, i)) return out;
   const d = day(k, i);
   for (const it of d.items) {
-    if (!(it.group in out) || !MARKABLE.includes(it.slot)) continue;
-    const m = mark(k, d.date, it.slot);
-    out[it.group] += m ? WEIGHT[m] : WEIGHT[state.unmarked];
+    if (!MARKABLE.includes(it.slot)) continue;
+    const m = mark(k, d.date, it.slot), w = m ? WEIGHT[m] : WEIGHT[state.unmarked];
+    for (const [g, v] of Object.entries(portions(it))) if (g in out) out[g] += v * w;
   }
   return out;
 }
 function plannedDay(k, i) {        // still to come at school, everything eaten
   const out = zero();
   if (!atSchool(k, i)) return out;
-  for (const it of day(k, i).items) if (it.group in out && MARKABLE.includes(it.slot)) out[it.group] += 1;
+  for (const it of day(k, i).items) if (MARKABLE.includes(it.slot))
+    for (const [g, v] of Object.entries(portions(it))) if (g in out) out[g] += v;
   return out;
 }
 const lunchGroups = (k, i) => i > 4 || !atSchool(k, i) ? []
@@ -514,7 +519,9 @@ function viewOggi() {
     for (const it of items) {
       const m = mark(k, d.date, it.slot);
       const g = it.group ? (GROUPS[it.group] ? GROUPS[it.group].label : OTHER_LABEL[it.group] || it.group) : "gruppo sconosciuto";
-      html += `<div class="row"><div class="dish">${esc(it.name)}<small>${it.unico ? "Piatto unico" : SLOT_LABEL[it.slot]} · ${esc(g)}${it.guess ? " (stimato)" : ""}</small></div><div class="dots">` +
+      const pt = it.por ? porText(it.por) : "";
+      const what = pt ? "conta " + pt : g + (it.guess ? " (stimato)" : "");
+      html += `<div class="row"><div class="dish">${esc(it.name)}<small>${it.unico ? "Piatto unico" : SLOT_LABEL[it.slot]} · ${esc(what)}${it.code ? ` · <span title="Ricettario di Roma Capitale">ricetta n. ${esc(it.code)} del Comune</span>` : ""}</small></div><div class="dots">` +
         [["ok", "✓", "tutto"], ["half", "½", "metà"], ["no", "✕", "niente"]].map(([v, s, a]) =>
           `<button class="dot ${v}${m === v ? " on" : ""}" aria-label="${a}" aria-pressed="${m === v}" data-slot="${it.slot}" data-v="${v}">${s}</button>`).join("") + `</div></div>`;
     }
@@ -649,7 +656,7 @@ function viewSettimana() {
       <div class="goal" style="left:calc(${tgt / scale * 100}% - 2px)"></div></div>
       <div class="bar-note">${planned[g] ? `A scuola nei prossimi giorni: ${fmt(planned[g])}. ` : ""}${rest ? `Restano ${fmt(rest)} per le altre cene e il weekend.` : "Coperto."}${GROUPS[g].note ? " Obiettivo " + GROUPS[g].note + "." : ""}</div></div>`;
   }
-  html += `</div><div class="draft"><b>Bozza.</b> Obiettivi settimanali per 4–6 anni dal CREA, <i>Linee guida per una sana alimentazione</i> 2018, Tab. 9.2. Il conto (tutto = 1, metà = ½, niente = 0, un piatto conta solo per il suo gruppo principale, a ogni cena una verdura e una frutta) è una semplificazione da validare con un dietista.</div>`;
+  html += `</div><div class="draft"><b>Bozza.</b> Obiettivi settimanali per 4–6 anni dal CREA, <i>Linee guida per una sana alimentazione</i> 2018, Tab. 9.2. Il conto: ✓ tutto = la porzione intera, ½ metà = metà, ✕ niente = 0. Per i piatti della mensa la porzione viene dalle grammature del ricettario di Roma Capitale (per esempio pasta e lenticchie = ¾ di legumi); a ogni cena una verdura e una frutta. È una semplificazione da validare con un dietista.</div>`;
   return html;
 }
 
