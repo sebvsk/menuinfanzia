@@ -95,6 +95,40 @@ def load_dictionary():
 
 DICT = load_dictionary()
 
+# ---------------------------------------------------------------- Comune's recipe book
+# ricettario_comune.json: the recipes of Roma Capitale (Allegato C to the 2021-2026 contract), with an
+# estimate of how many portions of each food group one school serving gives (draft, built by build script).
+RICETTARIO = json.loads(Path(__file__).with_name("ricettario_comune.json").read_text(encoding="utf-8"))
+_STOP = {"di", "al", "alla", "all", "allo", "alle", "ai", "con", "e", "il", "la", "le", "lo", "in", "o", "a",
+         "del", "della", "dei", "da"}
+
+
+def _toks(s):
+    import unicodedata
+    s = re.sub(r"[’'`]", " ", s)
+    s = unicodedata.normalize("NFKD", s.lower()).encode("ascii", "ignore").decode()
+    s = re.sub(r"\(.*?\)", "", s)
+    s = re.sub(r"[^a-z ]", " ", s)
+    return {(re.sub(r"(i|e|a|o)$", "", w) if len(w) > 4 else w) for w in s.split() if w not in _STOP and len(w) > 1}
+
+
+_RIC_INDEX = [(code, _toks(n)) for code, r in RICETTARIO["ricette"].items()
+              for n in [r["nome"]] + RICETTARIO["alias"].get(code, [])]
+
+
+def ricetta(name):
+    """Code of the Comune's recipe for a MESIS dish name (first of "X/Y" alternatives), or None."""
+    t = _toks(name.split("/")[0])
+    if not t:
+        return None
+    best, score = None, 0.0
+    for code, tt in _RIC_INDEX:
+        if tt:
+            s = len(t & tt) / len(t | tt)
+            if s > score:
+                best, score = code, s
+    return best if score >= 0.6 else None
+
 
 def has(name, group):
     if group == "legumi":
@@ -216,6 +250,21 @@ def to_json(rows, mun, ciclo, year, month, guessed):
                 it["also"] = sec
             if slot == "primo" and row.get("unico"):
                 it["unico"] = True
+            code = ricetta(name) if slot in ("primo", "secondo", "contorno") else None
+            if code:
+                por = dict(RICETTARIO["ricette"][code]["por"])
+                proteins = [x for x in por if x in ("carne", "pesce", "uova", "formaggi", "legumi")]
+                if slot == "secondo" and not proteins and g in ("carne", "pesce", "uova", "formaggi", "legumi"):
+                    por = {g: 1.0}                       # grams missing in the recipe book: one portion
+                it["code"] = code
+                it["por"] = por                          # portions per group of one school serving
+                if guess and proteins and g not in proteins:
+                    it["group"] = g = max(proteins, key=por.get)
+                    if "also" in it:
+                        it["also"] = [x for x in it["also"] if x != g] or None
+                        if not it["also"]:
+                            del it["also"]
+                guess = False                            # known recipe: no longer a guess
             if guess:
                 it["guess"] = True
                 guessed.setdefault(name, (slot, g, sec))
