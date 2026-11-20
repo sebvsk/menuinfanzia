@@ -265,16 +265,26 @@ function bandGrams(g, band) {
   return g[near];
 }
 const roundG = g => g >= 100 ? Math.round(g / 10) * 10 : g >= 20 ? Math.round(g / 5) * 5 : Math.max(1, Math.round(g));
-function ingrOf(r) {
-  if (!r.ing) return r.ingredients;
+// Grams of each ingredient for the whole family (null = "q.b." in the recipe book).
+function ingrParts(r) {
   const bands = state.kids.map(k => BAND[k.ciclo]).concat(Array(ADULTS).fill("secondaria"));
-  return r.ing.map(([name, g]) => {
-    if (!Object.keys(g).length) return `${name} q.b.`;
-    const tot = bands.reduce((s, b) => s + bandGrams(g, b), 0);
-    // The recipe book counts 1 egg = 50 g (Allegato C, weights table).
-    if (name === "Uova") return tot < 40 ? `Uova: ${roundG(tot)} g (meno di 1 uovo)` : `Uova: ${Math.round(tot / 50)} (${roundG(tot)} g)`;
-    return `${name}: ${roundG(tot)} g`;
-  });
+  return r.ing.map(([name, g]) => [name, Object.keys(g).length ? bands.reduce((s, b) => s + bandGrams(g, b), 0) : null]);
+}
+function ingrLine([name, tot]) {
+  if (tot === null) return `${name} q.b.`;
+  // The recipe book counts 1 egg = 50 g (Allegato C, weights table).
+  if (name === "Uova") return tot < 40 ? `Uova: ${roundG(tot)} g (meno di 1 uovo)` : `Uova: ${Math.round(tot / 50)} (${roundG(tot)} g)`;
+  return `${name}: ${roundG(tot)} g`;
+}
+const ingrOf = r => r.ing ? ingrParts(r).map(ingrLine) : r.ingredients;
+// Shopping list: the same ingredient in several recipes becomes one line, with the grams added up.
+function shopping(recipes) {
+  const tot = new Map();
+  for (const r of recipes) if (r.ing) for (const [name, g] of ingrParts(r)) {
+    const key = name.toLowerCase();
+    if (!tot.has(key)) tot.set(key, [name, g]); else if (g !== null) tot.get(key)[1] = (tot.get(key)[1] || 0) + g;
+  }
+  return [...tot.values()].map(ingrLine);
 }
 const recipeTime = r => r.code ? "ricetta del Comune" : r.minutes + " min";
 const recipeFor = () => `2 adulti${state.kids.map((k, i) => ` + ${kidName(i)} (${INDEX.cicli[k.ciclo].toLowerCase()})`).join("")}`;
@@ -774,8 +784,7 @@ function viewWeekend() {
   }
   html += `</div>`;
   const vegLeft = Math.max(4, ...missings.map(m => m.verdura)), fruitLeft = Math.max(4, ...missings.map(m => m.frutta));
-  const ingr = [];
-  for (const m of meals) if (m.recipe) for (const x of ingrOf(m.recipe)) if (!ingr.includes(x)) ingr.push(x);
+  const ingr = shopping(meals.filter(m => m.recipe).map(m => m.recipe));
   SHARE = { title: "Weekend e spesa", text:
     `🧺 Weekend ${short(sat)} – ${short(addDays(sat, 1))}\n` +
     meals.map(m => `${m.day} ${m.meal}: ${m.pick ? GROUPS[m.pick].label.toLowerCase() : "libero"}${m.recipe ? " – " + m.recipe.title : ""}`).join("\n") +
