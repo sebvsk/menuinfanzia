@@ -9,6 +9,8 @@ Usage:
 
 One request per menu (page "Menu del mese"); the site needs the session cookie from the form page.
 Output: data/AAAA-MM/m<mun>-c<cycle>.json, data/index.json, data/da_controllare.md (dishes classified by guess).
+Menus already saved are never deleted. Exit code 1 if something is missing (see find_missing): on GitHub the run turns
+red, after the menus that did arrive have been saved and published.
 Only the standard library is used, so it runs on GitHub Actions and on Windows without installing anything.
 """
 import csv
@@ -16,6 +18,7 @@ import datetime as dt
 import html
 import http.cookiejar
 import json
+import os
 import re
 import sys
 import time
@@ -325,6 +328,22 @@ def from_csv(folder, year, month):
     return out
 
 
+def find_missing(months, pairs, got, today):
+    """Menus that should have been there. got = set of (year, month, mun, cycle) with at least one day.
+    A cycle published for some Municipi only is incomplete; a cycle published for none is normal (holidays, next
+    month not out yet), except that the current month can be empty for all cycles only in August."""
+    out = []
+    for year, month in months:
+        for ciclo in dict.fromkeys(c for _, c in pairs):
+            muns = [m for m, c in pairs if c == ciclo]
+            miss = [m for m in muns if (year, month, m, ciclo) not in got]
+            if miss and len(miss) < len(muns):
+                out.append(f"{year}-{month:02d} {CICLI[ciclo]}: mancano i Municipi {', '.join(MUNICIPI[m] for m in miss)}")
+        if (year, month) == (today.year, today.month) and month != 8 and not any(g[:2] == (year, month) for g in got):
+            out.append(f"{year}-{month:02d}: nessun menù del mese in corso")
+    return out
+
+
 def main(argv):
     import argparse
     ap = argparse.ArgumentParser()
@@ -347,7 +366,7 @@ def main(argv):
     if "--only" in opt:
         pairs = [tuple(map(int, p.split(":"))) for p in opt["--only"].split(",")]
 
-    guessed, written, found, failed = {}, 0, 0, []
+    guessed, written, found, failed, got = {}, 0, 0, [], set()
     for year, month in months:
         if "--from-csv" in opt:
             batches = from_csv(opt["--from-csv"], year, month)
@@ -370,14 +389,23 @@ def main(argv):
                     time.sleep(1)  # be gentle with the city server
         for mun, ciclo, rows in batches:
             found += 1
+            got.add((year, month, mun, ciclo))
             written += write_menu(to_json(rows, mun, ciclo, year, month, guessed))
     write_index()
     write_guessed(guessed)
     print(f"menù trovati: {found}, cambiati: {written}, piatti stimati: {len(guessed)}, errori: {len(failed)}")
-    for f in failed[:10]:
-        print("  errore:", f, file=sys.stderr)
     if not found and failed:
-        sys.exit("nessun menù scaricato: il sito del Comune non risponde o ha cambiato pagina")
+        failed.insert(0, "nessun menù scaricato: il sito del Comune non risponde o ha cambiato pagina")
+    problems = failed[:10]
+    if len(failed) > 10:
+        problems.append(f"altri {len(failed) - 10} errori di rete")
+    if "--from-html" not in opt and "--from-csv" not in opt:
+        problems += find_missing(months, pairs, got, today)
+    for p in problems:
+        # "::error::" shows the line on the summary page of the GitHub run
+        print(f"::error::{p}" if os.environ.get("GITHUB_ACTIONS") else f"  errore: {p}", file=sys.stderr)
+    if problems:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
