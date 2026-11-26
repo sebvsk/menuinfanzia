@@ -30,9 +30,16 @@ ripubblica l'app. Le spunte restano solo sul telefono di chi usa l'app.
 
 ## Se il download automatico non va
 
-Nella pagina **Actions** il passo «Scarica i menù» diventa giallo o rosso e il file
-`data/da_controllare.md` non cambia. Può succedere se il sito del Comune non risponde ai server
-di GitHub (che stanno all'estero). In quel caso si scarica dal PC, con Python installato:
+Nella pagina **Actions** l'esecuzione diventa rossa. Guarda quale dei tre lavori è rosso:
+
+- **Pubblica**: i menù ci sono, è GitHub che non ha pubblicato (ha già provato tre volte). Apri l'esecuzione →
+  **Re-run jobs → Re-run failed jobs**: ripubblica senza riscaricare. Vale solo entro 24 ore; dopo, **Run workflow**.
+- **Controlla i menù**: mancano dei menù; quali, è scritto negli errori di «Scarica e prepara». Il sito resta
+  pubblicato con i menù già salvati. Prova più tardi con **Run workflow**.
+- **Scarica e prepara**: errore nel salvare i menù o nel generare le pagine.
+
+Se il sito del Comune continua a non rispondere ai server di GitHub (che stanno all'estero),
+si scarica dal PC, con Python installato:
 
 ```
 cd "C:\Users\Uzivatel\Documents\menuinfanzia\06 Prototipo\app"
