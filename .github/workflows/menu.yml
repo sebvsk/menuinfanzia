@@ -1,6 +1,9 @@
 # Downloads the school menus from MESIS and publishes the app on GitHub Pages.
 # Runs on the 1st and the 25th of every month (the 25th catches next month early),
 # on every change pushed to the repository, and by hand from the Actions tab ("Run workflow").
+# Three jobs: "update" downloads and prepares the site, "deploy" publishes it (three attempts),
+# "check" turns the run red if menus are missing. If only "deploy" fails, "Re-run failed jobs"
+# publishes again without downloading again.
 name: Aggiorna menù e pubblica
 
 on:
@@ -20,17 +23,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  update-and-deploy:
+  update:
+    name: Scarica e prepara
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+    outputs:
+      fetch: ${{ steps.fetch.outcome }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Scarica i menù (mese corrente e successivo)
+        id: fetch
         if: github.event_name != 'push'
-        continue-on-error: true
+        continue-on-error: true   # the site is published anyway; the "check" job reports the problem
+        timeout-minutes: 40       # normally 8; if the city site hangs, go on with the menus already saved
         run: python3 scripts/fetch_menus.py
 
       - name: Salva i menù nuovi nel repository
@@ -50,5 +55,44 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: .
-      - id: deploy
+
+  deploy:
+    name: Pubblica
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy1.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy3.outputs.page_url }}
+    steps:
+      - name: Pubblica (1° tentativo)
+        id: deploy1
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+
+      - name: Aspetta 2 minuti
+        if: steps.deploy1.outcome == 'failure'
+        run: sleep 120
+      - name: Pubblica (2° tentativo)
+        id: deploy2
+        if: steps.deploy1.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Aspetta 10 minuti
+        if: steps.deploy2.outcome == 'failure'
+        run: sleep 600
+      - name: Pubblica (3° tentativo)
+        id: deploy3
+        if: steps.deploy2.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+
+  check:
+    name: Controlla i menù
+    needs: update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Segnala se mancano dei menù
+        if: needs.update.outputs.fetch == 'failure'
+        run: |
+          echo "::error::Alcuni menù non sono stati scaricati: vedi gli errori di «Scarica e prepara». I menù già salvati restano sul sito."
+          exit 1
